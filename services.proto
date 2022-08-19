@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+package remote;
+
+// functions definition
+service PSIFunctions {
+  rpc setup(AgreementReq) returns (AgreementRep) {}
+}
+
+// sender request for setup
+message AgreementReq {
+  string name = 1;
+}
+
+// receiver reply for setup
+message AgreementRep {
+  string pub = 1;
+  string rel = 2;
+  string par = 3;
+}
