@@ -7,14 +7,31 @@ service PSIFunctions {
   rpc setup(AgreementReq) returns (AgreementRep) {}
 }
 
+
+
 // sender request for setup
 message AgreementReq {
   string name = 1;
+  int32 poly_modulus_degree = 2;
+  int32 plain_modulus = 3;
+}
+message PubKey {
+  repeated bytes key = 1;
+}
+
+message RelKey {
+  repeated bytes key = 1;
+}
+
+message ParamMsg {
+  repeated bytes param = 1;
 }
 
 // receiver reply for setup
 message AgreementRep {
-  string pub = 1;
-  string rel = 2;
-  string par = 3;
+  PubKey pub = 1;
+  RelKey rel = 2;
+  ParamMsg par = 3;
+
+
 }
