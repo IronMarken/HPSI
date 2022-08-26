@@ -5,9 +5,27 @@ package remote;
 // functions definition
 service PSIFunctions {
   rpc setup(AgreementReq) returns (AgreementRep) {}
+  rpc encrypt(EncryptReq) returns (EncryptRep) {}
 }
 
 
+// using additional messages to SerializeToOstream directly
+
+// encryption request with file to encrypt
+message EncryptReq {
+  string file_to_encrypt = 1;
+  string agreement_name = 2;
+}
+
+// ciphertext message
+message Ciphertexts {
+  repeated bytes cipher = 1;
+}
+
+// encryption reply with receiver ciphertexts
+message EncryptRep {
+  Ciphertexts ciphertexts = 1;
+}
 
 // sender request for setup
 message AgreementReq {
@@ -15,23 +33,11 @@ message AgreementReq {
   int32 poly_modulus_degree = 2;
   int32 plain_modulus = 3;
 }
-message PubKey {
-  repeated bytes key = 1;
-}
-
-message RelKey {
-  repeated bytes key = 1;
-}
-
-message ParamMsg {
-  repeated bytes param = 1;
-}
 
 // receiver reply for setup
 message AgreementRep {
-  PubKey pub = 1;
-  RelKey rel = 2;
-  ParamMsg par = 3;
-
+  bytes pub = 1;
+  bytes rel = 2;
+  bytes par = 3;
 
 }

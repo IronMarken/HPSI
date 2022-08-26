@@ -4,6 +4,8 @@
 #include <grpc++/grpc++.h>
 #include <memory>
 #include <thread>
+#include <mutex>
+
 #include "seal/seal.h"
 #include "rpcProto/services.grpc.pb.h"
 
@@ -11,6 +13,9 @@ using namespace grpc;
 using namespace remote;
 using namespace seal;
 using namespace std;
+
+mutex shutdown_mutex;
+std::unique_ptr<Server> server;
 
 
 class PSIFunctionsServiceImpl final : public PSIFunctions::Service {
@@ -52,14 +57,13 @@ class PSIFunctionsServiceImpl final : public PSIFunctions::Service {
         RelinKeys relin_keys;
         keygen.create_relin_keys(relin_keys);
 
-        // save keys and parmas
+        // save keys and params
         ofstream private_key_file;
         ofstream public_key_file;
         ofstream rel_key_file;
         ofstream params_file;
 
         params_file.open(params_file_name);
-
         private_key_file.open(private_key_file_name);
         public_key_file.open(public_key_file_name);
         rel_key_file.open(rel_key_file_name);
@@ -67,6 +71,7 @@ class PSIFunctionsServiceImpl final : public PSIFunctions::Service {
         // check errors
         if (!private_key_file.is_open() || !public_key_file.is_open() || !rel_key_file.is_open()) {
             cerr << "Error generating files" << endl;
+            shutdown_mutex.unlock();
             return Status(StatusCode::ABORTED, "Error opening key files");
         }
 
@@ -84,18 +89,18 @@ class PSIFunctionsServiceImpl final : public PSIFunctions::Service {
         public_key.save(pub_stream);
         relin_keys.save(rel_stream);
 
+        cout << "Saving params, rel and pub keys files"<<endl;
+        // save files
+        parms.save(params_file);
+        public_key.save(public_key_file);
+        relin_keys.save(rel_key_file);
 
         cout << "Populating the reply" << endl;
-        // save values in protobuf
-        reply->mutable_par()->add_param(param_stream.str());
-        reply->mutable_pub()->add_key(pub_stream.str());
-        reply->mutable_rel()->add_key(rel_stream.str());
 
-        cout << "Saving params, rel and pub keys files"<<endl;
-        // serialization
-        reply->mutable_pub()->SerializeToOstream(&public_key_file);
-        reply->mutable_rel()->SerializeToOstream(&rel_key_file);
-        reply->mutable_par()->SerializeToOstream(&params_file);
+        // save values in protobuf
+        reply->set_par(param_stream.str());
+        reply->set_pub(pub_stream.str());
+        reply->set_rel(rel_stream.str());
 
         // close files
         public_key_file.close();
@@ -103,19 +108,28 @@ class PSIFunctionsServiceImpl final : public PSIFunctions::Service {
         params_file.close();
 
         cout << "Setup completed" << endl;
+        shutdown_mutex.unlock();
         return Status::OK;
     }
 };
+
+void shutdown(){
+    shutdown_mutex.lock();
+    server->Shutdown();
+}
 
 
 
 int main() {
     PSIFunctionsServiceImpl service;
     ServerBuilder builder;
+    shutdown_mutex.lock();
     builder.AddListeningPort("0.0.0.0:8500", grpc::InsecureServerCredentials());
     builder.RegisterService(&service);
-    std::unique_ptr<Server> server = builder.BuildAndStart();
+    server = builder.BuildAndStart();
+    thread th(shutdown);
     cout << "Waiting for a request" << endl;
     server->Wait();
+    th.join();
     cout << "Closing" << endl;
 }

@@ -44,9 +44,11 @@ int setup(string agreement_name, int poly_modulus, int plain_modulus, string por
     ofstream pub_file(agreement_name+"_pub.key");
     ofstream rel_file(agreement_name+"_rel.key");
     ofstream para_file(agreement_name+"_par.par");
-    reply.pub().SerializeToOstream(&pub_file);
-    reply.rel().SerializeToOstream(&rel_file);
-    reply.par().SerializeToOstream(&para_file);
+
+    pub_file << reply.pub();
+    rel_file << reply.rel();
+    para_file << reply.par();
+
 
     pub_file.close();
     rel_file.close();
@@ -68,10 +70,31 @@ int main() {
     | 16384               | 438                          |
     | 32768               | 881                          |
     +---------------------+------------------------------+*/
-    auto agreement_name = "test";
+    string agreement_name = "test";
     auto poly = 8192;
     auto plain = 1024;
     auto port = "8500";
     setup(agreement_name, poly, plain, port);
+    ifstream param_stream;
+    param_stream.open(agreement_name+"_par.par");
+    EncryptionParameters parms(scheme_type::bfv);
+    parms.load(param_stream);
+    SEALContext agreement_context(parms);
+    cout << "Context generated" <<endl;
+    param_stream.close();
+
+    ifstream pub_key_stream;
+    pub_key_stream.open(agreement_name+"_pub.key");
+    PublicKey pub_key;
+    pub_key.load(agreement_context, pub_key_stream);
+    pub_key_stream.close();
+    cout << "pub key loaded correctly" << endl;
+
+    ifstream rel_stream;
+    rel_stream.open(agreement_name+"_rel.key");
+    RelinKeys rel_keys;
+    rel_keys.load(agreement_context, rel_stream);
+    rel_stream.close();
+    cout << "rel key loaded correctly" << endl;
 
 }

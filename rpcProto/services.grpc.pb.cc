@@ -23,6 +23,7 @@ namespace remote {
 
 static const char* PSIFunctions_method_names[] = {
   "/remote.PSIFunctions/setup",
+  "/remote.PSIFunctions/encrypt",
 };
 
 std::unique_ptr< PSIFunctions::Stub> PSIFunctions::NewStub(const std::shared_ptr< ::grpc::ChannelInterface>& channel, const ::grpc::StubOptions& options) {
@@ -33,6 +34,7 @@ std::unique_ptr< PSIFunctions::Stub> PSIFunctions::NewStub(const std::shared_ptr
 
 PSIFunctions::Stub::Stub(const std::shared_ptr< ::grpc::ChannelInterface>& channel, const ::grpc::StubOptions& options)
   : channel_(channel), rpcmethod_setup_(PSIFunctions_method_names[0], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_encrypt_(PSIFunctions_method_names[1], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
   {}
 
 ::grpc::Status PSIFunctions::Stub::setup(::grpc::ClientContext* context, const ::remote::AgreementReq& request, ::remote::AgreementRep* response) {
@@ -58,6 +60,29 @@ void PSIFunctions::Stub::async::setup(::grpc::ClientContext* context, const ::re
   return result;
 }
 
+::grpc::Status PSIFunctions::Stub::encrypt(::grpc::ClientContext* context, const ::remote::EncryptReq& request, ::remote::EncryptRep* response) {
+  return ::grpc::internal::BlockingUnaryCall< ::remote::EncryptReq, ::remote::EncryptRep, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(channel_.get(), rpcmethod_encrypt_, context, request, response);
+}
+
+void PSIFunctions::Stub::async::encrypt(::grpc::ClientContext* context, const ::remote::EncryptReq* request, ::remote::EncryptRep* response, std::function<void(::grpc::Status)> f) {
+  ::grpc::internal::CallbackUnaryCall< ::remote::EncryptReq, ::remote::EncryptRep, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(stub_->channel_.get(), stub_->rpcmethod_encrypt_, context, request, response, std::move(f));
+}
+
+void PSIFunctions::Stub::async::encrypt(::grpc::ClientContext* context, const ::remote::EncryptReq* request, ::remote::EncryptRep* response, ::grpc::ClientUnaryReactor* reactor) {
+  ::grpc::internal::ClientCallbackUnaryFactory::Create< ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(stub_->channel_.get(), stub_->rpcmethod_encrypt_, context, request, response, reactor);
+}
+
+::grpc::ClientAsyncResponseReader< ::remote::EncryptRep>* PSIFunctions::Stub::PrepareAsyncencryptRaw(::grpc::ClientContext* context, const ::remote::EncryptReq& request, ::grpc::CompletionQueue* cq) {
+  return ::grpc::internal::ClientAsyncResponseReaderHelper::Create< ::remote::EncryptRep, ::remote::EncryptReq, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(channel_.get(), cq, rpcmethod_encrypt_, context, request);
+}
+
+::grpc::ClientAsyncResponseReader< ::remote::EncryptRep>* PSIFunctions::Stub::AsyncencryptRaw(::grpc::ClientContext* context, const ::remote::EncryptReq& request, ::grpc::CompletionQueue* cq) {
+  auto* result =
+    this->PrepareAsyncencryptRaw(context, request, cq);
+  result->StartCall();
+  return result;
+}
+
 PSIFunctions::Service::Service() {
   AddMethod(new ::grpc::internal::RpcServiceMethod(
       PSIFunctions_method_names[0],
@@ -69,12 +94,29 @@ PSIFunctions::Service::Service() {
              ::remote::AgreementRep* resp) {
                return service->setup(ctx, req, resp);
              }, this)));
+  AddMethod(new ::grpc::internal::RpcServiceMethod(
+      PSIFunctions_method_names[1],
+      ::grpc::internal::RpcMethod::NORMAL_RPC,
+      new ::grpc::internal::RpcMethodHandler< PSIFunctions::Service, ::remote::EncryptReq, ::remote::EncryptRep, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(
+          [](PSIFunctions::Service* service,
+             ::grpc::ServerContext* ctx,
+             const ::remote::EncryptReq* req,
+             ::remote::EncryptRep* resp) {
+               return service->encrypt(ctx, req, resp);
+             }, this)));
 }
 
 PSIFunctions::Service::~Service() {
 }
 
 ::grpc::Status PSIFunctions::Service::setup(::grpc::ServerContext* context, const ::remote::AgreementReq* request, ::remote::AgreementRep* response) {
+  (void) context;
+  (void) request;
+  (void) response;
+  return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+}
+
+::grpc::Status PSIFunctions::Service::encrypt(::grpc::ServerContext* context, const ::remote::EncryptReq* request, ::remote::EncryptRep* response) {
   (void) context;
   (void) request;
   (void) response;

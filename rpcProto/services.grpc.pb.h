@@ -43,11 +43,20 @@ class PSIFunctions final {
     std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::remote::AgreementRep>> PrepareAsyncsetup(::grpc::ClientContext* context, const ::remote::AgreementReq& request, ::grpc::CompletionQueue* cq) {
       return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::remote::AgreementRep>>(PrepareAsyncsetupRaw(context, request, cq));
     }
+    virtual ::grpc::Status encrypt(::grpc::ClientContext* context, const ::remote::EncryptReq& request, ::remote::EncryptRep* response) = 0;
+    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::remote::EncryptRep>> Asyncencrypt(::grpc::ClientContext* context, const ::remote::EncryptReq& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::remote::EncryptRep>>(AsyncencryptRaw(context, request, cq));
+    }
+    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::remote::EncryptRep>> PrepareAsyncencrypt(::grpc::ClientContext* context, const ::remote::EncryptReq& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::remote::EncryptRep>>(PrepareAsyncencryptRaw(context, request, cq));
+    }
     class async_interface {
      public:
       virtual ~async_interface() {}
       virtual void setup(::grpc::ClientContext* context, const ::remote::AgreementReq* request, ::remote::AgreementRep* response, std::function<void(::grpc::Status)>) = 0;
       virtual void setup(::grpc::ClientContext* context, const ::remote::AgreementReq* request, ::remote::AgreementRep* response, ::grpc::ClientUnaryReactor* reactor) = 0;
+      virtual void encrypt(::grpc::ClientContext* context, const ::remote::EncryptReq* request, ::remote::EncryptRep* response, std::function<void(::grpc::Status)>) = 0;
+      virtual void encrypt(::grpc::ClientContext* context, const ::remote::EncryptReq* request, ::remote::EncryptRep* response, ::grpc::ClientUnaryReactor* reactor) = 0;
     };
     typedef class async_interface experimental_async_interface;
     virtual class async_interface* async() { return nullptr; }
@@ -55,6 +64,8 @@ class PSIFunctions final {
    private:
     virtual ::grpc::ClientAsyncResponseReaderInterface< ::remote::AgreementRep>* AsyncsetupRaw(::grpc::ClientContext* context, const ::remote::AgreementReq& request, ::grpc::CompletionQueue* cq) = 0;
     virtual ::grpc::ClientAsyncResponseReaderInterface< ::remote::AgreementRep>* PrepareAsyncsetupRaw(::grpc::ClientContext* context, const ::remote::AgreementReq& request, ::grpc::CompletionQueue* cq) = 0;
+    virtual ::grpc::ClientAsyncResponseReaderInterface< ::remote::EncryptRep>* AsyncencryptRaw(::grpc::ClientContext* context, const ::remote::EncryptReq& request, ::grpc::CompletionQueue* cq) = 0;
+    virtual ::grpc::ClientAsyncResponseReaderInterface< ::remote::EncryptRep>* PrepareAsyncencryptRaw(::grpc::ClientContext* context, const ::remote::EncryptReq& request, ::grpc::CompletionQueue* cq) = 0;
   };
   class Stub final : public StubInterface {
    public:
@@ -66,11 +77,20 @@ class PSIFunctions final {
     std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::remote::AgreementRep>> PrepareAsyncsetup(::grpc::ClientContext* context, const ::remote::AgreementReq& request, ::grpc::CompletionQueue* cq) {
       return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::remote::AgreementRep>>(PrepareAsyncsetupRaw(context, request, cq));
     }
+    ::grpc::Status encrypt(::grpc::ClientContext* context, const ::remote::EncryptReq& request, ::remote::EncryptRep* response) override;
+    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::remote::EncryptRep>> Asyncencrypt(::grpc::ClientContext* context, const ::remote::EncryptReq& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::remote::EncryptRep>>(AsyncencryptRaw(context, request, cq));
+    }
+    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::remote::EncryptRep>> PrepareAsyncencrypt(::grpc::ClientContext* context, const ::remote::EncryptReq& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::remote::EncryptRep>>(PrepareAsyncencryptRaw(context, request, cq));
+    }
     class async final :
       public StubInterface::async_interface {
      public:
       void setup(::grpc::ClientContext* context, const ::remote::AgreementReq* request, ::remote::AgreementRep* response, std::function<void(::grpc::Status)>) override;
       void setup(::grpc::ClientContext* context, const ::remote::AgreementReq* request, ::remote::AgreementRep* response, ::grpc::ClientUnaryReactor* reactor) override;
+      void encrypt(::grpc::ClientContext* context, const ::remote::EncryptReq* request, ::remote::EncryptRep* response, std::function<void(::grpc::Status)>) override;
+      void encrypt(::grpc::ClientContext* context, const ::remote::EncryptReq* request, ::remote::EncryptRep* response, ::grpc::ClientUnaryReactor* reactor) override;
      private:
       friend class Stub;
       explicit async(Stub* stub): stub_(stub) { }
@@ -84,7 +104,10 @@ class PSIFunctions final {
     class async async_stub_{this};
     ::grpc::ClientAsyncResponseReader< ::remote::AgreementRep>* AsyncsetupRaw(::grpc::ClientContext* context, const ::remote::AgreementReq& request, ::grpc::CompletionQueue* cq) override;
     ::grpc::ClientAsyncResponseReader< ::remote::AgreementRep>* PrepareAsyncsetupRaw(::grpc::ClientContext* context, const ::remote::AgreementReq& request, ::grpc::CompletionQueue* cq) override;
+    ::grpc::ClientAsyncResponseReader< ::remote::EncryptRep>* AsyncencryptRaw(::grpc::ClientContext* context, const ::remote::EncryptReq& request, ::grpc::CompletionQueue* cq) override;
+    ::grpc::ClientAsyncResponseReader< ::remote::EncryptRep>* PrepareAsyncencryptRaw(::grpc::ClientContext* context, const ::remote::EncryptReq& request, ::grpc::CompletionQueue* cq) override;
     const ::grpc::internal::RpcMethod rpcmethod_setup_;
+    const ::grpc::internal::RpcMethod rpcmethod_encrypt_;
   };
   static std::unique_ptr<Stub> NewStub(const std::shared_ptr< ::grpc::ChannelInterface>& channel, const ::grpc::StubOptions& options = ::grpc::StubOptions());
 
@@ -93,6 +116,7 @@ class PSIFunctions final {
     Service();
     virtual ~Service();
     virtual ::grpc::Status setup(::grpc::ServerContext* context, const ::remote::AgreementReq* request, ::remote::AgreementRep* response);
+    virtual ::grpc::Status encrypt(::grpc::ServerContext* context, const ::remote::EncryptReq* request, ::remote::EncryptRep* response);
   };
   template <class BaseClass>
   class WithAsyncMethod_setup : public BaseClass {
@@ -114,7 +138,27 @@ class PSIFunctions final {
       ::grpc::Service::RequestAsyncUnary(0, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
-  typedef WithAsyncMethod_setup<Service > AsyncService;
+  template <class BaseClass>
+  class WithAsyncMethod_encrypt : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithAsyncMethod_encrypt() {
+      ::grpc::Service::MarkMethodAsync(1);
+    }
+    ~WithAsyncMethod_encrypt() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status encrypt(::grpc::ServerContext* /*context*/, const ::remote::EncryptReq* /*request*/, ::remote::EncryptRep* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    void Requestencrypt(::grpc::ServerContext* context, ::remote::EncryptReq* request, ::grpc::ServerAsyncResponseWriter< ::remote::EncryptRep>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
+      ::grpc::Service::RequestAsyncUnary(1, context, request, response, new_call_cq, notification_cq, tag);
+    }
+  };
+  typedef WithAsyncMethod_setup<WithAsyncMethod_encrypt<Service > > AsyncService;
   template <class BaseClass>
   class WithCallbackMethod_setup : public BaseClass {
    private:
@@ -142,7 +186,34 @@ class PSIFunctions final {
     virtual ::grpc::ServerUnaryReactor* setup(
       ::grpc::CallbackServerContext* /*context*/, const ::remote::AgreementReq* /*request*/, ::remote::AgreementRep* /*response*/)  { return nullptr; }
   };
-  typedef WithCallbackMethod_setup<Service > CallbackService;
+  template <class BaseClass>
+  class WithCallbackMethod_encrypt : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithCallbackMethod_encrypt() {
+      ::grpc::Service::MarkMethodCallback(1,
+          new ::grpc::internal::CallbackUnaryHandler< ::remote::EncryptReq, ::remote::EncryptRep>(
+            [this](
+                   ::grpc::CallbackServerContext* context, const ::remote::EncryptReq* request, ::remote::EncryptRep* response) { return this->encrypt(context, request, response); }));}
+    void SetMessageAllocatorFor_encrypt(
+        ::grpc::MessageAllocator< ::remote::EncryptReq, ::remote::EncryptRep>* allocator) {
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(1);
+      static_cast<::grpc::internal::CallbackUnaryHandler< ::remote::EncryptReq, ::remote::EncryptRep>*>(handler)
+              ->SetMessageAllocator(allocator);
+    }
+    ~WithCallbackMethod_encrypt() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status encrypt(::grpc::ServerContext* /*context*/, const ::remote::EncryptReq* /*request*/, ::remote::EncryptRep* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    virtual ::grpc::ServerUnaryReactor* encrypt(
+      ::grpc::CallbackServerContext* /*context*/, const ::remote::EncryptReq* /*request*/, ::remote::EncryptRep* /*response*/)  { return nullptr; }
+  };
+  typedef WithCallbackMethod_setup<WithCallbackMethod_encrypt<Service > > CallbackService;
   typedef CallbackService ExperimentalCallbackService;
   template <class BaseClass>
   class WithGenericMethod_setup : public BaseClass {
@@ -157,6 +228,23 @@ class PSIFunctions final {
     }
     // disable synchronous version of this method
     ::grpc::Status setup(::grpc::ServerContext* /*context*/, const ::remote::AgreementReq* /*request*/, ::remote::AgreementRep* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+  };
+  template <class BaseClass>
+  class WithGenericMethod_encrypt : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithGenericMethod_encrypt() {
+      ::grpc::Service::MarkMethodGeneric(1);
+    }
+    ~WithGenericMethod_encrypt() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status encrypt(::grpc::ServerContext* /*context*/, const ::remote::EncryptReq* /*request*/, ::remote::EncryptRep* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
@@ -182,6 +270,26 @@ class PSIFunctions final {
     }
   };
   template <class BaseClass>
+  class WithRawMethod_encrypt : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithRawMethod_encrypt() {
+      ::grpc::Service::MarkMethodRaw(1);
+    }
+    ~WithRawMethod_encrypt() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status encrypt(::grpc::ServerContext* /*context*/, const ::remote::EncryptReq* /*request*/, ::remote::EncryptRep* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    void Requestencrypt(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
+      ::grpc::Service::RequestAsyncUnary(1, context, request, response, new_call_cq, notification_cq, tag);
+    }
+  };
+  template <class BaseClass>
   class WithRawCallbackMethod_setup : public BaseClass {
    private:
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
@@ -201,6 +309,28 @@ class PSIFunctions final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     virtual ::grpc::ServerUnaryReactor* setup(
+      ::grpc::CallbackServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/, ::grpc::ByteBuffer* /*response*/)  { return nullptr; }
+  };
+  template <class BaseClass>
+  class WithRawCallbackMethod_encrypt : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithRawCallbackMethod_encrypt() {
+      ::grpc::Service::MarkMethodRawCallback(1,
+          new ::grpc::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
+            [this](
+                   ::grpc::CallbackServerContext* context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response) { return this->encrypt(context, request, response); }));
+    }
+    ~WithRawCallbackMethod_encrypt() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status encrypt(::grpc::ServerContext* /*context*/, const ::remote::EncryptReq* /*request*/, ::remote::EncryptRep* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    virtual ::grpc::ServerUnaryReactor* encrypt(
       ::grpc::CallbackServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/, ::grpc::ByteBuffer* /*response*/)  { return nullptr; }
   };
   template <class BaseClass>
@@ -230,9 +360,36 @@ class PSIFunctions final {
     // replace default version of method with streamed unary
     virtual ::grpc::Status Streamedsetup(::grpc::ServerContext* context, ::grpc::ServerUnaryStreamer< ::remote::AgreementReq,::remote::AgreementRep>* server_unary_streamer) = 0;
   };
-  typedef WithStreamedUnaryMethod_setup<Service > StreamedUnaryService;
+  template <class BaseClass>
+  class WithStreamedUnaryMethod_encrypt : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithStreamedUnaryMethod_encrypt() {
+      ::grpc::Service::MarkMethodStreamed(1,
+        new ::grpc::internal::StreamedUnaryHandler<
+          ::remote::EncryptReq, ::remote::EncryptRep>(
+            [this](::grpc::ServerContext* context,
+                   ::grpc::ServerUnaryStreamer<
+                     ::remote::EncryptReq, ::remote::EncryptRep>* streamer) {
+                       return this->Streamedencrypt(context,
+                         streamer);
+                  }));
+    }
+    ~WithStreamedUnaryMethod_encrypt() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable regular version of this method
+    ::grpc::Status encrypt(::grpc::ServerContext* /*context*/, const ::remote::EncryptReq* /*request*/, ::remote::EncryptRep* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    // replace default version of method with streamed unary
+    virtual ::grpc::Status Streamedencrypt(::grpc::ServerContext* context, ::grpc::ServerUnaryStreamer< ::remote::EncryptReq,::remote::EncryptRep>* server_unary_streamer) = 0;
+  };
+  typedef WithStreamedUnaryMethod_setup<WithStreamedUnaryMethod_encrypt<Service > > StreamedUnaryService;
   typedef Service SplitStreamedService;
-  typedef WithStreamedUnaryMethod_setup<Service > StreamedService;
+  typedef WithStreamedUnaryMethod_setup<WithStreamedUnaryMethod_encrypt<Service > > StreamedService;
 };
 
 }  // namespace remote

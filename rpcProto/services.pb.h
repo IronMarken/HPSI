@@ -51,26 +51,515 @@ extern AgreementRepDefaultTypeInternal _AgreementRep_default_instance_;
 class AgreementReq;
 struct AgreementReqDefaultTypeInternal;
 extern AgreementReqDefaultTypeInternal _AgreementReq_default_instance_;
-class ParamMsg;
-struct ParamMsgDefaultTypeInternal;
-extern ParamMsgDefaultTypeInternal _ParamMsg_default_instance_;
-class PubKey;
-struct PubKeyDefaultTypeInternal;
-extern PubKeyDefaultTypeInternal _PubKey_default_instance_;
-class RelKey;
-struct RelKeyDefaultTypeInternal;
-extern RelKeyDefaultTypeInternal _RelKey_default_instance_;
+class Ciphertexts;
+struct CiphertextsDefaultTypeInternal;
+extern CiphertextsDefaultTypeInternal _Ciphertexts_default_instance_;
+class EncryptRep;
+struct EncryptRepDefaultTypeInternal;
+extern EncryptRepDefaultTypeInternal _EncryptRep_default_instance_;
+class EncryptReq;
+struct EncryptReqDefaultTypeInternal;
+extern EncryptReqDefaultTypeInternal _EncryptReq_default_instance_;
 }  // namespace remote
 PROTOBUF_NAMESPACE_OPEN
 template<> ::remote::AgreementRep* Arena::CreateMaybeMessage<::remote::AgreementRep>(Arena*);
 template<> ::remote::AgreementReq* Arena::CreateMaybeMessage<::remote::AgreementReq>(Arena*);
-template<> ::remote::ParamMsg* Arena::CreateMaybeMessage<::remote::ParamMsg>(Arena*);
-template<> ::remote::PubKey* Arena::CreateMaybeMessage<::remote::PubKey>(Arena*);
-template<> ::remote::RelKey* Arena::CreateMaybeMessage<::remote::RelKey>(Arena*);
+template<> ::remote::Ciphertexts* Arena::CreateMaybeMessage<::remote::Ciphertexts>(Arena*);
+template<> ::remote::EncryptRep* Arena::CreateMaybeMessage<::remote::EncryptRep>(Arena*);
+template<> ::remote::EncryptReq* Arena::CreateMaybeMessage<::remote::EncryptReq>(Arena*);
 PROTOBUF_NAMESPACE_CLOSE
 namespace remote {
 
 // ===================================================================
+
+class EncryptReq final :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:remote.EncryptReq) */ {
+ public:
+  inline EncryptReq() : EncryptReq(nullptr) {}
+  ~EncryptReq() override;
+  explicit PROTOBUF_CONSTEXPR EncryptReq(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+
+  EncryptReq(const EncryptReq& from);
+  EncryptReq(EncryptReq&& from) noexcept
+    : EncryptReq() {
+    *this = ::std::move(from);
+  }
+
+  inline EncryptReq& operator=(const EncryptReq& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline EncryptReq& operator=(EncryptReq&& from) noexcept {
+    if (this == &from) return *this;
+    if (GetOwningArena() == from.GetOwningArena()
+  #ifdef PROTOBUF_FORCE_COPY_IN_MOVE
+        && GetOwningArena() != nullptr
+  #endif  // !PROTOBUF_FORCE_COPY_IN_MOVE
+    ) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const EncryptReq& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const EncryptReq* internal_default_instance() {
+    return reinterpret_cast<const EncryptReq*>(
+               &_EncryptReq_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    0;
+
+  friend void swap(EncryptReq& a, EncryptReq& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(EncryptReq* other) {
+    if (other == this) return;
+  #ifdef PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() != nullptr &&
+        GetOwningArena() == other->GetOwningArena()) {
+   #else  // PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() == other->GetOwningArena()) {
+  #endif  // !PROTOBUF_FORCE_COPY_IN_SWAP
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(EncryptReq* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  EncryptReq* New(::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
+    return CreateMaybeMessage<EncryptReq>(arena);
+  }
+  using ::PROTOBUF_NAMESPACE_ID::Message::CopyFrom;
+  void CopyFrom(const EncryptReq& from);
+  using ::PROTOBUF_NAMESPACE_ID::Message::MergeFrom;
+  void MergeFrom( const EncryptReq& from) {
+    EncryptReq::MergeImpl(*this, from);
+  }
+  private:
+  static void MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg);
+  public:
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  uint8_t* _InternalSerialize(
+      uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _impl_._cached_size_.Get(); }
+
+  private:
+  void SharedCtor(::PROTOBUF_NAMESPACE_ID::Arena* arena, bool is_message_owned);
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(EncryptReq* other);
+
+  private:
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "remote.EncryptReq";
+  }
+  protected:
+  explicit EncryptReq(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                       bool is_message_owned = false);
+  public:
+
+  static const ClassData _class_data_;
+  const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*GetClassData() const final;
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kFileToEncryptFieldNumber = 1,
+    kAgreementNameFieldNumber = 2,
+  };
+  // string file_to_encrypt = 1;
+  void clear_file_to_encrypt();
+  const std::string& file_to_encrypt() const;
+  template <typename ArgT0 = const std::string&, typename... ArgT>
+  void set_file_to_encrypt(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_file_to_encrypt();
+  PROTOBUF_NODISCARD std::string* release_file_to_encrypt();
+  void set_allocated_file_to_encrypt(std::string* file_to_encrypt);
+  private:
+  const std::string& _internal_file_to_encrypt() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_file_to_encrypt(const std::string& value);
+  std::string* _internal_mutable_file_to_encrypt();
+  public:
+
+  // string agreement_name = 2;
+  void clear_agreement_name();
+  const std::string& agreement_name() const;
+  template <typename ArgT0 = const std::string&, typename... ArgT>
+  void set_agreement_name(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_agreement_name();
+  PROTOBUF_NODISCARD std::string* release_agreement_name();
+  void set_allocated_agreement_name(std::string* agreement_name);
+  private:
+  const std::string& _internal_agreement_name() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_agreement_name(const std::string& value);
+  std::string* _internal_mutable_agreement_name();
+  public:
+
+  // @@protoc_insertion_point(class_scope:remote.EncryptReq)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  struct Impl_ {
+    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr file_to_encrypt_;
+    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr agreement_name_;
+    mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  };
+  union { Impl_ _impl_; };
+  friend struct ::TableStruct_services_2eproto;
+};
+// -------------------------------------------------------------------
+
+class Ciphertexts final :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:remote.Ciphertexts) */ {
+ public:
+  inline Ciphertexts() : Ciphertexts(nullptr) {}
+  ~Ciphertexts() override;
+  explicit PROTOBUF_CONSTEXPR Ciphertexts(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+
+  Ciphertexts(const Ciphertexts& from);
+  Ciphertexts(Ciphertexts&& from) noexcept
+    : Ciphertexts() {
+    *this = ::std::move(from);
+  }
+
+  inline Ciphertexts& operator=(const Ciphertexts& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline Ciphertexts& operator=(Ciphertexts&& from) noexcept {
+    if (this == &from) return *this;
+    if (GetOwningArena() == from.GetOwningArena()
+  #ifdef PROTOBUF_FORCE_COPY_IN_MOVE
+        && GetOwningArena() != nullptr
+  #endif  // !PROTOBUF_FORCE_COPY_IN_MOVE
+    ) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const Ciphertexts& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const Ciphertexts* internal_default_instance() {
+    return reinterpret_cast<const Ciphertexts*>(
+               &_Ciphertexts_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    1;
+
+  friend void swap(Ciphertexts& a, Ciphertexts& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(Ciphertexts* other) {
+    if (other == this) return;
+  #ifdef PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() != nullptr &&
+        GetOwningArena() == other->GetOwningArena()) {
+   #else  // PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() == other->GetOwningArena()) {
+  #endif  // !PROTOBUF_FORCE_COPY_IN_SWAP
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(Ciphertexts* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  Ciphertexts* New(::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
+    return CreateMaybeMessage<Ciphertexts>(arena);
+  }
+  using ::PROTOBUF_NAMESPACE_ID::Message::CopyFrom;
+  void CopyFrom(const Ciphertexts& from);
+  using ::PROTOBUF_NAMESPACE_ID::Message::MergeFrom;
+  void MergeFrom( const Ciphertexts& from) {
+    Ciphertexts::MergeImpl(*this, from);
+  }
+  private:
+  static void MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg);
+  public:
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  uint8_t* _InternalSerialize(
+      uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _impl_._cached_size_.Get(); }
+
+  private:
+  void SharedCtor(::PROTOBUF_NAMESPACE_ID::Arena* arena, bool is_message_owned);
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(Ciphertexts* other);
+
+  private:
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "remote.Ciphertexts";
+  }
+  protected:
+  explicit Ciphertexts(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                       bool is_message_owned = false);
+  public:
+
+  static const ClassData _class_data_;
+  const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*GetClassData() const final;
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kCipherFieldNumber = 1,
+  };
+  // repeated bytes cipher = 1;
+  int cipher_size() const;
+  private:
+  int _internal_cipher_size() const;
+  public:
+  void clear_cipher();
+  const std::string& cipher(int index) const;
+  std::string* mutable_cipher(int index);
+  void set_cipher(int index, const std::string& value);
+  void set_cipher(int index, std::string&& value);
+  void set_cipher(int index, const char* value);
+  void set_cipher(int index, const void* value, size_t size);
+  std::string* add_cipher();
+  void add_cipher(const std::string& value);
+  void add_cipher(std::string&& value);
+  void add_cipher(const char* value);
+  void add_cipher(const void* value, size_t size);
+  const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<std::string>& cipher() const;
+  ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<std::string>* mutable_cipher();
+  private:
+  const std::string& _internal_cipher(int index) const;
+  std::string* _internal_add_cipher();
+  public:
+
+  // @@protoc_insertion_point(class_scope:remote.Ciphertexts)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  struct Impl_ {
+    ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<std::string> cipher_;
+    mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  };
+  union { Impl_ _impl_; };
+  friend struct ::TableStruct_services_2eproto;
+};
+// -------------------------------------------------------------------
+
+class EncryptRep final :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:remote.EncryptRep) */ {
+ public:
+  inline EncryptRep() : EncryptRep(nullptr) {}
+  ~EncryptRep() override;
+  explicit PROTOBUF_CONSTEXPR EncryptRep(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+
+  EncryptRep(const EncryptRep& from);
+  EncryptRep(EncryptRep&& from) noexcept
+    : EncryptRep() {
+    *this = ::std::move(from);
+  }
+
+  inline EncryptRep& operator=(const EncryptRep& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline EncryptRep& operator=(EncryptRep&& from) noexcept {
+    if (this == &from) return *this;
+    if (GetOwningArena() == from.GetOwningArena()
+  #ifdef PROTOBUF_FORCE_COPY_IN_MOVE
+        && GetOwningArena() != nullptr
+  #endif  // !PROTOBUF_FORCE_COPY_IN_MOVE
+    ) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const EncryptRep& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const EncryptRep* internal_default_instance() {
+    return reinterpret_cast<const EncryptRep*>(
+               &_EncryptRep_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    2;
+
+  friend void swap(EncryptRep& a, EncryptRep& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(EncryptRep* other) {
+    if (other == this) return;
+  #ifdef PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() != nullptr &&
+        GetOwningArena() == other->GetOwningArena()) {
+   #else  // PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() == other->GetOwningArena()) {
+  #endif  // !PROTOBUF_FORCE_COPY_IN_SWAP
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(EncryptRep* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  EncryptRep* New(::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
+    return CreateMaybeMessage<EncryptRep>(arena);
+  }
+  using ::PROTOBUF_NAMESPACE_ID::Message::CopyFrom;
+  void CopyFrom(const EncryptRep& from);
+  using ::PROTOBUF_NAMESPACE_ID::Message::MergeFrom;
+  void MergeFrom( const EncryptRep& from) {
+    EncryptRep::MergeImpl(*this, from);
+  }
+  private:
+  static void MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg);
+  public:
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  uint8_t* _InternalSerialize(
+      uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _impl_._cached_size_.Get(); }
+
+  private:
+  void SharedCtor(::PROTOBUF_NAMESPACE_ID::Arena* arena, bool is_message_owned);
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(EncryptRep* other);
+
+  private:
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "remote.EncryptRep";
+  }
+  protected:
+  explicit EncryptRep(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                       bool is_message_owned = false);
+  public:
+
+  static const ClassData _class_data_;
+  const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*GetClassData() const final;
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kCiphertextsFieldNumber = 1,
+  };
+  // .remote.Ciphertexts ciphertexts = 1;
+  bool has_ciphertexts() const;
+  private:
+  bool _internal_has_ciphertexts() const;
+  public:
+  void clear_ciphertexts();
+  const ::remote::Ciphertexts& ciphertexts() const;
+  PROTOBUF_NODISCARD ::remote::Ciphertexts* release_ciphertexts();
+  ::remote::Ciphertexts* mutable_ciphertexts();
+  void set_allocated_ciphertexts(::remote::Ciphertexts* ciphertexts);
+  private:
+  const ::remote::Ciphertexts& _internal_ciphertexts() const;
+  ::remote::Ciphertexts* _internal_mutable_ciphertexts();
+  public:
+  void unsafe_arena_set_allocated_ciphertexts(
+      ::remote::Ciphertexts* ciphertexts);
+  ::remote::Ciphertexts* unsafe_arena_release_ciphertexts();
+
+  // @@protoc_insertion_point(class_scope:remote.EncryptRep)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  struct Impl_ {
+    ::remote::Ciphertexts* ciphertexts_;
+    mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  };
+  union { Impl_ _impl_; };
+  friend struct ::TableStruct_services_2eproto;
+};
+// -------------------------------------------------------------------
 
 class AgreementReq final :
     public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:remote.AgreementReq) */ {
@@ -120,7 +609,7 @@ class AgreementReq final :
                &_AgreementReq_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    0;
+    3;
 
   friend void swap(AgreementReq& a, AgreementReq& b) {
     a.Swap(&b);
@@ -211,11 +700,7 @@ class AgreementReq final :
   std::string* _internal_mutable_name();
   public:
 
-  // optional int32 poly_modulus_degree = 2;
-  bool has_poly_modulus_degree() const;
-  private:
-  bool _internal_has_poly_modulus_degree() const;
-  public:
+  // int32 poly_modulus_degree = 2;
   void clear_poly_modulus_degree();
   int32_t poly_modulus_degree() const;
   void set_poly_modulus_degree(int32_t value);
@@ -224,11 +709,7 @@ class AgreementReq final :
   void _internal_set_poly_modulus_degree(int32_t value);
   public:
 
-  // optional int32 plain_modulus = 3;
-  bool has_plain_modulus() const;
-  private:
-  bool _internal_has_plain_modulus() const;
-  public:
+  // int32 plain_modulus = 3;
   void clear_plain_modulus();
   int32_t plain_modulus() const;
   void set_plain_modulus(int32_t value);
@@ -245,499 +726,9 @@ class AgreementReq final :
   typedef void InternalArenaConstructable_;
   typedef void DestructorSkippable_;
   struct Impl_ {
-    ::PROTOBUF_NAMESPACE_ID::internal::HasBits<1> _has_bits_;
-    mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
     ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr name_;
     int32_t poly_modulus_degree_;
     int32_t plain_modulus_;
-  };
-  union { Impl_ _impl_; };
-  friend struct ::TableStruct_services_2eproto;
-};
-// -------------------------------------------------------------------
-
-class PubKey final :
-    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:remote.PubKey) */ {
- public:
-  inline PubKey() : PubKey(nullptr) {}
-  ~PubKey() override;
-  explicit PROTOBUF_CONSTEXPR PubKey(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
-
-  PubKey(const PubKey& from);
-  PubKey(PubKey&& from) noexcept
-    : PubKey() {
-    *this = ::std::move(from);
-  }
-
-  inline PubKey& operator=(const PubKey& from) {
-    CopyFrom(from);
-    return *this;
-  }
-  inline PubKey& operator=(PubKey&& from) noexcept {
-    if (this == &from) return *this;
-    if (GetOwningArena() == from.GetOwningArena()
-  #ifdef PROTOBUF_FORCE_COPY_IN_MOVE
-        && GetOwningArena() != nullptr
-  #endif  // !PROTOBUF_FORCE_COPY_IN_MOVE
-    ) {
-      InternalSwap(&from);
-    } else {
-      CopyFrom(from);
-    }
-    return *this;
-  }
-
-  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
-    return GetDescriptor();
-  }
-  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
-    return default_instance().GetMetadata().descriptor;
-  }
-  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
-    return default_instance().GetMetadata().reflection;
-  }
-  static const PubKey& default_instance() {
-    return *internal_default_instance();
-  }
-  static inline const PubKey* internal_default_instance() {
-    return reinterpret_cast<const PubKey*>(
-               &_PubKey_default_instance_);
-  }
-  static constexpr int kIndexInFileMessages =
-    1;
-
-  friend void swap(PubKey& a, PubKey& b) {
-    a.Swap(&b);
-  }
-  inline void Swap(PubKey* other) {
-    if (other == this) return;
-  #ifdef PROTOBUF_FORCE_COPY_IN_SWAP
-    if (GetOwningArena() != nullptr &&
-        GetOwningArena() == other->GetOwningArena()) {
-   #else  // PROTOBUF_FORCE_COPY_IN_SWAP
-    if (GetOwningArena() == other->GetOwningArena()) {
-  #endif  // !PROTOBUF_FORCE_COPY_IN_SWAP
-      InternalSwap(other);
-    } else {
-      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
-    }
-  }
-  void UnsafeArenaSwap(PubKey* other) {
-    if (other == this) return;
-    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
-    InternalSwap(other);
-  }
-
-  // implements Message ----------------------------------------------
-
-  PubKey* New(::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
-    return CreateMaybeMessage<PubKey>(arena);
-  }
-  using ::PROTOBUF_NAMESPACE_ID::Message::CopyFrom;
-  void CopyFrom(const PubKey& from);
-  using ::PROTOBUF_NAMESPACE_ID::Message::MergeFrom;
-  void MergeFrom( const PubKey& from) {
-    PubKey::MergeImpl(*this, from);
-  }
-  private:
-  static void MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg);
-  public:
-  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
-  bool IsInitialized() const final;
-
-  size_t ByteSizeLong() const final;
-  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
-  uint8_t* _InternalSerialize(
-      uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
-  int GetCachedSize() const final { return _impl_._cached_size_.Get(); }
-
-  private:
-  void SharedCtor(::PROTOBUF_NAMESPACE_ID::Arena* arena, bool is_message_owned);
-  void SharedDtor();
-  void SetCachedSize(int size) const final;
-  void InternalSwap(PubKey* other);
-
-  private:
-  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
-  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
-    return "remote.PubKey";
-  }
-  protected:
-  explicit PubKey(::PROTOBUF_NAMESPACE_ID::Arena* arena,
-                       bool is_message_owned = false);
-  public:
-
-  static const ClassData _class_data_;
-  const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*GetClassData() const final;
-
-  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
-
-  // nested types ----------------------------------------------------
-
-  // accessors -------------------------------------------------------
-
-  enum : int {
-    kKeyFieldNumber = 1,
-  };
-  // repeated bytes key = 1;
-  int key_size() const;
-  private:
-  int _internal_key_size() const;
-  public:
-  void clear_key();
-  const std::string& key(int index) const;
-  std::string* mutable_key(int index);
-  void set_key(int index, const std::string& value);
-  void set_key(int index, std::string&& value);
-  void set_key(int index, const char* value);
-  void set_key(int index, const void* value, size_t size);
-  std::string* add_key();
-  void add_key(const std::string& value);
-  void add_key(std::string&& value);
-  void add_key(const char* value);
-  void add_key(const void* value, size_t size);
-  const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<std::string>& key() const;
-  ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<std::string>* mutable_key();
-  private:
-  const std::string& _internal_key(int index) const;
-  std::string* _internal_add_key();
-  public:
-
-  // @@protoc_insertion_point(class_scope:remote.PubKey)
- private:
-  class _Internal;
-
-  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
-  typedef void InternalArenaConstructable_;
-  typedef void DestructorSkippable_;
-  struct Impl_ {
-    ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<std::string> key_;
-    mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
-  };
-  union { Impl_ _impl_; };
-  friend struct ::TableStruct_services_2eproto;
-};
-// -------------------------------------------------------------------
-
-class RelKey final :
-    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:remote.RelKey) */ {
- public:
-  inline RelKey() : RelKey(nullptr) {}
-  ~RelKey() override;
-  explicit PROTOBUF_CONSTEXPR RelKey(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
-
-  RelKey(const RelKey& from);
-  RelKey(RelKey&& from) noexcept
-    : RelKey() {
-    *this = ::std::move(from);
-  }
-
-  inline RelKey& operator=(const RelKey& from) {
-    CopyFrom(from);
-    return *this;
-  }
-  inline RelKey& operator=(RelKey&& from) noexcept {
-    if (this == &from) return *this;
-    if (GetOwningArena() == from.GetOwningArena()
-  #ifdef PROTOBUF_FORCE_COPY_IN_MOVE
-        && GetOwningArena() != nullptr
-  #endif  // !PROTOBUF_FORCE_COPY_IN_MOVE
-    ) {
-      InternalSwap(&from);
-    } else {
-      CopyFrom(from);
-    }
-    return *this;
-  }
-
-  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
-    return GetDescriptor();
-  }
-  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
-    return default_instance().GetMetadata().descriptor;
-  }
-  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
-    return default_instance().GetMetadata().reflection;
-  }
-  static const RelKey& default_instance() {
-    return *internal_default_instance();
-  }
-  static inline const RelKey* internal_default_instance() {
-    return reinterpret_cast<const RelKey*>(
-               &_RelKey_default_instance_);
-  }
-  static constexpr int kIndexInFileMessages =
-    2;
-
-  friend void swap(RelKey& a, RelKey& b) {
-    a.Swap(&b);
-  }
-  inline void Swap(RelKey* other) {
-    if (other == this) return;
-  #ifdef PROTOBUF_FORCE_COPY_IN_SWAP
-    if (GetOwningArena() != nullptr &&
-        GetOwningArena() == other->GetOwningArena()) {
-   #else  // PROTOBUF_FORCE_COPY_IN_SWAP
-    if (GetOwningArena() == other->GetOwningArena()) {
-  #endif  // !PROTOBUF_FORCE_COPY_IN_SWAP
-      InternalSwap(other);
-    } else {
-      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
-    }
-  }
-  void UnsafeArenaSwap(RelKey* other) {
-    if (other == this) return;
-    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
-    InternalSwap(other);
-  }
-
-  // implements Message ----------------------------------------------
-
-  RelKey* New(::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
-    return CreateMaybeMessage<RelKey>(arena);
-  }
-  using ::PROTOBUF_NAMESPACE_ID::Message::CopyFrom;
-  void CopyFrom(const RelKey& from);
-  using ::PROTOBUF_NAMESPACE_ID::Message::MergeFrom;
-  void MergeFrom( const RelKey& from) {
-    RelKey::MergeImpl(*this, from);
-  }
-  private:
-  static void MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg);
-  public:
-  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
-  bool IsInitialized() const final;
-
-  size_t ByteSizeLong() const final;
-  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
-  uint8_t* _InternalSerialize(
-      uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
-  int GetCachedSize() const final { return _impl_._cached_size_.Get(); }
-
-  private:
-  void SharedCtor(::PROTOBUF_NAMESPACE_ID::Arena* arena, bool is_message_owned);
-  void SharedDtor();
-  void SetCachedSize(int size) const final;
-  void InternalSwap(RelKey* other);
-
-  private:
-  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
-  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
-    return "remote.RelKey";
-  }
-  protected:
-  explicit RelKey(::PROTOBUF_NAMESPACE_ID::Arena* arena,
-                       bool is_message_owned = false);
-  public:
-
-  static const ClassData _class_data_;
-  const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*GetClassData() const final;
-
-  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
-
-  // nested types ----------------------------------------------------
-
-  // accessors -------------------------------------------------------
-
-  enum : int {
-    kKeyFieldNumber = 1,
-  };
-  // repeated bytes key = 1;
-  int key_size() const;
-  private:
-  int _internal_key_size() const;
-  public:
-  void clear_key();
-  const std::string& key(int index) const;
-  std::string* mutable_key(int index);
-  void set_key(int index, const std::string& value);
-  void set_key(int index, std::string&& value);
-  void set_key(int index, const char* value);
-  void set_key(int index, const void* value, size_t size);
-  std::string* add_key();
-  void add_key(const std::string& value);
-  void add_key(std::string&& value);
-  void add_key(const char* value);
-  void add_key(const void* value, size_t size);
-  const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<std::string>& key() const;
-  ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<std::string>* mutable_key();
-  private:
-  const std::string& _internal_key(int index) const;
-  std::string* _internal_add_key();
-  public:
-
-  // @@protoc_insertion_point(class_scope:remote.RelKey)
- private:
-  class _Internal;
-
-  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
-  typedef void InternalArenaConstructable_;
-  typedef void DestructorSkippable_;
-  struct Impl_ {
-    ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<std::string> key_;
-    mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
-  };
-  union { Impl_ _impl_; };
-  friend struct ::TableStruct_services_2eproto;
-};
-// -------------------------------------------------------------------
-
-class ParamMsg final :
-    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:remote.ParamMsg) */ {
- public:
-  inline ParamMsg() : ParamMsg(nullptr) {}
-  ~ParamMsg() override;
-  explicit PROTOBUF_CONSTEXPR ParamMsg(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
-
-  ParamMsg(const ParamMsg& from);
-  ParamMsg(ParamMsg&& from) noexcept
-    : ParamMsg() {
-    *this = ::std::move(from);
-  }
-
-  inline ParamMsg& operator=(const ParamMsg& from) {
-    CopyFrom(from);
-    return *this;
-  }
-  inline ParamMsg& operator=(ParamMsg&& from) noexcept {
-    if (this == &from) return *this;
-    if (GetOwningArena() == from.GetOwningArena()
-  #ifdef PROTOBUF_FORCE_COPY_IN_MOVE
-        && GetOwningArena() != nullptr
-  #endif  // !PROTOBUF_FORCE_COPY_IN_MOVE
-    ) {
-      InternalSwap(&from);
-    } else {
-      CopyFrom(from);
-    }
-    return *this;
-  }
-
-  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
-    return GetDescriptor();
-  }
-  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
-    return default_instance().GetMetadata().descriptor;
-  }
-  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
-    return default_instance().GetMetadata().reflection;
-  }
-  static const ParamMsg& default_instance() {
-    return *internal_default_instance();
-  }
-  static inline const ParamMsg* internal_default_instance() {
-    return reinterpret_cast<const ParamMsg*>(
-               &_ParamMsg_default_instance_);
-  }
-  static constexpr int kIndexInFileMessages =
-    3;
-
-  friend void swap(ParamMsg& a, ParamMsg& b) {
-    a.Swap(&b);
-  }
-  inline void Swap(ParamMsg* other) {
-    if (other == this) return;
-  #ifdef PROTOBUF_FORCE_COPY_IN_SWAP
-    if (GetOwningArena() != nullptr &&
-        GetOwningArena() == other->GetOwningArena()) {
-   #else  // PROTOBUF_FORCE_COPY_IN_SWAP
-    if (GetOwningArena() == other->GetOwningArena()) {
-  #endif  // !PROTOBUF_FORCE_COPY_IN_SWAP
-      InternalSwap(other);
-    } else {
-      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
-    }
-  }
-  void UnsafeArenaSwap(ParamMsg* other) {
-    if (other == this) return;
-    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
-    InternalSwap(other);
-  }
-
-  // implements Message ----------------------------------------------
-
-  ParamMsg* New(::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
-    return CreateMaybeMessage<ParamMsg>(arena);
-  }
-  using ::PROTOBUF_NAMESPACE_ID::Message::CopyFrom;
-  void CopyFrom(const ParamMsg& from);
-  using ::PROTOBUF_NAMESPACE_ID::Message::MergeFrom;
-  void MergeFrom( const ParamMsg& from) {
-    ParamMsg::MergeImpl(*this, from);
-  }
-  private:
-  static void MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg);
-  public:
-  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
-  bool IsInitialized() const final;
-
-  size_t ByteSizeLong() const final;
-  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
-  uint8_t* _InternalSerialize(
-      uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
-  int GetCachedSize() const final { return _impl_._cached_size_.Get(); }
-
-  private:
-  void SharedCtor(::PROTOBUF_NAMESPACE_ID::Arena* arena, bool is_message_owned);
-  void SharedDtor();
-  void SetCachedSize(int size) const final;
-  void InternalSwap(ParamMsg* other);
-
-  private:
-  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
-  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
-    return "remote.ParamMsg";
-  }
-  protected:
-  explicit ParamMsg(::PROTOBUF_NAMESPACE_ID::Arena* arena,
-                       bool is_message_owned = false);
-  public:
-
-  static const ClassData _class_data_;
-  const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*GetClassData() const final;
-
-  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
-
-  // nested types ----------------------------------------------------
-
-  // accessors -------------------------------------------------------
-
-  enum : int {
-    kParamFieldNumber = 1,
-  };
-  // repeated bytes param = 1;
-  int param_size() const;
-  private:
-  int _internal_param_size() const;
-  public:
-  void clear_param();
-  const std::string& param(int index) const;
-  std::string* mutable_param(int index);
-  void set_param(int index, const std::string& value);
-  void set_param(int index, std::string&& value);
-  void set_param(int index, const char* value);
-  void set_param(int index, const void* value, size_t size);
-  std::string* add_param();
-  void add_param(const std::string& value);
-  void add_param(std::string&& value);
-  void add_param(const char* value);
-  void add_param(const void* value, size_t size);
-  const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<std::string>& param() const;
-  ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<std::string>* mutable_param();
-  private:
-  const std::string& _internal_param(int index) const;
-  std::string* _internal_add_param();
-  public:
-
-  // @@protoc_insertion_point(class_scope:remote.ParamMsg)
- private:
-  class _Internal;
-
-  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
-  typedef void InternalArenaConstructable_;
-  typedef void DestructorSkippable_;
-  struct Impl_ {
-    ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<std::string> param_;
     mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   };
   union { Impl_ _impl_; };
@@ -870,59 +861,47 @@ class AgreementRep final :
     kRelFieldNumber = 2,
     kParFieldNumber = 3,
   };
-  // .remote.PubKey pub = 1;
-  bool has_pub() const;
-  private:
-  bool _internal_has_pub() const;
-  public:
+  // bytes pub = 1;
   void clear_pub();
-  const ::remote::PubKey& pub() const;
-  PROTOBUF_NODISCARD ::remote::PubKey* release_pub();
-  ::remote::PubKey* mutable_pub();
-  void set_allocated_pub(::remote::PubKey* pub);
+  const std::string& pub() const;
+  template <typename ArgT0 = const std::string&, typename... ArgT>
+  void set_pub(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_pub();
+  PROTOBUF_NODISCARD std::string* release_pub();
+  void set_allocated_pub(std::string* pub);
   private:
-  const ::remote::PubKey& _internal_pub() const;
-  ::remote::PubKey* _internal_mutable_pub();
+  const std::string& _internal_pub() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_pub(const std::string& value);
+  std::string* _internal_mutable_pub();
   public:
-  void unsafe_arena_set_allocated_pub(
-      ::remote::PubKey* pub);
-  ::remote::PubKey* unsafe_arena_release_pub();
 
-  // .remote.RelKey rel = 2;
-  bool has_rel() const;
-  private:
-  bool _internal_has_rel() const;
-  public:
+  // bytes rel = 2;
   void clear_rel();
-  const ::remote::RelKey& rel() const;
-  PROTOBUF_NODISCARD ::remote::RelKey* release_rel();
-  ::remote::RelKey* mutable_rel();
-  void set_allocated_rel(::remote::RelKey* rel);
+  const std::string& rel() const;
+  template <typename ArgT0 = const std::string&, typename... ArgT>
+  void set_rel(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_rel();
+  PROTOBUF_NODISCARD std::string* release_rel();
+  void set_allocated_rel(std::string* rel);
   private:
-  const ::remote::RelKey& _internal_rel() const;
-  ::remote::RelKey* _internal_mutable_rel();
+  const std::string& _internal_rel() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_rel(const std::string& value);
+  std::string* _internal_mutable_rel();
   public:
-  void unsafe_arena_set_allocated_rel(
-      ::remote::RelKey* rel);
-  ::remote::RelKey* unsafe_arena_release_rel();
 
-  // .remote.ParamMsg par = 3;
-  bool has_par() const;
-  private:
-  bool _internal_has_par() const;
-  public:
+  // bytes par = 3;
   void clear_par();
-  const ::remote::ParamMsg& par() const;
-  PROTOBUF_NODISCARD ::remote::ParamMsg* release_par();
-  ::remote::ParamMsg* mutable_par();
-  void set_allocated_par(::remote::ParamMsg* par);
+  const std::string& par() const;
+  template <typename ArgT0 = const std::string&, typename... ArgT>
+  void set_par(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_par();
+  PROTOBUF_NODISCARD std::string* release_par();
+  void set_allocated_par(std::string* par);
   private:
-  const ::remote::ParamMsg& _internal_par() const;
-  ::remote::ParamMsg* _internal_mutable_par();
+  const std::string& _internal_par() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_par(const std::string& value);
+  std::string* _internal_mutable_par();
   public:
-  void unsafe_arena_set_allocated_par(
-      ::remote::ParamMsg* par);
-  ::remote::ParamMsg* unsafe_arena_release_par();
 
   // @@protoc_insertion_point(class_scope:remote.AgreementRep)
  private:
@@ -932,9 +911,9 @@ class AgreementRep final :
   typedef void InternalArenaConstructable_;
   typedef void DestructorSkippable_;
   struct Impl_ {
-    ::remote::PubKey* pub_;
-    ::remote::RelKey* rel_;
-    ::remote::ParamMsg* par_;
+    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr pub_;
+    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr rel_;
+    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr par_;
     mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   };
   union { Impl_ _impl_; };
@@ -949,6 +928,283 @@ class AgreementRep final :
   #pragma GCC diagnostic push
   #pragma GCC diagnostic ignored "-Wstrict-aliasing"
 #endif  // __GNUC__
+// EncryptReq
+
+// string file_to_encrypt = 1;
+inline void EncryptReq::clear_file_to_encrypt() {
+  _impl_.file_to_encrypt_.ClearToEmpty();
+}
+inline const std::string& EncryptReq::file_to_encrypt() const {
+  // @@protoc_insertion_point(field_get:remote.EncryptReq.file_to_encrypt)
+  return _internal_file_to_encrypt();
+}
+template <typename ArgT0, typename... ArgT>
+inline PROTOBUF_ALWAYS_INLINE
+void EncryptReq::set_file_to_encrypt(ArgT0&& arg0, ArgT... args) {
+ 
+ _impl_.file_to_encrypt_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:remote.EncryptReq.file_to_encrypt)
+}
+inline std::string* EncryptReq::mutable_file_to_encrypt() {
+  std::string* _s = _internal_mutable_file_to_encrypt();
+  // @@protoc_insertion_point(field_mutable:remote.EncryptReq.file_to_encrypt)
+  return _s;
+}
+inline const std::string& EncryptReq::_internal_file_to_encrypt() const {
+  return _impl_.file_to_encrypt_.Get();
+}
+inline void EncryptReq::_internal_set_file_to_encrypt(const std::string& value) {
+  
+  _impl_.file_to_encrypt_.Set(value, GetArenaForAllocation());
+}
+inline std::string* EncryptReq::_internal_mutable_file_to_encrypt() {
+  
+  return _impl_.file_to_encrypt_.Mutable(GetArenaForAllocation());
+}
+inline std::string* EncryptReq::release_file_to_encrypt() {
+  // @@protoc_insertion_point(field_release:remote.EncryptReq.file_to_encrypt)
+  return _impl_.file_to_encrypt_.Release();
+}
+inline void EncryptReq::set_allocated_file_to_encrypt(std::string* file_to_encrypt) {
+  if (file_to_encrypt != nullptr) {
+    
+  } else {
+    
+  }
+  _impl_.file_to_encrypt_.SetAllocated(file_to_encrypt, GetArenaForAllocation());
+#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (_impl_.file_to_encrypt_.IsDefault()) {
+    _impl_.file_to_encrypt_.Set("", GetArenaForAllocation());
+  }
+#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  // @@protoc_insertion_point(field_set_allocated:remote.EncryptReq.file_to_encrypt)
+}
+
+// string agreement_name = 2;
+inline void EncryptReq::clear_agreement_name() {
+  _impl_.agreement_name_.ClearToEmpty();
+}
+inline const std::string& EncryptReq::agreement_name() const {
+  // @@protoc_insertion_point(field_get:remote.EncryptReq.agreement_name)
+  return _internal_agreement_name();
+}
+template <typename ArgT0, typename... ArgT>
+inline PROTOBUF_ALWAYS_INLINE
+void EncryptReq::set_agreement_name(ArgT0&& arg0, ArgT... args) {
+ 
+ _impl_.agreement_name_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:remote.EncryptReq.agreement_name)
+}
+inline std::string* EncryptReq::mutable_agreement_name() {
+  std::string* _s = _internal_mutable_agreement_name();
+  // @@protoc_insertion_point(field_mutable:remote.EncryptReq.agreement_name)
+  return _s;
+}
+inline const std::string& EncryptReq::_internal_agreement_name() const {
+  return _impl_.agreement_name_.Get();
+}
+inline void EncryptReq::_internal_set_agreement_name(const std::string& value) {
+  
+  _impl_.agreement_name_.Set(value, GetArenaForAllocation());
+}
+inline std::string* EncryptReq::_internal_mutable_agreement_name() {
+  
+  return _impl_.agreement_name_.Mutable(GetArenaForAllocation());
+}
+inline std::string* EncryptReq::release_agreement_name() {
+  // @@protoc_insertion_point(field_release:remote.EncryptReq.agreement_name)
+  return _impl_.agreement_name_.Release();
+}
+inline void EncryptReq::set_allocated_agreement_name(std::string* agreement_name) {
+  if (agreement_name != nullptr) {
+    
+  } else {
+    
+  }
+  _impl_.agreement_name_.SetAllocated(agreement_name, GetArenaForAllocation());
+#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (_impl_.agreement_name_.IsDefault()) {
+    _impl_.agreement_name_.Set("", GetArenaForAllocation());
+  }
+#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  // @@protoc_insertion_point(field_set_allocated:remote.EncryptReq.agreement_name)
+}
+
+// -------------------------------------------------------------------
+
+// Ciphertexts
+
+// repeated bytes cipher = 1;
+inline int Ciphertexts::_internal_cipher_size() const {
+  return _impl_.cipher_.size();
+}
+inline int Ciphertexts::cipher_size() const {
+  return _internal_cipher_size();
+}
+inline void Ciphertexts::clear_cipher() {
+  _impl_.cipher_.Clear();
+}
+inline std::string* Ciphertexts::add_cipher() {
+  std::string* _s = _internal_add_cipher();
+  // @@protoc_insertion_point(field_add_mutable:remote.Ciphertexts.cipher)
+  return _s;
+}
+inline const std::string& Ciphertexts::_internal_cipher(int index) const {
+  return _impl_.cipher_.Get(index);
+}
+inline const std::string& Ciphertexts::cipher(int index) const {
+  // @@protoc_insertion_point(field_get:remote.Ciphertexts.cipher)
+  return _internal_cipher(index);
+}
+inline std::string* Ciphertexts::mutable_cipher(int index) {
+  // @@protoc_insertion_point(field_mutable:remote.Ciphertexts.cipher)
+  return _impl_.cipher_.Mutable(index);
+}
+inline void Ciphertexts::set_cipher(int index, const std::string& value) {
+  _impl_.cipher_.Mutable(index)->assign(value);
+  // @@protoc_insertion_point(field_set:remote.Ciphertexts.cipher)
+}
+inline void Ciphertexts::set_cipher(int index, std::string&& value) {
+  _impl_.cipher_.Mutable(index)->assign(std::move(value));
+  // @@protoc_insertion_point(field_set:remote.Ciphertexts.cipher)
+}
+inline void Ciphertexts::set_cipher(int index, const char* value) {
+  GOOGLE_DCHECK(value != nullptr);
+  _impl_.cipher_.Mutable(index)->assign(value);
+  // @@protoc_insertion_point(field_set_char:remote.Ciphertexts.cipher)
+}
+inline void Ciphertexts::set_cipher(int index, const void* value, size_t size) {
+  _impl_.cipher_.Mutable(index)->assign(
+    reinterpret_cast<const char*>(value), size);
+  // @@protoc_insertion_point(field_set_pointer:remote.Ciphertexts.cipher)
+}
+inline std::string* Ciphertexts::_internal_add_cipher() {
+  return _impl_.cipher_.Add();
+}
+inline void Ciphertexts::add_cipher(const std::string& value) {
+  _impl_.cipher_.Add()->assign(value);
+  // @@protoc_insertion_point(field_add:remote.Ciphertexts.cipher)
+}
+inline void Ciphertexts::add_cipher(std::string&& value) {
+  _impl_.cipher_.Add(std::move(value));
+  // @@protoc_insertion_point(field_add:remote.Ciphertexts.cipher)
+}
+inline void Ciphertexts::add_cipher(const char* value) {
+  GOOGLE_DCHECK(value != nullptr);
+  _impl_.cipher_.Add()->assign(value);
+  // @@protoc_insertion_point(field_add_char:remote.Ciphertexts.cipher)
+}
+inline void Ciphertexts::add_cipher(const void* value, size_t size) {
+  _impl_.cipher_.Add()->assign(reinterpret_cast<const char*>(value), size);
+  // @@protoc_insertion_point(field_add_pointer:remote.Ciphertexts.cipher)
+}
+inline const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<std::string>&
+Ciphertexts::cipher() const {
+  // @@protoc_insertion_point(field_list:remote.Ciphertexts.cipher)
+  return _impl_.cipher_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<std::string>*
+Ciphertexts::mutable_cipher() {
+  // @@protoc_insertion_point(field_mutable_list:remote.Ciphertexts.cipher)
+  return &_impl_.cipher_;
+}
+
+// -------------------------------------------------------------------
+
+// EncryptRep
+
+// .remote.Ciphertexts ciphertexts = 1;
+inline bool EncryptRep::_internal_has_ciphertexts() const {
+  return this != internal_default_instance() && _impl_.ciphertexts_ != nullptr;
+}
+inline bool EncryptRep::has_ciphertexts() const {
+  return _internal_has_ciphertexts();
+}
+inline void EncryptRep::clear_ciphertexts() {
+  if (GetArenaForAllocation() == nullptr && _impl_.ciphertexts_ != nullptr) {
+    delete _impl_.ciphertexts_;
+  }
+  _impl_.ciphertexts_ = nullptr;
+}
+inline const ::remote::Ciphertexts& EncryptRep::_internal_ciphertexts() const {
+  const ::remote::Ciphertexts* p = _impl_.ciphertexts_;
+  return p != nullptr ? *p : reinterpret_cast<const ::remote::Ciphertexts&>(
+      ::remote::_Ciphertexts_default_instance_);
+}
+inline const ::remote::Ciphertexts& EncryptRep::ciphertexts() const {
+  // @@protoc_insertion_point(field_get:remote.EncryptRep.ciphertexts)
+  return _internal_ciphertexts();
+}
+inline void EncryptRep::unsafe_arena_set_allocated_ciphertexts(
+    ::remote::Ciphertexts* ciphertexts) {
+  if (GetArenaForAllocation() == nullptr) {
+    delete reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(_impl_.ciphertexts_);
+  }
+  _impl_.ciphertexts_ = ciphertexts;
+  if (ciphertexts) {
+    
+  } else {
+    
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:remote.EncryptRep.ciphertexts)
+}
+inline ::remote::Ciphertexts* EncryptRep::release_ciphertexts() {
+  
+  ::remote::Ciphertexts* temp = _impl_.ciphertexts_;
+  _impl_.ciphertexts_ = nullptr;
+#ifdef PROTOBUF_FORCE_COPY_IN_RELEASE
+  auto* old =  reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(temp);
+  temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
+  if (GetArenaForAllocation() == nullptr) { delete old; }
+#else  // PROTOBUF_FORCE_COPY_IN_RELEASE
+  if (GetArenaForAllocation() != nullptr) {
+    temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
+  }
+#endif  // !PROTOBUF_FORCE_COPY_IN_RELEASE
+  return temp;
+}
+inline ::remote::Ciphertexts* EncryptRep::unsafe_arena_release_ciphertexts() {
+  // @@protoc_insertion_point(field_release:remote.EncryptRep.ciphertexts)
+  
+  ::remote::Ciphertexts* temp = _impl_.ciphertexts_;
+  _impl_.ciphertexts_ = nullptr;
+  return temp;
+}
+inline ::remote::Ciphertexts* EncryptRep::_internal_mutable_ciphertexts() {
+  
+  if (_impl_.ciphertexts_ == nullptr) {
+    auto* p = CreateMaybeMessage<::remote::Ciphertexts>(GetArenaForAllocation());
+    _impl_.ciphertexts_ = p;
+  }
+  return _impl_.ciphertexts_;
+}
+inline ::remote::Ciphertexts* EncryptRep::mutable_ciphertexts() {
+  ::remote::Ciphertexts* _msg = _internal_mutable_ciphertexts();
+  // @@protoc_insertion_point(field_mutable:remote.EncryptRep.ciphertexts)
+  return _msg;
+}
+inline void EncryptRep::set_allocated_ciphertexts(::remote::Ciphertexts* ciphertexts) {
+  ::PROTOBUF_NAMESPACE_ID::Arena* message_arena = GetArenaForAllocation();
+  if (message_arena == nullptr) {
+    delete _impl_.ciphertexts_;
+  }
+  if (ciphertexts) {
+    ::PROTOBUF_NAMESPACE_ID::Arena* submessage_arena =
+        ::PROTOBUF_NAMESPACE_ID::Arena::InternalGetOwningArena(ciphertexts);
+    if (message_arena != submessage_arena) {
+      ciphertexts = ::PROTOBUF_NAMESPACE_ID::internal::GetOwnedMessage(
+          message_arena, ciphertexts, submessage_arena);
+    }
+    
+  } else {
+    
+  }
+  _impl_.ciphertexts_ = ciphertexts;
+  // @@protoc_insertion_point(field_set_allocated:remote.EncryptRep.ciphertexts)
+}
+
+// -------------------------------------------------------------------
+
 // AgreementReq
 
 // string name = 1;
@@ -1001,17 +1257,9 @@ inline void AgreementReq::set_allocated_name(std::string* name) {
   // @@protoc_insertion_point(field_set_allocated:remote.AgreementReq.name)
 }
 
-// optional int32 poly_modulus_degree = 2;
-inline bool AgreementReq::_internal_has_poly_modulus_degree() const {
-  bool value = (_impl_._has_bits_[0] & 0x00000001u) != 0;
-  return value;
-}
-inline bool AgreementReq::has_poly_modulus_degree() const {
-  return _internal_has_poly_modulus_degree();
-}
+// int32 poly_modulus_degree = 2;
 inline void AgreementReq::clear_poly_modulus_degree() {
   _impl_.poly_modulus_degree_ = 0;
-  _impl_._has_bits_[0] &= ~0x00000001u;
 }
 inline int32_t AgreementReq::_internal_poly_modulus_degree() const {
   return _impl_.poly_modulus_degree_;
@@ -1021,7 +1269,7 @@ inline int32_t AgreementReq::poly_modulus_degree() const {
   return _internal_poly_modulus_degree();
 }
 inline void AgreementReq::_internal_set_poly_modulus_degree(int32_t value) {
-  _impl_._has_bits_[0] |= 0x00000001u;
+  
   _impl_.poly_modulus_degree_ = value;
 }
 inline void AgreementReq::set_poly_modulus_degree(int32_t value) {
@@ -1029,17 +1277,9 @@ inline void AgreementReq::set_poly_modulus_degree(int32_t value) {
   // @@protoc_insertion_point(field_set:remote.AgreementReq.poly_modulus_degree)
 }
 
-// optional int32 plain_modulus = 3;
-inline bool AgreementReq::_internal_has_plain_modulus() const {
-  bool value = (_impl_._has_bits_[0] & 0x00000002u) != 0;
-  return value;
-}
-inline bool AgreementReq::has_plain_modulus() const {
-  return _internal_has_plain_modulus();
-}
+// int32 plain_modulus = 3;
 inline void AgreementReq::clear_plain_modulus() {
   _impl_.plain_modulus_ = 0;
-  _impl_._has_bits_[0] &= ~0x00000002u;
 }
 inline int32_t AgreementReq::_internal_plain_modulus() const {
   return _impl_.plain_modulus_;
@@ -1049,7 +1289,7 @@ inline int32_t AgreementReq::plain_modulus() const {
   return _internal_plain_modulus();
 }
 inline void AgreementReq::_internal_set_plain_modulus(int32_t value) {
-  _impl_._has_bits_[0] |= 0x00000002u;
+  
   _impl_.plain_modulus_ = value;
 }
 inline void AgreementReq::set_plain_modulus(int32_t value) {
@@ -1059,512 +1299,155 @@ inline void AgreementReq::set_plain_modulus(int32_t value) {
 
 // -------------------------------------------------------------------
 
-// PubKey
-
-// repeated bytes key = 1;
-inline int PubKey::_internal_key_size() const {
-  return _impl_.key_.size();
-}
-inline int PubKey::key_size() const {
-  return _internal_key_size();
-}
-inline void PubKey::clear_key() {
-  _impl_.key_.Clear();
-}
-inline std::string* PubKey::add_key() {
-  std::string* _s = _internal_add_key();
-  // @@protoc_insertion_point(field_add_mutable:remote.PubKey.key)
-  return _s;
-}
-inline const std::string& PubKey::_internal_key(int index) const {
-  return _impl_.key_.Get(index);
-}
-inline const std::string& PubKey::key(int index) const {
-  // @@protoc_insertion_point(field_get:remote.PubKey.key)
-  return _internal_key(index);
-}
-inline std::string* PubKey::mutable_key(int index) {
-  // @@protoc_insertion_point(field_mutable:remote.PubKey.key)
-  return _impl_.key_.Mutable(index);
-}
-inline void PubKey::set_key(int index, const std::string& value) {
-  _impl_.key_.Mutable(index)->assign(value);
-  // @@protoc_insertion_point(field_set:remote.PubKey.key)
-}
-inline void PubKey::set_key(int index, std::string&& value) {
-  _impl_.key_.Mutable(index)->assign(std::move(value));
-  // @@protoc_insertion_point(field_set:remote.PubKey.key)
-}
-inline void PubKey::set_key(int index, const char* value) {
-  GOOGLE_DCHECK(value != nullptr);
-  _impl_.key_.Mutable(index)->assign(value);
-  // @@protoc_insertion_point(field_set_char:remote.PubKey.key)
-}
-inline void PubKey::set_key(int index, const void* value, size_t size) {
-  _impl_.key_.Mutable(index)->assign(
-    reinterpret_cast<const char*>(value), size);
-  // @@protoc_insertion_point(field_set_pointer:remote.PubKey.key)
-}
-inline std::string* PubKey::_internal_add_key() {
-  return _impl_.key_.Add();
-}
-inline void PubKey::add_key(const std::string& value) {
-  _impl_.key_.Add()->assign(value);
-  // @@protoc_insertion_point(field_add:remote.PubKey.key)
-}
-inline void PubKey::add_key(std::string&& value) {
-  _impl_.key_.Add(std::move(value));
-  // @@protoc_insertion_point(field_add:remote.PubKey.key)
-}
-inline void PubKey::add_key(const char* value) {
-  GOOGLE_DCHECK(value != nullptr);
-  _impl_.key_.Add()->assign(value);
-  // @@protoc_insertion_point(field_add_char:remote.PubKey.key)
-}
-inline void PubKey::add_key(const void* value, size_t size) {
-  _impl_.key_.Add()->assign(reinterpret_cast<const char*>(value), size);
-  // @@protoc_insertion_point(field_add_pointer:remote.PubKey.key)
-}
-inline const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<std::string>&
-PubKey::key() const {
-  // @@protoc_insertion_point(field_list:remote.PubKey.key)
-  return _impl_.key_;
-}
-inline ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<std::string>*
-PubKey::mutable_key() {
-  // @@protoc_insertion_point(field_mutable_list:remote.PubKey.key)
-  return &_impl_.key_;
-}
-
-// -------------------------------------------------------------------
-
-// RelKey
-
-// repeated bytes key = 1;
-inline int RelKey::_internal_key_size() const {
-  return _impl_.key_.size();
-}
-inline int RelKey::key_size() const {
-  return _internal_key_size();
-}
-inline void RelKey::clear_key() {
-  _impl_.key_.Clear();
-}
-inline std::string* RelKey::add_key() {
-  std::string* _s = _internal_add_key();
-  // @@protoc_insertion_point(field_add_mutable:remote.RelKey.key)
-  return _s;
-}
-inline const std::string& RelKey::_internal_key(int index) const {
-  return _impl_.key_.Get(index);
-}
-inline const std::string& RelKey::key(int index) const {
-  // @@protoc_insertion_point(field_get:remote.RelKey.key)
-  return _internal_key(index);
-}
-inline std::string* RelKey::mutable_key(int index) {
-  // @@protoc_insertion_point(field_mutable:remote.RelKey.key)
-  return _impl_.key_.Mutable(index);
-}
-inline void RelKey::set_key(int index, const std::string& value) {
-  _impl_.key_.Mutable(index)->assign(value);
-  // @@protoc_insertion_point(field_set:remote.RelKey.key)
-}
-inline void RelKey::set_key(int index, std::string&& value) {
-  _impl_.key_.Mutable(index)->assign(std::move(value));
-  // @@protoc_insertion_point(field_set:remote.RelKey.key)
-}
-inline void RelKey::set_key(int index, const char* value) {
-  GOOGLE_DCHECK(value != nullptr);
-  _impl_.key_.Mutable(index)->assign(value);
-  // @@protoc_insertion_point(field_set_char:remote.RelKey.key)
-}
-inline void RelKey::set_key(int index, const void* value, size_t size) {
-  _impl_.key_.Mutable(index)->assign(
-    reinterpret_cast<const char*>(value), size);
-  // @@protoc_insertion_point(field_set_pointer:remote.RelKey.key)
-}
-inline std::string* RelKey::_internal_add_key() {
-  return _impl_.key_.Add();
-}
-inline void RelKey::add_key(const std::string& value) {
-  _impl_.key_.Add()->assign(value);
-  // @@protoc_insertion_point(field_add:remote.RelKey.key)
-}
-inline void RelKey::add_key(std::string&& value) {
-  _impl_.key_.Add(std::move(value));
-  // @@protoc_insertion_point(field_add:remote.RelKey.key)
-}
-inline void RelKey::add_key(const char* value) {
-  GOOGLE_DCHECK(value != nullptr);
-  _impl_.key_.Add()->assign(value);
-  // @@protoc_insertion_point(field_add_char:remote.RelKey.key)
-}
-inline void RelKey::add_key(const void* value, size_t size) {
-  _impl_.key_.Add()->assign(reinterpret_cast<const char*>(value), size);
-  // @@protoc_insertion_point(field_add_pointer:remote.RelKey.key)
-}
-inline const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<std::string>&
-RelKey::key() const {
-  // @@protoc_insertion_point(field_list:remote.RelKey.key)
-  return _impl_.key_;
-}
-inline ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<std::string>*
-RelKey::mutable_key() {
-  // @@protoc_insertion_point(field_mutable_list:remote.RelKey.key)
-  return &_impl_.key_;
-}
-
-// -------------------------------------------------------------------
-
-// ParamMsg
-
-// repeated bytes param = 1;
-inline int ParamMsg::_internal_param_size() const {
-  return _impl_.param_.size();
-}
-inline int ParamMsg::param_size() const {
-  return _internal_param_size();
-}
-inline void ParamMsg::clear_param() {
-  _impl_.param_.Clear();
-}
-inline std::string* ParamMsg::add_param() {
-  std::string* _s = _internal_add_param();
-  // @@protoc_insertion_point(field_add_mutable:remote.ParamMsg.param)
-  return _s;
-}
-inline const std::string& ParamMsg::_internal_param(int index) const {
-  return _impl_.param_.Get(index);
-}
-inline const std::string& ParamMsg::param(int index) const {
-  // @@protoc_insertion_point(field_get:remote.ParamMsg.param)
-  return _internal_param(index);
-}
-inline std::string* ParamMsg::mutable_param(int index) {
-  // @@protoc_insertion_point(field_mutable:remote.ParamMsg.param)
-  return _impl_.param_.Mutable(index);
-}
-inline void ParamMsg::set_param(int index, const std::string& value) {
-  _impl_.param_.Mutable(index)->assign(value);
-  // @@protoc_insertion_point(field_set:remote.ParamMsg.param)
-}
-inline void ParamMsg::set_param(int index, std::string&& value) {
-  _impl_.param_.Mutable(index)->assign(std::move(value));
-  // @@protoc_insertion_point(field_set:remote.ParamMsg.param)
-}
-inline void ParamMsg::set_param(int index, const char* value) {
-  GOOGLE_DCHECK(value != nullptr);
-  _impl_.param_.Mutable(index)->assign(value);
-  // @@protoc_insertion_point(field_set_char:remote.ParamMsg.param)
-}
-inline void ParamMsg::set_param(int index, const void* value, size_t size) {
-  _impl_.param_.Mutable(index)->assign(
-    reinterpret_cast<const char*>(value), size);
-  // @@protoc_insertion_point(field_set_pointer:remote.ParamMsg.param)
-}
-inline std::string* ParamMsg::_internal_add_param() {
-  return _impl_.param_.Add();
-}
-inline void ParamMsg::add_param(const std::string& value) {
-  _impl_.param_.Add()->assign(value);
-  // @@protoc_insertion_point(field_add:remote.ParamMsg.param)
-}
-inline void ParamMsg::add_param(std::string&& value) {
-  _impl_.param_.Add(std::move(value));
-  // @@protoc_insertion_point(field_add:remote.ParamMsg.param)
-}
-inline void ParamMsg::add_param(const char* value) {
-  GOOGLE_DCHECK(value != nullptr);
-  _impl_.param_.Add()->assign(value);
-  // @@protoc_insertion_point(field_add_char:remote.ParamMsg.param)
-}
-inline void ParamMsg::add_param(const void* value, size_t size) {
-  _impl_.param_.Add()->assign(reinterpret_cast<const char*>(value), size);
-  // @@protoc_insertion_point(field_add_pointer:remote.ParamMsg.param)
-}
-inline const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<std::string>&
-ParamMsg::param() const {
-  // @@protoc_insertion_point(field_list:remote.ParamMsg.param)
-  return _impl_.param_;
-}
-inline ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<std::string>*
-ParamMsg::mutable_param() {
-  // @@protoc_insertion_point(field_mutable_list:remote.ParamMsg.param)
-  return &_impl_.param_;
-}
-
-// -------------------------------------------------------------------
-
 // AgreementRep
 
-// .remote.PubKey pub = 1;
-inline bool AgreementRep::_internal_has_pub() const {
-  return this != internal_default_instance() && _impl_.pub_ != nullptr;
-}
-inline bool AgreementRep::has_pub() const {
-  return _internal_has_pub();
-}
+// bytes pub = 1;
 inline void AgreementRep::clear_pub() {
-  if (GetArenaForAllocation() == nullptr && _impl_.pub_ != nullptr) {
-    delete _impl_.pub_;
-  }
-  _impl_.pub_ = nullptr;
+  _impl_.pub_.ClearToEmpty();
 }
-inline const ::remote::PubKey& AgreementRep::_internal_pub() const {
-  const ::remote::PubKey* p = _impl_.pub_;
-  return p != nullptr ? *p : reinterpret_cast<const ::remote::PubKey&>(
-      ::remote::_PubKey_default_instance_);
-}
-inline const ::remote::PubKey& AgreementRep::pub() const {
+inline const std::string& AgreementRep::pub() const {
   // @@protoc_insertion_point(field_get:remote.AgreementRep.pub)
   return _internal_pub();
 }
-inline void AgreementRep::unsafe_arena_set_allocated_pub(
-    ::remote::PubKey* pub) {
-  if (GetArenaForAllocation() == nullptr) {
-    delete reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(_impl_.pub_);
-  }
-  _impl_.pub_ = pub;
-  if (pub) {
-    
-  } else {
-    
-  }
-  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:remote.AgreementRep.pub)
+template <typename ArgT0, typename... ArgT>
+inline PROTOBUF_ALWAYS_INLINE
+void AgreementRep::set_pub(ArgT0&& arg0, ArgT... args) {
+ 
+ _impl_.pub_.SetBytes(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:remote.AgreementRep.pub)
 }
-inline ::remote::PubKey* AgreementRep::release_pub() {
-  
-  ::remote::PubKey* temp = _impl_.pub_;
-  _impl_.pub_ = nullptr;
-#ifdef PROTOBUF_FORCE_COPY_IN_RELEASE
-  auto* old =  reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(temp);
-  temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
-  if (GetArenaForAllocation() == nullptr) { delete old; }
-#else  // PROTOBUF_FORCE_COPY_IN_RELEASE
-  if (GetArenaForAllocation() != nullptr) {
-    temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
-  }
-#endif  // !PROTOBUF_FORCE_COPY_IN_RELEASE
-  return temp;
-}
-inline ::remote::PubKey* AgreementRep::unsafe_arena_release_pub() {
-  // @@protoc_insertion_point(field_release:remote.AgreementRep.pub)
-  
-  ::remote::PubKey* temp = _impl_.pub_;
-  _impl_.pub_ = nullptr;
-  return temp;
-}
-inline ::remote::PubKey* AgreementRep::_internal_mutable_pub() {
-  
-  if (_impl_.pub_ == nullptr) {
-    auto* p = CreateMaybeMessage<::remote::PubKey>(GetArenaForAllocation());
-    _impl_.pub_ = p;
-  }
-  return _impl_.pub_;
-}
-inline ::remote::PubKey* AgreementRep::mutable_pub() {
-  ::remote::PubKey* _msg = _internal_mutable_pub();
+inline std::string* AgreementRep::mutable_pub() {
+  std::string* _s = _internal_mutable_pub();
   // @@protoc_insertion_point(field_mutable:remote.AgreementRep.pub)
-  return _msg;
+  return _s;
 }
-inline void AgreementRep::set_allocated_pub(::remote::PubKey* pub) {
-  ::PROTOBUF_NAMESPACE_ID::Arena* message_arena = GetArenaForAllocation();
-  if (message_arena == nullptr) {
-    delete _impl_.pub_;
-  }
-  if (pub) {
-    ::PROTOBUF_NAMESPACE_ID::Arena* submessage_arena =
-        ::PROTOBUF_NAMESPACE_ID::Arena::InternalGetOwningArena(pub);
-    if (message_arena != submessage_arena) {
-      pub = ::PROTOBUF_NAMESPACE_ID::internal::GetOwnedMessage(
-          message_arena, pub, submessage_arena);
-    }
+inline const std::string& AgreementRep::_internal_pub() const {
+  return _impl_.pub_.Get();
+}
+inline void AgreementRep::_internal_set_pub(const std::string& value) {
+  
+  _impl_.pub_.Set(value, GetArenaForAllocation());
+}
+inline std::string* AgreementRep::_internal_mutable_pub() {
+  
+  return _impl_.pub_.Mutable(GetArenaForAllocation());
+}
+inline std::string* AgreementRep::release_pub() {
+  // @@protoc_insertion_point(field_release:remote.AgreementRep.pub)
+  return _impl_.pub_.Release();
+}
+inline void AgreementRep::set_allocated_pub(std::string* pub) {
+  if (pub != nullptr) {
     
   } else {
     
   }
-  _impl_.pub_ = pub;
+  _impl_.pub_.SetAllocated(pub, GetArenaForAllocation());
+#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (_impl_.pub_.IsDefault()) {
+    _impl_.pub_.Set("", GetArenaForAllocation());
+  }
+#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
   // @@protoc_insertion_point(field_set_allocated:remote.AgreementRep.pub)
 }
 
-// .remote.RelKey rel = 2;
-inline bool AgreementRep::_internal_has_rel() const {
-  return this != internal_default_instance() && _impl_.rel_ != nullptr;
-}
-inline bool AgreementRep::has_rel() const {
-  return _internal_has_rel();
-}
+// bytes rel = 2;
 inline void AgreementRep::clear_rel() {
-  if (GetArenaForAllocation() == nullptr && _impl_.rel_ != nullptr) {
-    delete _impl_.rel_;
-  }
-  _impl_.rel_ = nullptr;
+  _impl_.rel_.ClearToEmpty();
 }
-inline const ::remote::RelKey& AgreementRep::_internal_rel() const {
-  const ::remote::RelKey* p = _impl_.rel_;
-  return p != nullptr ? *p : reinterpret_cast<const ::remote::RelKey&>(
-      ::remote::_RelKey_default_instance_);
-}
-inline const ::remote::RelKey& AgreementRep::rel() const {
+inline const std::string& AgreementRep::rel() const {
   // @@protoc_insertion_point(field_get:remote.AgreementRep.rel)
   return _internal_rel();
 }
-inline void AgreementRep::unsafe_arena_set_allocated_rel(
-    ::remote::RelKey* rel) {
-  if (GetArenaForAllocation() == nullptr) {
-    delete reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(_impl_.rel_);
-  }
-  _impl_.rel_ = rel;
-  if (rel) {
-    
-  } else {
-    
-  }
-  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:remote.AgreementRep.rel)
+template <typename ArgT0, typename... ArgT>
+inline PROTOBUF_ALWAYS_INLINE
+void AgreementRep::set_rel(ArgT0&& arg0, ArgT... args) {
+ 
+ _impl_.rel_.SetBytes(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:remote.AgreementRep.rel)
 }
-inline ::remote::RelKey* AgreementRep::release_rel() {
-  
-  ::remote::RelKey* temp = _impl_.rel_;
-  _impl_.rel_ = nullptr;
-#ifdef PROTOBUF_FORCE_COPY_IN_RELEASE
-  auto* old =  reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(temp);
-  temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
-  if (GetArenaForAllocation() == nullptr) { delete old; }
-#else  // PROTOBUF_FORCE_COPY_IN_RELEASE
-  if (GetArenaForAllocation() != nullptr) {
-    temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
-  }
-#endif  // !PROTOBUF_FORCE_COPY_IN_RELEASE
-  return temp;
-}
-inline ::remote::RelKey* AgreementRep::unsafe_arena_release_rel() {
-  // @@protoc_insertion_point(field_release:remote.AgreementRep.rel)
-  
-  ::remote::RelKey* temp = _impl_.rel_;
-  _impl_.rel_ = nullptr;
-  return temp;
-}
-inline ::remote::RelKey* AgreementRep::_internal_mutable_rel() {
-  
-  if (_impl_.rel_ == nullptr) {
-    auto* p = CreateMaybeMessage<::remote::RelKey>(GetArenaForAllocation());
-    _impl_.rel_ = p;
-  }
-  return _impl_.rel_;
-}
-inline ::remote::RelKey* AgreementRep::mutable_rel() {
-  ::remote::RelKey* _msg = _internal_mutable_rel();
+inline std::string* AgreementRep::mutable_rel() {
+  std::string* _s = _internal_mutable_rel();
   // @@protoc_insertion_point(field_mutable:remote.AgreementRep.rel)
-  return _msg;
+  return _s;
 }
-inline void AgreementRep::set_allocated_rel(::remote::RelKey* rel) {
-  ::PROTOBUF_NAMESPACE_ID::Arena* message_arena = GetArenaForAllocation();
-  if (message_arena == nullptr) {
-    delete _impl_.rel_;
-  }
-  if (rel) {
-    ::PROTOBUF_NAMESPACE_ID::Arena* submessage_arena =
-        ::PROTOBUF_NAMESPACE_ID::Arena::InternalGetOwningArena(rel);
-    if (message_arena != submessage_arena) {
-      rel = ::PROTOBUF_NAMESPACE_ID::internal::GetOwnedMessage(
-          message_arena, rel, submessage_arena);
-    }
+inline const std::string& AgreementRep::_internal_rel() const {
+  return _impl_.rel_.Get();
+}
+inline void AgreementRep::_internal_set_rel(const std::string& value) {
+  
+  _impl_.rel_.Set(value, GetArenaForAllocation());
+}
+inline std::string* AgreementRep::_internal_mutable_rel() {
+  
+  return _impl_.rel_.Mutable(GetArenaForAllocation());
+}
+inline std::string* AgreementRep::release_rel() {
+  // @@protoc_insertion_point(field_release:remote.AgreementRep.rel)
+  return _impl_.rel_.Release();
+}
+inline void AgreementRep::set_allocated_rel(std::string* rel) {
+  if (rel != nullptr) {
     
   } else {
     
   }
-  _impl_.rel_ = rel;
+  _impl_.rel_.SetAllocated(rel, GetArenaForAllocation());
+#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (_impl_.rel_.IsDefault()) {
+    _impl_.rel_.Set("", GetArenaForAllocation());
+  }
+#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
   // @@protoc_insertion_point(field_set_allocated:remote.AgreementRep.rel)
 }
 
-// .remote.ParamMsg par = 3;
-inline bool AgreementRep::_internal_has_par() const {
-  return this != internal_default_instance() && _impl_.par_ != nullptr;
-}
-inline bool AgreementRep::has_par() const {
-  return _internal_has_par();
-}
+// bytes par = 3;
 inline void AgreementRep::clear_par() {
-  if (GetArenaForAllocation() == nullptr && _impl_.par_ != nullptr) {
-    delete _impl_.par_;
-  }
-  _impl_.par_ = nullptr;
+  _impl_.par_.ClearToEmpty();
 }
-inline const ::remote::ParamMsg& AgreementRep::_internal_par() const {
-  const ::remote::ParamMsg* p = _impl_.par_;
-  return p != nullptr ? *p : reinterpret_cast<const ::remote::ParamMsg&>(
-      ::remote::_ParamMsg_default_instance_);
-}
-inline const ::remote::ParamMsg& AgreementRep::par() const {
+inline const std::string& AgreementRep::par() const {
   // @@protoc_insertion_point(field_get:remote.AgreementRep.par)
   return _internal_par();
 }
-inline void AgreementRep::unsafe_arena_set_allocated_par(
-    ::remote::ParamMsg* par) {
-  if (GetArenaForAllocation() == nullptr) {
-    delete reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(_impl_.par_);
-  }
-  _impl_.par_ = par;
-  if (par) {
-    
-  } else {
-    
-  }
-  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:remote.AgreementRep.par)
+template <typename ArgT0, typename... ArgT>
+inline PROTOBUF_ALWAYS_INLINE
+void AgreementRep::set_par(ArgT0&& arg0, ArgT... args) {
+ 
+ _impl_.par_.SetBytes(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:remote.AgreementRep.par)
 }
-inline ::remote::ParamMsg* AgreementRep::release_par() {
-  
-  ::remote::ParamMsg* temp = _impl_.par_;
-  _impl_.par_ = nullptr;
-#ifdef PROTOBUF_FORCE_COPY_IN_RELEASE
-  auto* old =  reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(temp);
-  temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
-  if (GetArenaForAllocation() == nullptr) { delete old; }
-#else  // PROTOBUF_FORCE_COPY_IN_RELEASE
-  if (GetArenaForAllocation() != nullptr) {
-    temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
-  }
-#endif  // !PROTOBUF_FORCE_COPY_IN_RELEASE
-  return temp;
-}
-inline ::remote::ParamMsg* AgreementRep::unsafe_arena_release_par() {
-  // @@protoc_insertion_point(field_release:remote.AgreementRep.par)
-  
-  ::remote::ParamMsg* temp = _impl_.par_;
-  _impl_.par_ = nullptr;
-  return temp;
-}
-inline ::remote::ParamMsg* AgreementRep::_internal_mutable_par() {
-  
-  if (_impl_.par_ == nullptr) {
-    auto* p = CreateMaybeMessage<::remote::ParamMsg>(GetArenaForAllocation());
-    _impl_.par_ = p;
-  }
-  return _impl_.par_;
-}
-inline ::remote::ParamMsg* AgreementRep::mutable_par() {
-  ::remote::ParamMsg* _msg = _internal_mutable_par();
+inline std::string* AgreementRep::mutable_par() {
+  std::string* _s = _internal_mutable_par();
   // @@protoc_insertion_point(field_mutable:remote.AgreementRep.par)
-  return _msg;
+  return _s;
 }
-inline void AgreementRep::set_allocated_par(::remote::ParamMsg* par) {
-  ::PROTOBUF_NAMESPACE_ID::Arena* message_arena = GetArenaForAllocation();
-  if (message_arena == nullptr) {
-    delete _impl_.par_;
-  }
-  if (par) {
-    ::PROTOBUF_NAMESPACE_ID::Arena* submessage_arena =
-        ::PROTOBUF_NAMESPACE_ID::Arena::InternalGetOwningArena(par);
-    if (message_arena != submessage_arena) {
-      par = ::PROTOBUF_NAMESPACE_ID::internal::GetOwnedMessage(
-          message_arena, par, submessage_arena);
-    }
+inline const std::string& AgreementRep::_internal_par() const {
+  return _impl_.par_.Get();
+}
+inline void AgreementRep::_internal_set_par(const std::string& value) {
+  
+  _impl_.par_.Set(value, GetArenaForAllocation());
+}
+inline std::string* AgreementRep::_internal_mutable_par() {
+  
+  return _impl_.par_.Mutable(GetArenaForAllocation());
+}
+inline std::string* AgreementRep::release_par() {
+  // @@protoc_insertion_point(field_release:remote.AgreementRep.par)
+  return _impl_.par_.Release();
+}
+inline void AgreementRep::set_allocated_par(std::string* par) {
+  if (par != nullptr) {
     
   } else {
     
   }
-  _impl_.par_ = par;
+  _impl_.par_.SetAllocated(par, GetArenaForAllocation());
+#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (_impl_.par_.IsDefault()) {
+    _impl_.par_.Set("", GetArenaForAllocation());
+  }
+#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
   // @@protoc_insertion_point(field_set_allocated:remote.AgreementRep.par)
 }
 
