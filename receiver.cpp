@@ -8,6 +8,7 @@
 
 #include "seal/seal.h"
 #include "rpcProto/services.grpc.pb.h"
+#include "utils.h"
 
 using namespace grpc;
 using namespace remote;
@@ -26,7 +27,7 @@ class PSIFunctionsServiceImpl final : public PSIFunctions::Service {
 
         // setup modulus degrees
         size_t poly_modulus = static_cast<size_t>(request->poly_modulus_degree());
-        int plain_modulus = static_cast<int>(request->plain_modulus());
+        auto plain_modulus = request->plain_modulus();
 
         cout << "Poly modulus degree: "+ to_string(poly_modulus)+"\nPlain  modulus degree: "+ to_string(plain_modulus) << endl;
 
@@ -36,7 +37,7 @@ class PSIFunctionsServiceImpl final : public PSIFunctions::Service {
         string private_key_file_name = agreement_name+"_priv.key";
         string rel_key_file_name = agreement_name+"_rel.key";
 
-        cout << "generating context" << endl;
+        cout << "Generating context..." << endl;
         // generate params
         EncryptionParameters parms(scheme_type::bfv);
         parms.set_poly_modulus_degree(poly_modulus);
@@ -49,7 +50,7 @@ class PSIFunctionsServiceImpl final : public PSIFunctions::Service {
 
 
         // generate keys
-        cout << "Generating keys" <<endl;
+        cout << "Generating keys..." <<endl;
         KeyGenerator keygen(agreement_context);
         SecretKey private_key = keygen.secret_key();
         PublicKey public_key;
@@ -75,7 +76,7 @@ class PSIFunctionsServiceImpl final : public PSIFunctions::Service {
             return Status(StatusCode::ABORTED, "Error opening key files");
         }
 
-        cout << "Saving private key file" << endl;
+        cout << "Saving private key file..." << endl;
         // save private key file
         private_key.save(private_key_file);
         private_key_file.close();
@@ -89,13 +90,13 @@ class PSIFunctionsServiceImpl final : public PSIFunctions::Service {
         public_key.save(pub_stream);
         relin_keys.save(rel_stream);
 
-        cout << "Saving params, rel and pub keys files"<<endl;
+        cout << "Saving params, rel and pub keys files..."<<endl;
         // save files
         parms.save(params_file);
         public_key.save(public_key_file);
         relin_keys.save(rel_key_file);
 
-        cout << "Populating the reply" << endl;
+        cout << "Populating the reply..." << endl;
 
         // save values in protobuf
         reply->set_par(param_stream.str());
@@ -111,13 +112,91 @@ class PSIFunctionsServiceImpl final : public PSIFunctions::Service {
         shutdown_mutex.unlock();
         return Status::OK;
     }
+
+    Status encrypt(ServerContext* context, const remote::EncryptReq* request,
+                   EncryptRep* reply) override {
+        string agreement_name = request->agreement_name();
+        string file_to_encrypt = request->file_to_encrypt();
+        cout << "Encrypt invoked! Agreement name: "+agreement_name+". File to encrypt: "+ file_to_encrypt << endl;
+
+        // reloading key and params
+        ifstream pub_key_stream;
+        ifstream param_stream;
+
+        cout << "Reloading context from parameters file: ";
+
+        // params and context regeneration
+        param_stream.open(agreement_name+"_par.par");
+        cout << agreement_name+"_par.par" << endl;
+        if(!param_stream.is_open()){
+            cerr << "Error opening params file" << endl;
+            shutdown_mutex.unlock();
+            return Status(StatusCode::ABORTED, "Error opening params file");
+        }
+        EncryptionParameters parms(scheme_type::bfv);
+        parms.load(param_stream);
+        SEALContext agreement_context(parms);
+
+        param_stream.close();
+
+        cout << "Reloading public key" << endl;
+
+        // public key
+        pub_key_stream.open(agreement_name+"_pub.key");
+        if(!pub_key_stream.is_open()){
+            cerr << "Error opening public key file" << endl;
+            shutdown_mutex.unlock();
+            return Status(StatusCode::ABORTED, "Error opening public key file");
+        }
+
+        PublicKey pub_key;
+        pub_key.load(agreement_context, pub_key_stream);
+        pub_key_stream.close();
+
+        cout << "Reading plaintext from file..." << endl;
+
+        // read the file to encrypt
+        vector<string> rows = read_file(file_to_encrypt);
+        if(rows.empty()){
+            cerr << "Error opening file to encrypt or the file is empty" << endl;
+            cout << "Error opening file to encrypt or the file is empty" << endl;
+            shutdown_mutex.unlock();
+            return Status(StatusCode::ABORTED, "Error opening file to encrypt or the file is empty");
+        }
+
+
+        // encryption
+        Encryptor encryptor(agreement_context, pub_key);
+        Ciphertext cp;
+        cout << "Starting the encryption" << endl;
+        int size = (int)rows.size();
+        for (int i=0; i < size; i++){
+
+            string row = rows[i];
+
+            // SEAL needs hex value
+            string hex_row = string_to_hex_string(row);
+            Plaintext plain(hex_row);
+            encryptor.encrypt(plain, cp);
+
+            //Serialize in the protocol buffer
+            stringstream cipher_stream;
+            cp.save(cipher_stream);
+
+            reply->mutable_ciphertexts()->add_cipher(cipher_stream.str());
+            cout << to_string(i+1) + "/" + to_string(size) + " encrypted" << endl;
+        }
+
+        cout << "Encryption terminated" << endl;
+        shutdown_mutex.unlock();
+        return Status::OK;
+    }
 };
 
 void shutdown(){
     shutdown_mutex.lock();
     server->Shutdown();
 }
-
 
 
 int main() {

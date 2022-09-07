@@ -30,8 +30,8 @@ message EncryptRep {
 // sender request for setup
 message AgreementReq {
   string name = 1;
-  int32 poly_modulus_degree = 2;
-  int32 plain_modulus = 3;
+  int64 poly_modulus_degree = 2;
+  int64 plain_modulus = 3;
 }
 
 // receiver reply for setup
@@ -39,5 +39,4 @@ message AgreementRep {
   bytes pub = 1;
   bytes rel = 2;
   bytes par = 3;
-
 }

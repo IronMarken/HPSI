@@ -700,22 +700,22 @@ class AgreementReq final :
   std::string* _internal_mutable_name();
   public:
 
-  // int32 poly_modulus_degree = 2;
+  // int64 poly_modulus_degree = 2;
   void clear_poly_modulus_degree();
-  int32_t poly_modulus_degree() const;
-  void set_poly_modulus_degree(int32_t value);
+  int64_t poly_modulus_degree() const;
+  void set_poly_modulus_degree(int64_t value);
   private:
-  int32_t _internal_poly_modulus_degree() const;
-  void _internal_set_poly_modulus_degree(int32_t value);
+  int64_t _internal_poly_modulus_degree() const;
+  void _internal_set_poly_modulus_degree(int64_t value);
   public:
 
-  // int32 plain_modulus = 3;
+  // int64 plain_modulus = 3;
   void clear_plain_modulus();
-  int32_t plain_modulus() const;
-  void set_plain_modulus(int32_t value);
+  int64_t plain_modulus() const;
+  void set_plain_modulus(int64_t value);
   private:
-  int32_t _internal_plain_modulus() const;
-  void _internal_set_plain_modulus(int32_t value);
+  int64_t _internal_plain_modulus() const;
+  void _internal_set_plain_modulus(int64_t value);
   public:
 
   // @@protoc_insertion_point(class_scope:remote.AgreementReq)
@@ -727,8 +727,8 @@ class AgreementReq final :
   typedef void DestructorSkippable_;
   struct Impl_ {
     ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr name_;
-    int32_t poly_modulus_degree_;
-    int32_t plain_modulus_;
+    int64_t poly_modulus_degree_;
+    int64_t plain_modulus_;
     mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   };
   union { Impl_ _impl_; };
@@ -1257,42 +1257,42 @@ inline void AgreementReq::set_allocated_name(std::string* name) {
   // @@protoc_insertion_point(field_set_allocated:remote.AgreementReq.name)
 }
 
-// int32 poly_modulus_degree = 2;
+// int64 poly_modulus_degree = 2;
 inline void AgreementReq::clear_poly_modulus_degree() {
-  _impl_.poly_modulus_degree_ = 0;
+  _impl_.poly_modulus_degree_ = int64_t{0};
 }
-inline int32_t AgreementReq::_internal_poly_modulus_degree() const {
+inline int64_t AgreementReq::_internal_poly_modulus_degree() const {
   return _impl_.poly_modulus_degree_;
 }
-inline int32_t AgreementReq::poly_modulus_degree() const {
+inline int64_t AgreementReq::poly_modulus_degree() const {
   // @@protoc_insertion_point(field_get:remote.AgreementReq.poly_modulus_degree)
   return _internal_poly_modulus_degree();
 }
-inline void AgreementReq::_internal_set_poly_modulus_degree(int32_t value) {
+inline void AgreementReq::_internal_set_poly_modulus_degree(int64_t value) {
   
   _impl_.poly_modulus_degree_ = value;
 }
-inline void AgreementReq::set_poly_modulus_degree(int32_t value) {
+inline void AgreementReq::set_poly_modulus_degree(int64_t value) {
   _internal_set_poly_modulus_degree(value);
   // @@protoc_insertion_point(field_set:remote.AgreementReq.poly_modulus_degree)
 }
 
-// int32 plain_modulus = 3;
+// int64 plain_modulus = 3;
 inline void AgreementReq::clear_plain_modulus() {
-  _impl_.plain_modulus_ = 0;
+  _impl_.plain_modulus_ = int64_t{0};
 }
-inline int32_t AgreementReq::_internal_plain_modulus() const {
+inline int64_t AgreementReq::_internal_plain_modulus() const {
   return _impl_.plain_modulus_;
 }
-inline int32_t AgreementReq::plain_modulus() const {
+inline int64_t AgreementReq::plain_modulus() const {
   // @@protoc_insertion_point(field_get:remote.AgreementReq.plain_modulus)
   return _internal_plain_modulus();
 }
-inline void AgreementReq::_internal_set_plain_modulus(int32_t value) {
+inline void AgreementReq::_internal_set_plain_modulus(int64_t value) {
   
   _impl_.plain_modulus_ = value;
 }
-inline void AgreementReq::set_plain_modulus(int32_t value) {
+inline void AgreementReq::set_plain_modulus(int64_t value) {
   _internal_set_plain_modulus(value);
   // @@protoc_insertion_point(field_set:remote.AgreementReq.plain_modulus)
 }

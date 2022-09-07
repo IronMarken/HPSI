@@ -4,8 +4,8 @@ project(HPSI VERSION 1.0)
 set(CMAKE_CXX_FLAGS "-Wall -Werror")
 set(CMAKE_CXX_STANDARD 11)
 
-add_executable(receiver receiver.cpp rpcProto/services.pb.cc rpcProto/services.pb.h rpcProto/services.grpc.pb.cc rpcProto/services.grpc.pb.h)
-add_executable(sender sender.cpp rpcProto/services.pb.cc rpcProto/services.pb.h rpcProto/services.grpc.pb.cc rpcProto/services.grpc.pb.h)
+add_executable(receiver receiver.cpp rpcProto/services.pb.cc rpcProto/services.pb.h rpcProto/services.grpc.pb.cc rpcProto/services.grpc.pb.h utils.h)
+add_executable(sender sender.cpp rpcProto/services.pb.cc rpcProto/services.pb.h rpcProto/services.grpc.pb.cc rpcProto/services.grpc.pb.h utils.h)
 
 
 include(FindProtobuf)

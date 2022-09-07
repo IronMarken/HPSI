@@ -64,8 +64,8 @@ PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORIT
 PROTOBUF_CONSTEXPR AgreementReq::AgreementReq(
     ::_pbi::ConstantInitialized): _impl_{
     /*decltype(_impl_.name_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
-  , /*decltype(_impl_.poly_modulus_degree_)*/0
-  , /*decltype(_impl_.plain_modulus_)*/0
+  , /*decltype(_impl_.poly_modulus_degree_)*/int64_t{0}
+  , /*decltype(_impl_.plain_modulus_)*/int64_t{0}
   , /*decltype(_impl_._cached_size_)*/{}} {}
 struct AgreementReqDefaultTypeInternal {
   PROTOBUF_CONSTEXPR AgreementReqDefaultTypeInternal()
@@ -160,8 +160,8 @@ const char descriptor_table_protodef_services_2eproto[] PROTOBUF_SECTION_VARIABL
   "e\030\002 \001(\t\"\035\n\013Ciphertexts\022\016\n\006cipher\030\001 \003(\014\"6"
   "\n\nEncryptRep\022(\n\013ciphertexts\030\001 \001(\0132\023.remo"
   "te.Ciphertexts\"P\n\014AgreementReq\022\014\n\004name\030\001"
-  " \001(\t\022\033\n\023poly_modulus_degree\030\002 \001(\005\022\025\n\rpla"
-  "in_modulus\030\003 \001(\005\"5\n\014AgreementRep\022\013\n\003pub\030"
+  " \001(\t\022\033\n\023poly_modulus_degree\030\002 \001(\003\022\025\n\rpla"
+  "in_modulus\030\003 \001(\003\"5\n\014AgreementRep\022\013\n\003pub\030"
   "\001 \001(\014\022\013\n\003rel\030\002 \001(\014\022\013\n\003par\030\003 \001(\0142z\n\014PSIFu"
   "nctions\0225\n\005setup\022\024.remote.AgreementReq\032\024"
   ".remote.AgreementRep\"\000\0223\n\007encrypt\022\022.remo"
@@ -858,8 +858,8 @@ inline void AgreementReq::SharedCtor(
   (void)is_message_owned;
   new (&_impl_) Impl_{
       decltype(_impl_.name_){}
-    , decltype(_impl_.poly_modulus_degree_){0}
-    , decltype(_impl_.plain_modulus_){0}
+    , decltype(_impl_.poly_modulus_degree_){int64_t{0}}
+    , decltype(_impl_.plain_modulus_){int64_t{0}}
     , /*decltype(_impl_._cached_size_)*/{}
   };
   _impl_.name_.InitDefault();
@@ -915,18 +915,18 @@ const char* AgreementReq::_InternalParse(const char* ptr, ::_pbi::ParseContext* 
         } else
           goto handle_unusual;
         continue;
-      // int32 poly_modulus_degree = 2;
+      // int64 poly_modulus_degree = 2;
       case 2:
         if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 16)) {
-          _impl_.poly_modulus_degree_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
+          _impl_.poly_modulus_degree_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
           CHK_(ptr);
         } else
           goto handle_unusual;
         continue;
-      // int32 plain_modulus = 3;
+      // int64 plain_modulus = 3;
       case 3:
         if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 24)) {
-          _impl_.plain_modulus_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
+          _impl_.plain_modulus_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
           CHK_(ptr);
         } else
           goto handle_unusual;
@@ -970,16 +970,16 @@ uint8_t* AgreementReq::_InternalSerialize(
         1, this->_internal_name(), target);
   }
 
-  // int32 poly_modulus_degree = 2;
+  // int64 poly_modulus_degree = 2;
   if (this->_internal_poly_modulus_degree() != 0) {
     target = stream->EnsureSpace(target);
-    target = ::_pbi::WireFormatLite::WriteInt32ToArray(2, this->_internal_poly_modulus_degree(), target);
+    target = ::_pbi::WireFormatLite::WriteInt64ToArray(2, this->_internal_poly_modulus_degree(), target);
   }
 
-  // int32 plain_modulus = 3;
+  // int64 plain_modulus = 3;
   if (this->_internal_plain_modulus() != 0) {
     target = stream->EnsureSpace(target);
-    target = ::_pbi::WireFormatLite::WriteInt32ToArray(3, this->_internal_plain_modulus(), target);
+    target = ::_pbi::WireFormatLite::WriteInt64ToArray(3, this->_internal_plain_modulus(), target);
   }
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
@@ -1005,14 +1005,14 @@ size_t AgreementReq::ByteSizeLong() const {
         this->_internal_name());
   }
 
-  // int32 poly_modulus_degree = 2;
+  // int64 poly_modulus_degree = 2;
   if (this->_internal_poly_modulus_degree() != 0) {
-    total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(this->_internal_poly_modulus_degree());
+    total_size += ::_pbi::WireFormatLite::Int64SizePlusOne(this->_internal_poly_modulus_degree());
   }
 
-  // int32 plain_modulus = 3;
+  // int64 plain_modulus = 3;
   if (this->_internal_plain_modulus() != 0) {
-    total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(this->_internal_plain_modulus());
+    total_size += ::_pbi::WireFormatLite::Int64SizePlusOne(this->_internal_plain_modulus());
   }
 
   return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);

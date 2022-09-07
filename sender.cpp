@@ -6,6 +6,7 @@
 
 #include "seal/seal.h"
 #include "rpcProto/services.grpc.pb.h"
+#include "utils.h"
 
 using namespace grpc;
 using namespace remote;
@@ -13,7 +14,7 @@ using namespace seal;
 using namespace std;
 
 
-int setup(string agreement_name, int poly_modulus, int plain_modulus, string port){
+int setup(string agreement_name, long poly_modulus, long plain_modulus, string port){
     cout << "Setup invoked" <<endl;
     cout << "Creating channel " << endl;
 
@@ -22,6 +23,7 @@ int setup(string agreement_name, int poly_modulus, int plain_modulus, string por
     cout << "Creating stub " << endl;
     auto stub = PSIFunctions::NewStub(channel);
     ClientContext context;
+
     // setup request
     AgreementReq request;
     request.set_name(agreement_name);
@@ -56,6 +58,41 @@ int setup(string agreement_name, int poly_modulus, int plain_modulus, string por
     return 0;
 }
 
+int encrypt(string file_name_to_encrypt, string file_ext, string agreement_name, string port){
+    cout << "Encrypt invoked" << endl;
+    cout << "Creating channel " << endl;
+
+    // setup stub and channel
+    auto channel = grpc::CreateChannel("localhost:"+port, grpc::InsecureChannelCredentials());
+    cout << "Creating stub " << endl;
+    auto stub = PSIFunctions::NewStub(channel);
+    ClientContext context;
+
+    // setup request
+    EncryptReq request;
+    request.set_file_to_encrypt(file_name_to_encrypt + "." + file_ext);
+    request.set_agreement_name(agreement_name);
+    EncryptRep reply;
+    cout << "Sending the encrypt request to the receiver" << endl;
+
+    // invoking the encryption
+    Status status = stub->encrypt(&context, request, &reply);
+    if (status.ok()) {
+        cout << "Encrypt invoked successfully!" << endl;
+    } else {
+        cerr << status.error_code() << ": " << status.error_message() << " RPC failed "<<endl;
+        exit(-1);
+    }
+
+    // save reply
+    cout << "Saving ciphertexts" << endl;
+    ofstream cip_file(agreement_name+"_"+file_name_to_encrypt+".ctx");
+    reply.ciphertexts().SerializeToOstream(&cip_file);
+
+    cip_file.close();
+    return 0;
+}
+
 
 
 int main() {
@@ -72,7 +109,11 @@ int main() {
     +---------------------+------------------------------+*/
     string agreement_name = "test";
     auto poly = 8192;
-    auto plain = 1024;
+
+    // manage strings with max len 4
+    long plain = 2147483648;
+    cout << "Plain modulus degree: "+ to_string(plain) << endl;
+
     auto port = "8500";
     setup(agreement_name, poly, plain, port);
     ifstream param_stream;
@@ -96,5 +137,11 @@ int main() {
     rel_keys.load(agreement_context, rel_stream);
     rel_stream.close();
     cout << "rel key loaded correctly" << endl;
+
+
+    // encryption
+    string file_name = "test";
+    string ext = "txt";
+    encrypt(file_name, ext, agreement_name, port);
 
 }
