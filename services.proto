@@ -8,13 +8,11 @@ service PSIFunctions {
   rpc encrypt(EncryptReq) returns (EncryptRep) {}
 }
 
-
-// using additional messages to SerializeToOstream directly
-
 // encryption request with file to encrypt
 message EncryptReq {
   string file_to_encrypt = 1;
-  string agreement_name = 2;
+  string file_ext = 2;
+  string agreement_name = 3;
 }
 
 // ciphertext message

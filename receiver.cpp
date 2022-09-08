@@ -116,42 +116,18 @@ class PSIFunctionsServiceImpl final : public PSIFunctions::Service {
     Status encrypt(ServerContext* context, const remote::EncryptReq* request,
                    EncryptRep* reply) override {
         string agreement_name = request->agreement_name();
-        string file_to_encrypt = request->file_to_encrypt();
+        string file_name = request->file_to_encrypt();
+        string file_ext = request->file_ext();
+        string file_to_encrypt = file_name + "." + file_ext;
+
         cout << "Encrypt invoked! Agreement name: "+agreement_name+". File to encrypt: "+ file_to_encrypt << endl;
-
-        // reloading key and params
-        ifstream pub_key_stream;
-        ifstream param_stream;
-
         cout << "Reloading context from parameters file: ";
 
-        // params and context regeneration
-        param_stream.open(agreement_name+"_par.par");
-        cout << agreement_name+"_par.par" << endl;
-        if(!param_stream.is_open()){
-            cerr << "Error opening params file" << endl;
-            shutdown_mutex.unlock();
-            return Status(StatusCode::ABORTED, "Error opening params file");
-        }
-        EncryptionParameters parms(scheme_type::bfv);
-        parms.load(param_stream);
-        SEALContext agreement_context(parms);
-
-        param_stream.close();
-
+        // context regeneration
+        SEALContext agreement_context = reload_context(agreement_name+"_par.par");
         cout << "Reloading public key" << endl;
-
         // public key
-        pub_key_stream.open(agreement_name+"_pub.key");
-        if(!pub_key_stream.is_open()){
-            cerr << "Error opening public key file" << endl;
-            shutdown_mutex.unlock();
-            return Status(StatusCode::ABORTED, "Error opening public key file");
-        }
-
-        PublicKey pub_key;
-        pub_key.load(agreement_context, pub_key_stream);
-        pub_key_stream.close();
+        PublicKey pub_key = get_public_key(agreement_name+"_pub.key", agreement_context);
 
         cout << "Reading plaintext from file..." << endl;
 
@@ -159,7 +135,6 @@ class PSIFunctionsServiceImpl final : public PSIFunctions::Service {
         vector<string> rows = read_file(file_to_encrypt);
         if(rows.empty()){
             cerr << "Error opening file to encrypt or the file is empty" << endl;
-            cout << "Error opening file to encrypt or the file is empty" << endl;
             shutdown_mutex.unlock();
             return Status(StatusCode::ABORTED, "Error opening file to encrypt or the file is empty");
         }
@@ -188,6 +163,12 @@ class PSIFunctionsServiceImpl final : public PSIFunctions::Service {
         }
 
         cout << "Encryption terminated" << endl;
+
+        // save encrypted file
+        cout << "Saving encrypted file" << endl;
+        ofstream out_file(agreement_name + "_" + file_name + ".ctx");
+        reply->ciphertexts().SerializeToOstream(&out_file);
+
         shutdown_mutex.unlock();
         return Status::OK;
     }

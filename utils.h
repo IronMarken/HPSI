@@ -1,10 +1,11 @@
-#pragma once
-
 #include <iostream>
 #include <fstream>
 #include <string>
 
+#include "seal/seal.h"
+
 using namespace std;
+using namespace seal;
 
 
 // read file content
@@ -61,4 +62,50 @@ inline string hex_to_ascii(string hex)
         ascii += ch;
     }
     return ascii;
+}
+
+// reload context
+inline SEALContext reload_context(string param_file_name){
+    ifstream param_stream;
+    param_stream.open(param_file_name);
+    if(!param_stream.is_open()){
+        cerr << "Error opening params file" << endl;
+        exit(-1);
+    }
+
+    EncryptionParameters parms(scheme_type::bfv);
+    parms.load(param_stream);
+    SEALContext agreement_context(parms);
+    param_stream.close();
+    return agreement_context;
+}
+
+// get public key
+inline PublicKey get_public_key(string pub_key_file_name, SEALContext agreement_context){
+    ifstream pub_key_stream;
+    pub_key_stream.open(pub_key_file_name);
+    if(!pub_key_stream.is_open()){
+        cerr << "Error opening public key file" << endl;
+        exit(-1);
+    }
+
+    PublicKey pub_key;
+    pub_key.load(agreement_context, pub_key_stream);
+    pub_key_stream.close();
+    return pub_key;
+}
+
+// get relin key
+inline RelinKeys get_relin_key(string rel_key_file_name, SEALContext agreement_context){
+    ifstream rel_key_stream;
+    rel_key_stream.open(rel_key_file_name);
+    if(!rel_key_stream.is_open()){
+        cerr << "Error opening rel key file" << endl;
+        exit(-1);
+    }
+
+    RelinKeys rel_key;
+    rel_key.load(agreement_context, rel_key_stream);
+    rel_key_stream.close();
+    return rel_key;
 }

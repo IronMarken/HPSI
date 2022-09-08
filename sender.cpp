@@ -70,7 +70,8 @@ int encrypt(string file_name_to_encrypt, string file_ext, string agreement_name,
 
     // setup request
     EncryptReq request;
-    request.set_file_to_encrypt(file_name_to_encrypt + "." + file_ext);
+    request.set_file_to_encrypt(file_name_to_encrypt);
+    request.set_file_ext(file_ext);
     request.set_agreement_name(agreement_name);
     EncryptRep reply;
     cout << "Sending the encrypt request to the receiver" << endl;
@@ -86,13 +87,12 @@ int encrypt(string file_name_to_encrypt, string file_ext, string agreement_name,
 
     // save reply
     cout << "Saving ciphertexts" << endl;
-    ofstream cip_file(agreement_name+"_"+file_name_to_encrypt+".ctx");
+    ofstream cip_file(agreement_name + "_" + file_name_to_encrypt + ".ctx");
     reply.ciphertexts().SerializeToOstream(&cip_file);
 
     cip_file.close();
     return 0;
 }
-
 
 
 int main() {
@@ -108,15 +108,15 @@ int main() {
     | 32768               | 881                          |
     +---------------------+------------------------------+*/
     string agreement_name = "test";
-    auto poly = 8192;
+    /*auto poly = 8192;
 
     // manage strings with max len 4
     long plain = 2147483648;
-    cout << "Plain modulus degree: "+ to_string(plain) << endl;
+    cout << "Plain modulus degree: "+ to_string(plain) << endl;*/
 
-    auto port = "8500";
-    setup(agreement_name, poly, plain, port);
-    ifstream param_stream;
+    //auto port = "8500";
+    //setup(agreement_name, poly, plain, port);
+    /*ifstream param_stream;
     param_stream.open(agreement_name+"_par.par");
     EncryptionParameters parms(scheme_type::bfv);
     parms.load(param_stream);
@@ -136,12 +136,60 @@ int main() {
     RelinKeys rel_keys;
     rel_keys.load(agreement_context, rel_stream);
     rel_stream.close();
-    cout << "rel key loaded correctly" << endl;
+    cout << "rel key loaded correctly" << endl;*/
+
+    auto agreement_context = reload_context(agreement_name+"_par.par");
+    auto pub_key = get_public_key(agreement_name+"_pub.key", agreement_context);
+    auto rel_keys = get_relin_key(agreement_name+"_rel.key", agreement_context);
 
 
     // encryption
     string file_name = "test";
     string ext = "txt";
-    encrypt(file_name, ext, agreement_name, port);
+    //encrypt(file_name, ext, agreement_name, port);
+
+    // decrypt
+    // decrypt from file
+    string ec_file = agreement_name+"_"+file_name+".ctx";
+    vector<string> rows;
+
+    // use protocol buffer to get ciphertexts
+    Ciphertexts cp_buff = Ciphertexts();
+    ifstream cp_file(ec_file);
+
+    cp_buff.ParseFromIstream(&cp_file);
+    auto cipher = cp_buff.cipher();
+
+
+    rows.reserve(cipher.size());
+    for (int i = 0; i < cipher.size(); i++) {
+        rows.push_back(cipher.Get(i));
+    }
+
+    cout << ec_file << endl;
+
+    ifstream priv_key_stream;
+    priv_key_stream.open(agreement_name+"_priv.key");
+    SecretKey priv_key;
+    priv_key.load(agreement_context, priv_key_stream);
+    priv_key_stream.close();
+    cout << "priv key loaded correctly" << endl;
+    Decryptor decryptor(agreement_context, priv_key);
+
+    stringstream row;
+
+
+    for(int i=0; i< (int)rows.size(); i++){
+        row << rows[i];
+        Ciphertext cp;
+        Plaintext decrypted;
+
+        cp.load(agreement_context, row);
+        decryptor.decrypt(cp, decrypted);
+        string hex_dec = decrypted.to_string();
+        cout << "hex dec " + hex_dec << endl;
+        string str_dec = hex_to_ascii(hex_dec);
+        cout << "ascii_dec " + str_dec << endl;
+    }
 
 }
