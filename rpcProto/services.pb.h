@@ -61,6 +61,12 @@ extern EncryptRepDefaultTypeInternal _EncryptRep_default_instance_;
 class EncryptReq;
 struct EncryptReqDefaultTypeInternal;
 extern EncryptReqDefaultTypeInternal _EncryptReq_default_instance_;
+class ExtractionRep;
+struct ExtractionRepDefaultTypeInternal;
+extern ExtractionRepDefaultTypeInternal _ExtractionRep_default_instance_;
+class ExtractionReq;
+struct ExtractionReqDefaultTypeInternal;
+extern ExtractionReqDefaultTypeInternal _ExtractionReq_default_instance_;
 class IntersectionRep;
 struct IntersectionRepDefaultTypeInternal;
 extern IntersectionRepDefaultTypeInternal _IntersectionRep_default_instance_;
@@ -74,6 +80,8 @@ template<> ::remote::AgreementReq* Arena::CreateMaybeMessage<::remote::Agreement
 template<> ::remote::Ciphertexts* Arena::CreateMaybeMessage<::remote::Ciphertexts>(Arena*);
 template<> ::remote::EncryptRep* Arena::CreateMaybeMessage<::remote::EncryptRep>(Arena*);
 template<> ::remote::EncryptReq* Arena::CreateMaybeMessage<::remote::EncryptReq>(Arena*);
+template<> ::remote::ExtractionRep* Arena::CreateMaybeMessage<::remote::ExtractionRep>(Arena*);
+template<> ::remote::ExtractionReq* Arena::CreateMaybeMessage<::remote::ExtractionReq>(Arena*);
 template<> ::remote::IntersectionRep* Arena::CreateMaybeMessage<::remote::IntersectionRep>(Arena*);
 template<> ::remote::IntersectionReq* Arena::CreateMaybeMessage<::remote::IntersectionReq>(Arena*);
 PROTOBUF_NAMESPACE_CLOSE
@@ -429,6 +437,370 @@ class Ciphertexts final :
 };
 // -------------------------------------------------------------------
 
+class ExtractionReq final :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:remote.ExtractionReq) */ {
+ public:
+  inline ExtractionReq() : ExtractionReq(nullptr) {}
+  ~ExtractionReq() override;
+  explicit PROTOBUF_CONSTEXPR ExtractionReq(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+
+  ExtractionReq(const ExtractionReq& from);
+  ExtractionReq(ExtractionReq&& from) noexcept
+    : ExtractionReq() {
+    *this = ::std::move(from);
+  }
+
+  inline ExtractionReq& operator=(const ExtractionReq& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline ExtractionReq& operator=(ExtractionReq&& from) noexcept {
+    if (this == &from) return *this;
+    if (GetOwningArena() == from.GetOwningArena()
+  #ifdef PROTOBUF_FORCE_COPY_IN_MOVE
+        && GetOwningArena() != nullptr
+  #endif  // !PROTOBUF_FORCE_COPY_IN_MOVE
+    ) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const ExtractionReq& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const ExtractionReq* internal_default_instance() {
+    return reinterpret_cast<const ExtractionReq*>(
+               &_ExtractionReq_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    2;
+
+  friend void swap(ExtractionReq& a, ExtractionReq& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(ExtractionReq* other) {
+    if (other == this) return;
+  #ifdef PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() != nullptr &&
+        GetOwningArena() == other->GetOwningArena()) {
+   #else  // PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() == other->GetOwningArena()) {
+  #endif  // !PROTOBUF_FORCE_COPY_IN_SWAP
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(ExtractionReq* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  ExtractionReq* New(::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
+    return CreateMaybeMessage<ExtractionReq>(arena);
+  }
+  using ::PROTOBUF_NAMESPACE_ID::Message::CopyFrom;
+  void CopyFrom(const ExtractionReq& from);
+  using ::PROTOBUF_NAMESPACE_ID::Message::MergeFrom;
+  void MergeFrom( const ExtractionReq& from) {
+    ExtractionReq::MergeImpl(*this, from);
+  }
+  private:
+  static void MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg);
+  public:
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  uint8_t* _InternalSerialize(
+      uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _impl_._cached_size_.Get(); }
+
+  private:
+  void SharedCtor(::PROTOBUF_NAMESPACE_ID::Arena* arena, bool is_message_owned);
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(ExtractionReq* other);
+
+  private:
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "remote.ExtractionReq";
+  }
+  protected:
+  explicit ExtractionReq(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                       bool is_message_owned = false);
+  public:
+
+  static const ClassData _class_data_;
+  const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*GetClassData() const final;
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kAgreementNameFieldNumber = 1,
+    kComputedFileFieldNumber = 2,
+    kOutputNameFieldNumber = 3,
+    kReceiverFileNameFieldNumber = 4,
+  };
+  // string agreement_name = 1;
+  void clear_agreement_name();
+  const std::string& agreement_name() const;
+  template <typename ArgT0 = const std::string&, typename... ArgT>
+  void set_agreement_name(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_agreement_name();
+  PROTOBUF_NODISCARD std::string* release_agreement_name();
+  void set_allocated_agreement_name(std::string* agreement_name);
+  private:
+  const std::string& _internal_agreement_name() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_agreement_name(const std::string& value);
+  std::string* _internal_mutable_agreement_name();
+  public:
+
+  // string computed_file = 2;
+  void clear_computed_file();
+  const std::string& computed_file() const;
+  template <typename ArgT0 = const std::string&, typename... ArgT>
+  void set_computed_file(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_computed_file();
+  PROTOBUF_NODISCARD std::string* release_computed_file();
+  void set_allocated_computed_file(std::string* computed_file);
+  private:
+  const std::string& _internal_computed_file() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_computed_file(const std::string& value);
+  std::string* _internal_mutable_computed_file();
+  public:
+
+  // string output_name = 3;
+  void clear_output_name();
+  const std::string& output_name() const;
+  template <typename ArgT0 = const std::string&, typename... ArgT>
+  void set_output_name(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_output_name();
+  PROTOBUF_NODISCARD std::string* release_output_name();
+  void set_allocated_output_name(std::string* output_name);
+  private:
+  const std::string& _internal_output_name() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_output_name(const std::string& value);
+  std::string* _internal_mutable_output_name();
+  public:
+
+  // string receiver_file_name = 4;
+  void clear_receiver_file_name();
+  const std::string& receiver_file_name() const;
+  template <typename ArgT0 = const std::string&, typename... ArgT>
+  void set_receiver_file_name(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_receiver_file_name();
+  PROTOBUF_NODISCARD std::string* release_receiver_file_name();
+  void set_allocated_receiver_file_name(std::string* receiver_file_name);
+  private:
+  const std::string& _internal_receiver_file_name() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_receiver_file_name(const std::string& value);
+  std::string* _internal_mutable_receiver_file_name();
+  public:
+
+  // @@protoc_insertion_point(class_scope:remote.ExtractionReq)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  struct Impl_ {
+    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr agreement_name_;
+    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr computed_file_;
+    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr output_name_;
+    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr receiver_file_name_;
+    mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  };
+  union { Impl_ _impl_; };
+  friend struct ::TableStruct_services_2eproto;
+};
+// -------------------------------------------------------------------
+
+class ExtractionRep final :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:remote.ExtractionRep) */ {
+ public:
+  inline ExtractionRep() : ExtractionRep(nullptr) {}
+  ~ExtractionRep() override;
+  explicit PROTOBUF_CONSTEXPR ExtractionRep(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+
+  ExtractionRep(const ExtractionRep& from);
+  ExtractionRep(ExtractionRep&& from) noexcept
+    : ExtractionRep() {
+    *this = ::std::move(from);
+  }
+
+  inline ExtractionRep& operator=(const ExtractionRep& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline ExtractionRep& operator=(ExtractionRep&& from) noexcept {
+    if (this == &from) return *this;
+    if (GetOwningArena() == from.GetOwningArena()
+  #ifdef PROTOBUF_FORCE_COPY_IN_MOVE
+        && GetOwningArena() != nullptr
+  #endif  // !PROTOBUF_FORCE_COPY_IN_MOVE
+    ) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const ExtractionRep& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const ExtractionRep* internal_default_instance() {
+    return reinterpret_cast<const ExtractionRep*>(
+               &_ExtractionRep_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    3;
+
+  friend void swap(ExtractionRep& a, ExtractionRep& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(ExtractionRep* other) {
+    if (other == this) return;
+  #ifdef PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() != nullptr &&
+        GetOwningArena() == other->GetOwningArena()) {
+   #else  // PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() == other->GetOwningArena()) {
+  #endif  // !PROTOBUF_FORCE_COPY_IN_SWAP
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(ExtractionRep* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  ExtractionRep* New(::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
+    return CreateMaybeMessage<ExtractionRep>(arena);
+  }
+  using ::PROTOBUF_NAMESPACE_ID::Message::CopyFrom;
+  void CopyFrom(const ExtractionRep& from);
+  using ::PROTOBUF_NAMESPACE_ID::Message::MergeFrom;
+  void MergeFrom( const ExtractionRep& from) {
+    ExtractionRep::MergeImpl(*this, from);
+  }
+  private:
+  static void MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg);
+  public:
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  uint8_t* _InternalSerialize(
+      uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _impl_._cached_size_.Get(); }
+
+  private:
+  void SharedCtor(::PROTOBUF_NAMESPACE_ID::Arena* arena, bool is_message_owned);
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(ExtractionRep* other);
+
+  private:
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "remote.ExtractionRep";
+  }
+  protected:
+  explicit ExtractionRep(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                       bool is_message_owned = false);
+  public:
+
+  static const ClassData _class_data_;
+  const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*GetClassData() const final;
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kResultFieldNumber = 1,
+  };
+  // repeated string result = 1;
+  int result_size() const;
+  private:
+  int _internal_result_size() const;
+  public:
+  void clear_result();
+  const std::string& result(int index) const;
+  std::string* mutable_result(int index);
+  void set_result(int index, const std::string& value);
+  void set_result(int index, std::string&& value);
+  void set_result(int index, const char* value);
+  void set_result(int index, const char* value, size_t size);
+  std::string* add_result();
+  void add_result(const std::string& value);
+  void add_result(std::string&& value);
+  void add_result(const char* value);
+  void add_result(const char* value, size_t size);
+  const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<std::string>& result() const;
+  ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<std::string>* mutable_result();
+  private:
+  const std::string& _internal_result(int index) const;
+  std::string* _internal_add_result();
+  public:
+
+  // @@protoc_insertion_point(class_scope:remote.ExtractionRep)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  struct Impl_ {
+    ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<std::string> result_;
+    mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  };
+  union { Impl_ _impl_; };
+  friend struct ::TableStruct_services_2eproto;
+};
+// -------------------------------------------------------------------
+
 class EncryptRep final :
     public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:remote.EncryptRep) */ {
  public:
@@ -477,7 +849,7 @@ class EncryptRep final :
                &_EncryptRep_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    2;
+    4;
 
   friend void swap(EncryptRep& a, EncryptRep& b) {
     a.Swap(&b);
@@ -634,7 +1006,7 @@ class IntersectionReq final :
                &_IntersectionReq_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    3;
+    5;
 
   friend void swap(IntersectionReq& a, IntersectionReq& b) {
     a.Swap(&b);
@@ -806,7 +1178,7 @@ class IntersectionRep final :
                &_IntersectionRep_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    4;
+    6;
 
   friend void swap(IntersectionRep& a, IntersectionRep& b) {
     a.Swap(&b);
@@ -925,7 +1297,7 @@ class AgreementReq final :
                &_AgreementReq_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    5;
+    7;
 
   friend void swap(AgreementReq& a, AgreementReq& b) {
     a.Swap(&b);
@@ -1100,7 +1472,7 @@ class AgreementRep final :
                &_AgreementRep_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    6;
+    8;
 
   friend void swap(AgreementRep& a, AgreementRep& b) {
     a.Swap(&b);
@@ -1473,6 +1845,289 @@ inline ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<std::string>*
 Ciphertexts::mutable_cipher() {
   // @@protoc_insertion_point(field_mutable_list:remote.Ciphertexts.cipher)
   return &_impl_.cipher_;
+}
+
+// -------------------------------------------------------------------
+
+// ExtractionReq
+
+// string agreement_name = 1;
+inline void ExtractionReq::clear_agreement_name() {
+  _impl_.agreement_name_.ClearToEmpty();
+}
+inline const std::string& ExtractionReq::agreement_name() const {
+  // @@protoc_insertion_point(field_get:remote.ExtractionReq.agreement_name)
+  return _internal_agreement_name();
+}
+template <typename ArgT0, typename... ArgT>
+inline PROTOBUF_ALWAYS_INLINE
+void ExtractionReq::set_agreement_name(ArgT0&& arg0, ArgT... args) {
+ 
+ _impl_.agreement_name_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:remote.ExtractionReq.agreement_name)
+}
+inline std::string* ExtractionReq::mutable_agreement_name() {
+  std::string* _s = _internal_mutable_agreement_name();
+  // @@protoc_insertion_point(field_mutable:remote.ExtractionReq.agreement_name)
+  return _s;
+}
+inline const std::string& ExtractionReq::_internal_agreement_name() const {
+  return _impl_.agreement_name_.Get();
+}
+inline void ExtractionReq::_internal_set_agreement_name(const std::string& value) {
+  
+  _impl_.agreement_name_.Set(value, GetArenaForAllocation());
+}
+inline std::string* ExtractionReq::_internal_mutable_agreement_name() {
+  
+  return _impl_.agreement_name_.Mutable(GetArenaForAllocation());
+}
+inline std::string* ExtractionReq::release_agreement_name() {
+  // @@protoc_insertion_point(field_release:remote.ExtractionReq.agreement_name)
+  return _impl_.agreement_name_.Release();
+}
+inline void ExtractionReq::set_allocated_agreement_name(std::string* agreement_name) {
+  if (agreement_name != nullptr) {
+    
+  } else {
+    
+  }
+  _impl_.agreement_name_.SetAllocated(agreement_name, GetArenaForAllocation());
+#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (_impl_.agreement_name_.IsDefault()) {
+    _impl_.agreement_name_.Set("", GetArenaForAllocation());
+  }
+#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  // @@protoc_insertion_point(field_set_allocated:remote.ExtractionReq.agreement_name)
+}
+
+// string computed_file = 2;
+inline void ExtractionReq::clear_computed_file() {
+  _impl_.computed_file_.ClearToEmpty();
+}
+inline const std::string& ExtractionReq::computed_file() const {
+  // @@protoc_insertion_point(field_get:remote.ExtractionReq.computed_file)
+  return _internal_computed_file();
+}
+template <typename ArgT0, typename... ArgT>
+inline PROTOBUF_ALWAYS_INLINE
+void ExtractionReq::set_computed_file(ArgT0&& arg0, ArgT... args) {
+ 
+ _impl_.computed_file_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:remote.ExtractionReq.computed_file)
+}
+inline std::string* ExtractionReq::mutable_computed_file() {
+  std::string* _s = _internal_mutable_computed_file();
+  // @@protoc_insertion_point(field_mutable:remote.ExtractionReq.computed_file)
+  return _s;
+}
+inline const std::string& ExtractionReq::_internal_computed_file() const {
+  return _impl_.computed_file_.Get();
+}
+inline void ExtractionReq::_internal_set_computed_file(const std::string& value) {
+  
+  _impl_.computed_file_.Set(value, GetArenaForAllocation());
+}
+inline std::string* ExtractionReq::_internal_mutable_computed_file() {
+  
+  return _impl_.computed_file_.Mutable(GetArenaForAllocation());
+}
+inline std::string* ExtractionReq::release_computed_file() {
+  // @@protoc_insertion_point(field_release:remote.ExtractionReq.computed_file)
+  return _impl_.computed_file_.Release();
+}
+inline void ExtractionReq::set_allocated_computed_file(std::string* computed_file) {
+  if (computed_file != nullptr) {
+    
+  } else {
+    
+  }
+  _impl_.computed_file_.SetAllocated(computed_file, GetArenaForAllocation());
+#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (_impl_.computed_file_.IsDefault()) {
+    _impl_.computed_file_.Set("", GetArenaForAllocation());
+  }
+#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  // @@protoc_insertion_point(field_set_allocated:remote.ExtractionReq.computed_file)
+}
+
+// string output_name = 3;
+inline void ExtractionReq::clear_output_name() {
+  _impl_.output_name_.ClearToEmpty();
+}
+inline const std::string& ExtractionReq::output_name() const {
+  // @@protoc_insertion_point(field_get:remote.ExtractionReq.output_name)
+  return _internal_output_name();
+}
+template <typename ArgT0, typename... ArgT>
+inline PROTOBUF_ALWAYS_INLINE
+void ExtractionReq::set_output_name(ArgT0&& arg0, ArgT... args) {
+ 
+ _impl_.output_name_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:remote.ExtractionReq.output_name)
+}
+inline std::string* ExtractionReq::mutable_output_name() {
+  std::string* _s = _internal_mutable_output_name();
+  // @@protoc_insertion_point(field_mutable:remote.ExtractionReq.output_name)
+  return _s;
+}
+inline const std::string& ExtractionReq::_internal_output_name() const {
+  return _impl_.output_name_.Get();
+}
+inline void ExtractionReq::_internal_set_output_name(const std::string& value) {
+  
+  _impl_.output_name_.Set(value, GetArenaForAllocation());
+}
+inline std::string* ExtractionReq::_internal_mutable_output_name() {
+  
+  return _impl_.output_name_.Mutable(GetArenaForAllocation());
+}
+inline std::string* ExtractionReq::release_output_name() {
+  // @@protoc_insertion_point(field_release:remote.ExtractionReq.output_name)
+  return _impl_.output_name_.Release();
+}
+inline void ExtractionReq::set_allocated_output_name(std::string* output_name) {
+  if (output_name != nullptr) {
+    
+  } else {
+    
+  }
+  _impl_.output_name_.SetAllocated(output_name, GetArenaForAllocation());
+#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (_impl_.output_name_.IsDefault()) {
+    _impl_.output_name_.Set("", GetArenaForAllocation());
+  }
+#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  // @@protoc_insertion_point(field_set_allocated:remote.ExtractionReq.output_name)
+}
+
+// string receiver_file_name = 4;
+inline void ExtractionReq::clear_receiver_file_name() {
+  _impl_.receiver_file_name_.ClearToEmpty();
+}
+inline const std::string& ExtractionReq::receiver_file_name() const {
+  // @@protoc_insertion_point(field_get:remote.ExtractionReq.receiver_file_name)
+  return _internal_receiver_file_name();
+}
+template <typename ArgT0, typename... ArgT>
+inline PROTOBUF_ALWAYS_INLINE
+void ExtractionReq::set_receiver_file_name(ArgT0&& arg0, ArgT... args) {
+ 
+ _impl_.receiver_file_name_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:remote.ExtractionReq.receiver_file_name)
+}
+inline std::string* ExtractionReq::mutable_receiver_file_name() {
+  std::string* _s = _internal_mutable_receiver_file_name();
+  // @@protoc_insertion_point(field_mutable:remote.ExtractionReq.receiver_file_name)
+  return _s;
+}
+inline const std::string& ExtractionReq::_internal_receiver_file_name() const {
+  return _impl_.receiver_file_name_.Get();
+}
+inline void ExtractionReq::_internal_set_receiver_file_name(const std::string& value) {
+  
+  _impl_.receiver_file_name_.Set(value, GetArenaForAllocation());
+}
+inline std::string* ExtractionReq::_internal_mutable_receiver_file_name() {
+  
+  return _impl_.receiver_file_name_.Mutable(GetArenaForAllocation());
+}
+inline std::string* ExtractionReq::release_receiver_file_name() {
+  // @@protoc_insertion_point(field_release:remote.ExtractionReq.receiver_file_name)
+  return _impl_.receiver_file_name_.Release();
+}
+inline void ExtractionReq::set_allocated_receiver_file_name(std::string* receiver_file_name) {
+  if (receiver_file_name != nullptr) {
+    
+  } else {
+    
+  }
+  _impl_.receiver_file_name_.SetAllocated(receiver_file_name, GetArenaForAllocation());
+#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (_impl_.receiver_file_name_.IsDefault()) {
+    _impl_.receiver_file_name_.Set("", GetArenaForAllocation());
+  }
+#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  // @@protoc_insertion_point(field_set_allocated:remote.ExtractionReq.receiver_file_name)
+}
+
+// -------------------------------------------------------------------
+
+// ExtractionRep
+
+// repeated string result = 1;
+inline int ExtractionRep::_internal_result_size() const {
+  return _impl_.result_.size();
+}
+inline int ExtractionRep::result_size() const {
+  return _internal_result_size();
+}
+inline void ExtractionRep::clear_result() {
+  _impl_.result_.Clear();
+}
+inline std::string* ExtractionRep::add_result() {
+  std::string* _s = _internal_add_result();
+  // @@protoc_insertion_point(field_add_mutable:remote.ExtractionRep.result)
+  return _s;
+}
+inline const std::string& ExtractionRep::_internal_result(int index) const {
+  return _impl_.result_.Get(index);
+}
+inline const std::string& ExtractionRep::result(int index) const {
+  // @@protoc_insertion_point(field_get:remote.ExtractionRep.result)
+  return _internal_result(index);
+}
+inline std::string* ExtractionRep::mutable_result(int index) {
+  // @@protoc_insertion_point(field_mutable:remote.ExtractionRep.result)
+  return _impl_.result_.Mutable(index);
+}
+inline void ExtractionRep::set_result(int index, const std::string& value) {
+  _impl_.result_.Mutable(index)->assign(value);
+  // @@protoc_insertion_point(field_set:remote.ExtractionRep.result)
+}
+inline void ExtractionRep::set_result(int index, std::string&& value) {
+  _impl_.result_.Mutable(index)->assign(std::move(value));
+  // @@protoc_insertion_point(field_set:remote.ExtractionRep.result)
+}
+inline void ExtractionRep::set_result(int index, const char* value) {
+  GOOGLE_DCHECK(value != nullptr);
+  _impl_.result_.Mutable(index)->assign(value);
+  // @@protoc_insertion_point(field_set_char:remote.ExtractionRep.result)
+}
+inline void ExtractionRep::set_result(int index, const char* value, size_t size) {
+  _impl_.result_.Mutable(index)->assign(
+    reinterpret_cast<const char*>(value), size);
+  // @@protoc_insertion_point(field_set_pointer:remote.ExtractionRep.result)
+}
+inline std::string* ExtractionRep::_internal_add_result() {
+  return _impl_.result_.Add();
+}
+inline void ExtractionRep::add_result(const std::string& value) {
+  _impl_.result_.Add()->assign(value);
+  // @@protoc_insertion_point(field_add:remote.ExtractionRep.result)
+}
+inline void ExtractionRep::add_result(std::string&& value) {
+  _impl_.result_.Add(std::move(value));
+  // @@protoc_insertion_point(field_add:remote.ExtractionRep.result)
+}
+inline void ExtractionRep::add_result(const char* value) {
+  GOOGLE_DCHECK(value != nullptr);
+  _impl_.result_.Add()->assign(value);
+  // @@protoc_insertion_point(field_add_char:remote.ExtractionRep.result)
+}
+inline void ExtractionRep::add_result(const char* value, size_t size) {
+  _impl_.result_.Add()->assign(reinterpret_cast<const char*>(value), size);
+  // @@protoc_insertion_point(field_add_pointer:remote.ExtractionRep.result)
+}
+inline const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<std::string>&
+ExtractionRep::result() const {
+  // @@protoc_insertion_point(field_list:remote.ExtractionRep.result)
+  return _impl_.result_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<std::string>*
+ExtractionRep::mutable_result() {
+  // @@protoc_insertion_point(field_mutable_list:remote.ExtractionRep.result)
+  return &_impl_.result_;
 }
 
 // -------------------------------------------------------------------
@@ -1968,6 +2623,10 @@ inline void AgreementRep::set_allocated_par(std::string* par) {
 #ifdef __GNUC__
   #pragma GCC diagnostic pop
 #endif  // __GNUC__
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
 // -------------------------------------------------------------------
 
 // -------------------------------------------------------------------

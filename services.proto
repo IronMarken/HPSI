@@ -7,6 +7,7 @@ service PSIFunctions {
   rpc setup(AgreementReq) returns (AgreementRep) {}
   rpc encrypt(EncryptReq) returns (EncryptRep) {}
   rpc intersection(IntersectionReq) returns (IntersectionRep) {}
+  rpc extraction(ExtractionReq) returns (ExtractionRep) {}
 }
 
 // encryption request with file to encrypt
@@ -20,6 +21,21 @@ message EncryptReq {
 message Ciphertexts {
   repeated bytes cipher = 1;
 }
+
+// extraction request
+message ExtractionReq {
+  string agreement_name = 1;
+  string computed_file = 2;
+  string output_name = 3;
+  string receiver_file_name = 4;
+}
+
+// extraction reply
+message ExtractionRep{
+  repeated string result = 1;
+}
+
+
 
 // encryption reply with receiver ciphertexts
 message EncryptRep {

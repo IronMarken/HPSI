@@ -184,6 +184,105 @@ class PSIFunctionsServiceImpl final : public PSIFunctions::Service {
         shutdown_mutex.unlock();
         return Status::OK;
     }
+
+    Status extraction(ServerContext* context, const remote::ExtractionReq* request,
+                        ExtractionRep* reply) override {
+        cout << "Extraction invoked" << endl;
+
+        // get parameters
+        string agreement_name = request->agreement_name();
+        string computed_file = request->computed_file() + ".ctx";
+        string output_file_name = request->output_name();
+        string plain_file_name = request->receiver_file_name();
+
+        // reload context and private key
+        cout << "Reloading context..." << endl;
+        SEALContext agreement_context = reload_context(agreement_name + "_par.par");
+
+        cout << "Reloading private key..." << endl;
+        ifstream priv_key_stream;
+        priv_key_stream.open(agreement_name + "_priv.key");
+        if(!priv_key_stream.is_open()){
+            cerr << "Error opening private key file" << endl;
+            shutdown_mutex.unlock();
+            return Status(StatusCode::ABORTED, "Error opening private key file");;
+        }
+
+        SecretKey priv_key;
+        priv_key.load(agreement_context, priv_key_stream);
+        priv_key_stream.close();
+
+        // load homomorphic computed file
+        cout << "Loading ciphertexts..." << endl;
+        Ciphertexts encrypted_buff = Ciphertexts();
+        ifstream encrypted_stream(computed_file);
+        if (!encrypted_stream.is_open()){
+            cerr << "Error opening encrypted file" << endl;
+            shutdown_mutex.unlock();
+            return Status(StatusCode::ABORTED, "Error opening encrypted file");
+        }
+
+        encrypted_buff.ParseFromIstream(&encrypted_stream);
+        encrypted_stream.close();
+
+        vector<Ciphertext> encrypted_list;
+        stringstream cip_stream;
+        Ciphertext cp;
+
+        auto cip_list = encrypted_buff.cipher();
+
+        for ( int i=0; i < cip_list.size(); i++ ){
+            cip_stream << cip_list.Get(i);
+            cp.load(agreement_context, cip_stream);
+            encrypted_list.push_back(cp);
+        }
+
+        int c_size = encrypted_list.size();
+
+        // loading plaintexts
+        cout << "Loading plaintexts" << endl;
+        auto plain_rows = read_file(plain_file_name);
+
+
+        // decryption
+        Decryptor decryptor(agreement_context, priv_key);
+        cout << "Starting decryption phase" << endl;
+
+        for( int i=0; i < c_size; i++){
+            Ciphertext current_cip = encrypted_list[i];
+            Plaintext plaintext;
+
+            // check noise budget
+            if(decryptor.invariant_noise_budget(current_cip) == 0){
+                cerr << "Not enough noise budget" << endl;
+                shutdown_mutex.unlock();
+                return Status(StatusCode::ABORTED, "Not enough noise budget");
+            }
+
+            // decrypt
+            decryptor.decrypt(current_cip, plaintext);
+
+            //check result
+            if(plaintext.to_string()== "0"){
+                cout << "Match found with: "+plain_rows[i] << endl;
+                reply->add_result(plain_rows[i]);
+
+            }
+
+            cout << "Phase " + to_string(i+1) + "/" + to_string(c_size) << endl;
+
+        }
+
+        // saving intersection
+        cout << "Saving intersection file" << endl;
+        ofstream output_stream(output_file_name + ".txt");
+        reply->SerializeToOstream(&output_stream);
+        output_stream .close();
+
+        shutdown_mutex.unlock();
+        return Status::OK;
+    }
+
 };
 
 void shutdown(){

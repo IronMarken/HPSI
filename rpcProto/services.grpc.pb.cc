@@ -25,6 +25,7 @@ static const char* PSIFunctions_method_names[] = {
   "/remote.PSIFunctions/setup",
   "/remote.PSIFunctions/encrypt",
   "/remote.PSIFunctions/intersection",
+  "/remote.PSIFunctions/extraction",
 };
 
 std::unique_ptr< PSIFunctions::Stub> PSIFunctions::NewStub(const std::shared_ptr< ::grpc::ChannelInterface>& channel, const ::grpc::StubOptions& options) {
@@ -37,6 +38,7 @@ PSIFunctions::Stub::Stub(const std::shared_ptr< ::grpc::ChannelInterface>& chann
   : channel_(channel), rpcmethod_setup_(PSIFunctions_method_names[0], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
   , rpcmethod_encrypt_(PSIFunctions_method_names[1], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
   , rpcmethod_intersection_(PSIFunctions_method_names[2], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_extraction_(PSIFunctions_method_names[3], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
   {}
 
 ::grpc::Status PSIFunctions::Stub::setup(::grpc::ClientContext* context, const ::remote::AgreementReq& request, ::remote::AgreementRep* response) {
@@ -108,6 +110,29 @@ void PSIFunctions::Stub::async::intersection(::grpc::ClientContext* context, con
   return result;
 }
 
+::grpc::Status PSIFunctions::Stub::extraction(::grpc::ClientContext* context, const ::remote::ExtractionReq& request, ::remote::ExtractionRep* response) {
+  return ::grpc::internal::BlockingUnaryCall< ::remote::ExtractionReq, ::remote::ExtractionRep, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(channel_.get(), rpcmethod_extraction_, context, request, response);
+}
+
+void PSIFunctions::Stub::async::extraction(::grpc::ClientContext* context, const ::remote::ExtractionReq* request, ::remote::ExtractionRep* response, std::function<void(::grpc::Status)> f) {
+  ::grpc::internal::CallbackUnaryCall< ::remote::ExtractionReq, ::remote::ExtractionRep, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(stub_->channel_.get(), stub_->rpcmethod_extraction_, context, request, response, std::move(f));
+}
+
+void PSIFunctions::Stub::async::extraction(::grpc::ClientContext* context, const ::remote::ExtractionReq* request, ::remote::ExtractionRep* response, ::grpc::ClientUnaryReactor* reactor) {
+  ::grpc::internal::ClientCallbackUnaryFactory::Create< ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(stub_->channel_.get(), stub_->rpcmethod_extraction_, context, request, response, reactor);
+}
+
+::grpc::ClientAsyncResponseReader< ::remote::ExtractionRep>* PSIFunctions::Stub::PrepareAsyncextractionRaw(::grpc::ClientContext* context, const ::remote::ExtractionReq& request, ::grpc::CompletionQueue* cq) {
+  return ::grpc::internal::ClientAsyncResponseReaderHelper::Create< ::remote::ExtractionRep, ::remote::ExtractionReq, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(channel_.get(), cq, rpcmethod_extraction_, context, request);
+}
+
+::grpc::ClientAsyncResponseReader< ::remote::ExtractionRep>* PSIFunctions::Stub::AsyncextractionRaw(::grpc::ClientContext* context, const ::remote::ExtractionReq& request, ::grpc::CompletionQueue* cq) {
+  auto* result =
+    this->PrepareAsyncextractionRaw(context, request, cq);
+  result->StartCall();
+  return result;
+}
+
 PSIFunctions::Service::Service() {
   AddMethod(new ::grpc::internal::RpcServiceMethod(
       PSIFunctions_method_names[0],
@@ -139,6 +164,16 @@ PSIFunctions::Service::Service() {
              ::remote::IntersectionRep* resp) {
                return service->intersection(ctx, req, resp);
              }, this)));
+  AddMethod(new ::grpc::internal::RpcServiceMethod(
+      PSIFunctions_method_names[3],
+      ::grpc::internal::RpcMethod::NORMAL_RPC,
+      new ::grpc::internal::RpcMethodHandler< PSIFunctions::Service, ::remote::ExtractionReq, ::remote::ExtractionRep, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(
+          [](PSIFunctions::Service* service,
+             ::grpc::ServerContext* ctx,
+             const ::remote::ExtractionReq* req,
+             ::remote::ExtractionRep* resp) {
+               return service->extraction(ctx, req, resp);
+             }, this)));
 }
 
 PSIFunctions::Service::~Service() {
@@ -159,6 +194,13 @@ PSIFunctions::Service::~Service() {
 }
 
 ::grpc::Status PSIFunctions::Service::intersection(::grpc::ServerContext* context, const ::remote::IntersectionReq* request, ::remote::IntersectionRep* response) {
+  (void) context;
+  (void) request;
+  (void) response;
+  return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+}
+
+::grpc::Status PSIFunctions::Service::extraction(::grpc::ServerContext* context, const ::remote::ExtractionReq* request, ::remote::ExtractionRep* response) {
   (void) context;
   (void) request;
   (void) response;

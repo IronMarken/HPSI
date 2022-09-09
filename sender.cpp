@@ -206,6 +206,44 @@ int intersection(string cipher_file_name, string plain_file, string plain_file_e
     return 0;
 }
 
+int extraction(string agreement_name, string computed_file, string output_file, string receiver_file, string port){
+    cout << "Extraction invoked" << endl;
+
+    // setup stub and channel
+    cout << "Creating channel" << endl;
+    auto channel = grpc::CreateChannel("localhost:" + port, grpc::InsecureChannelCredentials());
+    cout << "Creating stub" << endl;
+    auto stub = PSIFunctions::NewStub(channel);
+    ClientContext context;
+
+    // setup request
+    ExtractionReq request;
+    request.set_agreement_name(agreement_name);
+    request.set_computed_file(computed_file);
+    request.set_output_name(output_file);
+    request.set_receiver_file_name(receiver_file);
+
+
+    // invoking the extraction
+    ExtractionRep reply;
+    cout << "Sending the extraction request to the receiver" << endl;
+    Status status = stub->extraction(&context, request, &reply);
+    if (status.ok()) {
+        cout << "Extraction invoked successfully!" << endl;
+    } else {
+        cerr << status.error_code() << ": " << status.error_message() << " RPC failed "<<endl;
+        exit(-1);
+    }
+
+    // save reply
+    cout << "Saving results" << endl;
+    ofstream output(output_file + ".txt");
+    reply.SerializeToOstream(&output);
+    output.close();
+
+    return 0;
+}
+
 
 int main() {
     /* WARNING POLY MODULUS DEGREE SUPPORTED
@@ -220,14 +258,16 @@ int main() {
     | 32768               | 881                          |
     +---------------------+------------------------------+*/
     string agreement_name = "test";
-    /*auto poly = 8192;
-
-    // manage strings with max len 4
-    long plain = 2147483648;
-    cout << "Plain modulus degree: "+ to_string(plain) << endl;*/
 
     auto port = "8500";
-    //setup(agreement_name, poly, plain, port);
+
+    // manage strings with max len 4
+    /*long plain = 2147483648;
+     auto poly = 8192;
+    cout << "Plain modulus degree: "+ to_string(plain) << endl;
+
+
+    setup(agreement_name, poly, plain, port);*/
     /*ifstream param_stream;
     param_stream.open(agreement_name+"_par.par");
     EncryptionParameters parms(scheme_type::bfv);
@@ -256,12 +296,13 @@ int main() {
 
 
     // encryption
-    string file_name = "test";
+    string file_name = "receiver";
     string ext = "txt";
-    //encrypt(file_name, ext, agreement_name, port);
+    encrypt(file_name, ext, agreement_name, port);*/
 
     // decrypt
     // decrypt from file
+    /*string ec_file = agreement_name+"_"+file_name+".ctx";
     string ec_file = agreement_name+"_"+file_name+".ctx";
     vector<string> rows;
 
@@ -303,6 +344,9 @@ int main() {
         string str_dec = hex_to_ascii(hex_dec);
         cout << "ascii_dec " + str_dec << endl;
     }*/
+    //intersection(string cipher_file_name, string plain_file, string plain_file_ext, string agreement_name, string port)
+    //intersection("test_receiver", "sender", "txt", agreement_name, port);
 
-    intersection("test_test", "sender", "txt", agreement_name, port);
+    //extraction(string agreement_name, string computed_file, string output_file, string receiver_file, string port)
+    extraction(agreement_name, "sender_intersection", "result", "receiver.txt", port);
 }
