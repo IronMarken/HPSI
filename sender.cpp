@@ -94,6 +94,118 @@ int encrypt(string file_name_to_encrypt, string file_ext, string agreement_name,
     return 0;
 }
 
+int intersection(string cipher_file_name, string plain_file, string plain_file_ext, string agreement_name, string port){
+    cout << "Intersection computation invoked" << endl;
+
+    // reload context
+    cout << "Reloading context..." << endl;
+    SEALContext agreement_context = reload_context(agreement_name + "_par.par");
+
+    // load public and rel keys
+    cout << "Reloading public key and relinearization key..." << endl;
+    PublicKey pub_key = get_public_key(agreement_name + "_pub.key", agreement_context);
+    RelinKeys rel_key = get_relin_key(agreement_name + "_rel.key", agreement_context);
+
+    // load ciphertexts from encrypted file
+    cout << "Loading encrypted ciphertexts" << endl;
+    Ciphertexts encrypted_proto = Ciphertexts();
+    ifstream encrypted_stream(cipher_file_name + "." + "ctx");
+    if (!encrypted_stream.is_open()){
+        cerr << "Error opening encrypted file" << endl;
+        exit(-1);
+    }
+
+    encrypted_proto.ParseFromIstream(&encrypted_stream);
+    encrypted_stream.close();
+
+    vector<Ciphertext> encrypted_list;
+    stringstream cip_stream;
+    Ciphertext cp;
+
+    auto cip_list = encrypted_proto.cipher();
+
+    for ( int i=0; i < cip_list.size(); i++ ){
+        cip_stream << cip_list.Get(i);
+        cp.load(agreement_context, cip_stream);
+        encrypted_list.push_back(cp);
+    }
+
+    //load and encrypt plaintext file
+    cout << "Loading and encrypting plaintext file" << endl;
+    auto plain_rows = read_file(plain_file + "." + plain_file_ext);
+    Encryptor enc(agreement_context, pub_key);
+    vector<Ciphertext> sender_list;
+
+    // encrypt and append
+    for ( auto row : plain_rows ){
+        string hex_row = string_to_hex_string(row);
+        Plaintext pl(hex_row);
+        Ciphertext cp_s;
+        enc.encrypt(pl, cp_s);
+        sender_list.push_back(cp_s);
+    }
+
+    // homomorphic computations
+    cout << "Starting homomorphic computation" << endl;
+    int enc_size = encrypted_list.size();
+
+    Evaluator evaluator(agreement_context);
+
+    // grpc request
+    IntersectionReq request;
+
+    for ( int i=0; i < enc_size; i++ ){
+        Ciphertext partial;
+        Ciphertext c = encrypted_list[i];
+
+        // start from random value
+        auto value = rand() + 1;
+        string hex_value = uint64_to_hex_string(value);
+        Plaintext rand(hex_value);
+        enc.encrypt(rand, partial);
+
+        // sub and mul for each sender cipher
+        for (auto send_c : sender_list){
+            Ciphertext sub;
+            // subtraction
+            evaluator.sub(c, send_c, sub);
+            // multiply
+            evaluator.multiply_inplace(partial, sub);
+            // relinearize
+            evaluator.relinearize_inplace(partial, rel_key);
+        }
+
+        // save partial result into protocol buffer
+        stringstream partial_stream;
+        partial.save(partial_stream);
+        request.mutable_computation_result()->add_cipher(partial_stream.str());
+
+        cout << "Phase " + to_string(i+1) + "/" + to_string(enc_size) + "completed" << endl;
+    }
+
+    cout << "Intersection computation completed" << endl << "Sending result to the receiver" << endl;
+
+    // send result to the receiver
+    // setup stub and channel
+    auto channel = grpc::CreateChannel("localhost:"+port, grpc::InsecureChannelCredentials());
+    auto stub = PSIFunctions::NewStub(channel);
+    ClientContext context;
+
+
+    request.set_name(plain_file + "_intersection");
+    IntersectionRep reply;
+
+    // invoking the intersection
+    Status status = stub->intersection(&context, request, &reply);
+    if (status.ok()) {
+        cout << "Intersection invoked successfully!" << endl;
+    } else {
+        cerr << status.error_code() << ": " << status.error_message() << " RPC failed "<<endl;
+        exit(-1);
+    }
+    return 0;
+}
+
 
 int main() {
     /* WARNING POLY MODULUS DEGREE SUPPORTED
@@ -114,7 +226,7 @@ int main() {
     long plain = 2147483648;
     cout << "Plain modulus degree: "+ to_string(plain) << endl;*/
 
-    //auto port = "8500";
+    auto port = "8500";
     //setup(agreement_name, poly, plain, port);
     /*ifstream param_stream;
     param_stream.open(agreement_name+"_par.par");
@@ -138,7 +250,7 @@ int main() {
     rel_stream.close();
     cout << "rel key loaded correctly" << endl;*/
 
-    auto agreement_context = reload_context(agreement_name+"_par.par");
+    /*auto agreement_context = reload_context(agreement_name+"_par.par");
     auto pub_key = get_public_key(agreement_name+"_pub.key", agreement_context);
     auto rel_keys = get_relin_key(agreement_name+"_rel.key", agreement_context);
 
@@ -190,6 +302,7 @@ int main() {
         cout << "hex dec " + hex_dec << endl;
         string str_dec = hex_to_ascii(hex_dec);
         cout << "ascii_dec " + str_dec << endl;
-    }
+    }*/
 
+    intersection("test_test", "sender", "txt", agreement_name, port);
 }

@@ -23,6 +23,7 @@
 #include <google/protobuf/io/coded_stream.h>
 #include <google/protobuf/arena.h>
 #include <google/protobuf/arenastring.h>
+#include <google/protobuf/generated_message_bases.h>
 #include <google/protobuf/generated_message_util.h>
 #include <google/protobuf/metadata_lite.h>
 #include <google/protobuf/generated_message_reflection.h>
@@ -60,6 +61,9 @@ extern EncryptRepDefaultTypeInternal _EncryptRep_default_instance_;
 class EncryptReq;
 struct EncryptReqDefaultTypeInternal;
 extern EncryptReqDefaultTypeInternal _EncryptReq_default_instance_;
+class IntersectionRep;
+struct IntersectionRepDefaultTypeInternal;
+extern IntersectionRepDefaultTypeInternal _IntersectionRep_default_instance_;
 class IntersectionReq;
 struct IntersectionReqDefaultTypeInternal;
 extern IntersectionReqDefaultTypeInternal _IntersectionReq_default_instance_;
@@ -70,6 +74,7 @@ template<> ::remote::AgreementReq* Arena::CreateMaybeMessage<::remote::Agreement
 template<> ::remote::Ciphertexts* Arena::CreateMaybeMessage<::remote::Ciphertexts>(Arena*);
 template<> ::remote::EncryptRep* Arena::CreateMaybeMessage<::remote::EncryptRep>(Arena*);
 template<> ::remote::EncryptReq* Arena::CreateMaybeMessage<::remote::EncryptReq>(Arena*);
+template<> ::remote::IntersectionRep* Arena::CreateMaybeMessage<::remote::IntersectionRep>(Arena*);
 template<> ::remote::IntersectionReq* Arena::CreateMaybeMessage<::remote::IntersectionReq>(Arena*);
 PROTOBUF_NAMESPACE_CLOSE
 namespace remote {
@@ -754,6 +759,124 @@ class IntersectionReq final :
 };
 // -------------------------------------------------------------------
 
+class IntersectionRep final :
+    public ::PROTOBUF_NAMESPACE_ID::internal::ZeroFieldsBase /* @@protoc_insertion_point(class_definition:remote.IntersectionRep) */ {
+ public:
+  inline IntersectionRep() : IntersectionRep(nullptr) {}
+  explicit PROTOBUF_CONSTEXPR IntersectionRep(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+
+  IntersectionRep(const IntersectionRep& from);
+  IntersectionRep(IntersectionRep&& from) noexcept
+    : IntersectionRep() {
+    *this = ::std::move(from);
+  }
+
+  inline IntersectionRep& operator=(const IntersectionRep& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline IntersectionRep& operator=(IntersectionRep&& from) noexcept {
+    if (this == &from) return *this;
+    if (GetOwningArena() == from.GetOwningArena()
+  #ifdef PROTOBUF_FORCE_COPY_IN_MOVE
+        && GetOwningArena() != nullptr
+  #endif  // !PROTOBUF_FORCE_COPY_IN_MOVE
+    ) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const IntersectionRep& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const IntersectionRep* internal_default_instance() {
+    return reinterpret_cast<const IntersectionRep*>(
+               &_IntersectionRep_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    4;
+
+  friend void swap(IntersectionRep& a, IntersectionRep& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(IntersectionRep* other) {
+    if (other == this) return;
+  #ifdef PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() != nullptr &&
+        GetOwningArena() == other->GetOwningArena()) {
+   #else  // PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() == other->GetOwningArena()) {
+  #endif  // !PROTOBUF_FORCE_COPY_IN_SWAP
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(IntersectionRep* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  IntersectionRep* New(::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
+    return CreateMaybeMessage<IntersectionRep>(arena);
+  }
+  using ::PROTOBUF_NAMESPACE_ID::internal::ZeroFieldsBase::CopyFrom;
+  inline void CopyFrom(const IntersectionRep& from) {
+    ::PROTOBUF_NAMESPACE_ID::internal::ZeroFieldsBase::CopyImpl(*this, from);
+  }
+  using ::PROTOBUF_NAMESPACE_ID::internal::ZeroFieldsBase::MergeFrom;
+  void MergeFrom(const IntersectionRep& from) {
+    ::PROTOBUF_NAMESPACE_ID::internal::ZeroFieldsBase::MergeImpl(*this, from);
+  }
+  public:
+
+  private:
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "remote.IntersectionRep";
+  }
+  protected:
+  explicit IntersectionRep(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                       bool is_message_owned = false);
+  public:
+
+  static const ClassData _class_data_;
+  const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*GetClassData() const final;
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // @@protoc_insertion_point(class_scope:remote.IntersectionRep)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  struct Impl_ {
+  };
+  friend struct ::TableStruct_services_2eproto;
+};
+// -------------------------------------------------------------------
+
 class AgreementReq final :
     public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:remote.AgreementReq) */ {
  public:
@@ -802,7 +925,7 @@ class AgreementReq final :
                &_AgreementReq_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    4;
+    5;
 
   friend void swap(AgreementReq& a, AgreementReq& b) {
     a.Swap(&b);
@@ -977,7 +1100,7 @@ class AgreementRep final :
                &_AgreementRep_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    5;
+    6;
 
   friend void swap(AgreementRep& a, AgreementRep& b) {
     a.Swap(&b);
@@ -1592,6 +1715,10 @@ inline void IntersectionReq::set_allocated_computation_result(::remote::Cipherte
 
 // -------------------------------------------------------------------
 
+// IntersectionRep
+
+// -------------------------------------------------------------------
+
 // AgreementReq
 
 // string name = 1;
@@ -1841,6 +1968,8 @@ inline void AgreementRep::set_allocated_par(std::string* par) {
 #ifdef __GNUC__
   #pragma GCC diagnostic pop
 #endif  // __GNUC__
+// -------------------------------------------------------------------
+
 // -------------------------------------------------------------------
 
 // -------------------------------------------------------------------

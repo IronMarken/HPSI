@@ -172,6 +172,18 @@ class PSIFunctionsServiceImpl final : public PSIFunctions::Service {
         shutdown_mutex.unlock();
         return Status::OK;
     }
+
+    Status intersection(ServerContext* context, const remote::IntersectionReq* request,
+                   IntersectionRep* reply) override {
+        cout << "Intersection invoked" << endl;
+        string file_name = request->name() + ".ctx";
+        // save file
+        ofstream out_file(file_name);
+        request->computation_result().SerializeToOstream(&out_file);
+        cout << "Saving intersection file" << endl;
+        shutdown_mutex.unlock();
+        return Status::OK;
+    }
 };
 
 void shutdown(){

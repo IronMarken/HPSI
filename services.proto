@@ -6,6 +6,7 @@ package remote;
 service PSIFunctions {
   rpc setup(AgreementReq) returns (AgreementRep) {}
   rpc encrypt(EncryptReq) returns (EncryptRep) {}
+  rpc intersection(IntersectionReq) returns (IntersectionRep) {}
 }
 
 // encryption request with file to encrypt
@@ -24,6 +25,15 @@ message Ciphertexts {
 message EncryptRep {
   Ciphertexts ciphertexts = 1;
 }
+
+// intersection request with result
+message IntersectionReq {
+  string name = 1;
+  Ciphertexts computation_result = 2;
+}
+
+// intersection reply
+message IntersectionRep {}
 
 // sender request for setup
 message AgreementReq {

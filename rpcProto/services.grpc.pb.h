@@ -50,6 +50,13 @@ class PSIFunctions final {
     std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::remote::EncryptRep>> PrepareAsyncencrypt(::grpc::ClientContext* context, const ::remote::EncryptReq& request, ::grpc::CompletionQueue* cq) {
       return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::remote::EncryptRep>>(PrepareAsyncencryptRaw(context, request, cq));
     }
+    virtual ::grpc::Status intersection(::grpc::ClientContext* context, const ::remote::IntersectionReq& request, ::remote::IntersectionRep* response) = 0;
+    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::remote::IntersectionRep>> Asyncintersection(::grpc::ClientContext* context, const ::remote::IntersectionReq& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::remote::IntersectionRep>>(AsyncintersectionRaw(context, request, cq));
+    }
+    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::remote::IntersectionRep>> PrepareAsyncintersection(::grpc::ClientContext* context, const ::remote::IntersectionReq& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::remote::IntersectionRep>>(PrepareAsyncintersectionRaw(context, request, cq));
+    }
     class async_interface {
      public:
       virtual ~async_interface() {}
@@ -57,6 +64,8 @@ class PSIFunctions final {
       virtual void setup(::grpc::ClientContext* context, const ::remote::AgreementReq* request, ::remote::AgreementRep* response, ::grpc::ClientUnaryReactor* reactor) = 0;
       virtual void encrypt(::grpc::ClientContext* context, const ::remote::EncryptReq* request, ::remote::EncryptRep* response, std::function<void(::grpc::Status)>) = 0;
       virtual void encrypt(::grpc::ClientContext* context, const ::remote::EncryptReq* request, ::remote::EncryptRep* response, ::grpc::ClientUnaryReactor* reactor) = 0;
+      virtual void intersection(::grpc::ClientContext* context, const ::remote::IntersectionReq* request, ::remote::IntersectionRep* response, std::function<void(::grpc::Status)>) = 0;
+      virtual void intersection(::grpc::ClientContext* context, const ::remote::IntersectionReq* request, ::remote::IntersectionRep* response, ::grpc::ClientUnaryReactor* reactor) = 0;
     };
     typedef class async_interface experimental_async_interface;
     virtual class async_interface* async() { return nullptr; }
@@ -66,6 +75,8 @@ class PSIFunctions final {
     virtual ::grpc::ClientAsyncResponseReaderInterface< ::remote::AgreementRep>* PrepareAsyncsetupRaw(::grpc::ClientContext* context, const ::remote::AgreementReq& request, ::grpc::CompletionQueue* cq) = 0;
     virtual ::grpc::ClientAsyncResponseReaderInterface< ::remote::EncryptRep>* AsyncencryptRaw(::grpc::ClientContext* context, const ::remote::EncryptReq& request, ::grpc::CompletionQueue* cq) = 0;
     virtual ::grpc::ClientAsyncResponseReaderInterface< ::remote::EncryptRep>* PrepareAsyncencryptRaw(::grpc::ClientContext* context, const ::remote::EncryptReq& request, ::grpc::CompletionQueue* cq) = 0;
+    virtual ::grpc::ClientAsyncResponseReaderInterface< ::remote::IntersectionRep>* AsyncintersectionRaw(::grpc::ClientContext* context, const ::remote::IntersectionReq& request, ::grpc::CompletionQueue* cq) = 0;
+    virtual ::grpc::ClientAsyncResponseReaderInterface< ::remote::IntersectionRep>* PrepareAsyncintersectionRaw(::grpc::ClientContext* context, const ::remote::IntersectionReq& request, ::grpc::CompletionQueue* cq) = 0;
   };
   class Stub final : public StubInterface {
    public:
@@ -84,6 +95,13 @@ class PSIFunctions final {
     std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::remote::EncryptRep>> PrepareAsyncencrypt(::grpc::ClientContext* context, const ::remote::EncryptReq& request, ::grpc::CompletionQueue* cq) {
       return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::remote::EncryptRep>>(PrepareAsyncencryptRaw(context, request, cq));
     }
+    ::grpc::Status intersection(::grpc::ClientContext* context, const ::remote::IntersectionReq& request, ::remote::IntersectionRep* response) override;
+    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::remote::IntersectionRep>> Asyncintersection(::grpc::ClientContext* context, const ::remote::IntersectionReq& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::remote::IntersectionRep>>(AsyncintersectionRaw(context, request, cq));
+    }
+    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::remote::IntersectionRep>> PrepareAsyncintersection(::grpc::ClientContext* context, const ::remote::IntersectionReq& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::remote::IntersectionRep>>(PrepareAsyncintersectionRaw(context, request, cq));
+    }
     class async final :
       public StubInterface::async_interface {
      public:
@@ -91,6 +109,8 @@ class PSIFunctions final {
       void setup(::grpc::ClientContext* context, const ::remote::AgreementReq* request, ::remote::AgreementRep* response, ::grpc::ClientUnaryReactor* reactor) override;
       void encrypt(::grpc::ClientContext* context, const ::remote::EncryptReq* request, ::remote::EncryptRep* response, std::function<void(::grpc::Status)>) override;
       void encrypt(::grpc::ClientContext* context, const ::remote::EncryptReq* request, ::remote::EncryptRep* response, ::grpc::ClientUnaryReactor* reactor) override;
+      void intersection(::grpc::ClientContext* context, const ::remote::IntersectionReq* request, ::remote::IntersectionRep* response, std::function<void(::grpc::Status)>) override;
+      void intersection(::grpc::ClientContext* context, const ::remote::IntersectionReq* request, ::remote::IntersectionRep* response, ::grpc::ClientUnaryReactor* reactor) override;
      private:
       friend class Stub;
       explicit async(Stub* stub): stub_(stub) { }
@@ -106,8 +126,11 @@ class PSIFunctions final {
     ::grpc::ClientAsyncResponseReader< ::remote::AgreementRep>* PrepareAsyncsetupRaw(::grpc::ClientContext* context, const ::remote::AgreementReq& request, ::grpc::CompletionQueue* cq) override;
     ::grpc::ClientAsyncResponseReader< ::remote::EncryptRep>* AsyncencryptRaw(::grpc::ClientContext* context, const ::remote::EncryptReq& request, ::grpc::CompletionQueue* cq) override;
     ::grpc::ClientAsyncResponseReader< ::remote::EncryptRep>* PrepareAsyncencryptRaw(::grpc::ClientContext* context, const ::remote::EncryptReq& request, ::grpc::CompletionQueue* cq) override;
+    ::grpc::ClientAsyncResponseReader< ::remote::IntersectionRep>* AsyncintersectionRaw(::grpc::ClientContext* context, const ::remote::IntersectionReq& request, ::grpc::CompletionQueue* cq) override;
+    ::grpc::ClientAsyncResponseReader< ::remote::IntersectionRep>* PrepareAsyncintersectionRaw(::grpc::ClientContext* context, const ::remote::IntersectionReq& request, ::grpc::CompletionQueue* cq) override;
     const ::grpc::internal::RpcMethod rpcmethod_setup_;
     const ::grpc::internal::RpcMethod rpcmethod_encrypt_;
+    const ::grpc::internal::RpcMethod rpcmethod_intersection_;
   };
   static std::unique_ptr<Stub> NewStub(const std::shared_ptr< ::grpc::ChannelInterface>& channel, const ::grpc::StubOptions& options = ::grpc::StubOptions());
 
@@ -117,6 +140,7 @@ class PSIFunctions final {
     virtual ~Service();
     virtual ::grpc::Status setup(::grpc::ServerContext* context, const ::remote::AgreementReq* request, ::remote::AgreementRep* response);
     virtual ::grpc::Status encrypt(::grpc::ServerContext* context, const ::remote::EncryptReq* request, ::remote::EncryptRep* response);
+    virtual ::grpc::Status intersection(::grpc::ServerContext* context, const ::remote::IntersectionReq* request, ::remote::IntersectionRep* response);
   };
   template <class BaseClass>
   class WithAsyncMethod_setup : public BaseClass {
@@ -158,7 +182,27 @@ class PSIFunctions final {
       ::grpc::Service::RequestAsyncUnary(1, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
-  typedef WithAsyncMethod_setup<WithAsyncMethod_encrypt<Service > > AsyncService;
+  template <class BaseClass>
+  class WithAsyncMethod_intersection : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithAsyncMethod_intersection() {
+      ::grpc::Service::MarkMethodAsync(2);
+    }
+    ~WithAsyncMethod_intersection() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status intersection(::grpc::ServerContext* /*context*/, const ::remote::IntersectionReq* /*request*/, ::remote::IntersectionRep* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    void Requestintersection(::grpc::ServerContext* context, ::remote::IntersectionReq* request, ::grpc::ServerAsyncResponseWriter< ::remote::IntersectionRep>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
+      ::grpc::Service::RequestAsyncUnary(2, context, request, response, new_call_cq, notification_cq, tag);
+    }
+  };
+  typedef WithAsyncMethod_setup<WithAsyncMethod_encrypt<WithAsyncMethod_intersection<Service > > > AsyncService;
   template <class BaseClass>
   class WithCallbackMethod_setup : public BaseClass {
    private:
@@ -213,7 +257,34 @@ class PSIFunctions final {
     virtual ::grpc::ServerUnaryReactor* encrypt(
       ::grpc::CallbackServerContext* /*context*/, const ::remote::EncryptReq* /*request*/, ::remote::EncryptRep* /*response*/)  { return nullptr; }
   };
-  typedef WithCallbackMethod_setup<WithCallbackMethod_encrypt<Service > > CallbackService;
+  template <class BaseClass>
+  class WithCallbackMethod_intersection : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithCallbackMethod_intersection() {
+      ::grpc::Service::MarkMethodCallback(2,
+          new ::grpc::internal::CallbackUnaryHandler< ::remote::IntersectionReq, ::remote::IntersectionRep>(
+            [this](
+                   ::grpc::CallbackServerContext* context, const ::remote::IntersectionReq* request, ::remote::IntersectionRep* response) { return this->intersection(context, request, response); }));}
+    void SetMessageAllocatorFor_intersection(
+        ::grpc::MessageAllocator< ::remote::IntersectionReq, ::remote::IntersectionRep>* allocator) {
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(2);
+      static_cast<::grpc::internal::CallbackUnaryHandler< ::remote::IntersectionReq, ::remote::IntersectionRep>*>(handler)
+              ->SetMessageAllocator(allocator);
+    }
+    ~WithCallbackMethod_intersection() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status intersection(::grpc::ServerContext* /*context*/, const ::remote::IntersectionReq* /*request*/, ::remote::IntersectionRep* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    virtual ::grpc::ServerUnaryReactor* intersection(
+      ::grpc::CallbackServerContext* /*context*/, const ::remote::IntersectionReq* /*request*/, ::remote::IntersectionRep* /*response*/)  { return nullptr; }
+  };
+  typedef WithCallbackMethod_setup<WithCallbackMethod_encrypt<WithCallbackMethod_intersection<Service > > > CallbackService;
   typedef CallbackService ExperimentalCallbackService;
   template <class BaseClass>
   class WithGenericMethod_setup : public BaseClass {
@@ -245,6 +316,23 @@ class PSIFunctions final {
     }
     // disable synchronous version of this method
     ::grpc::Status encrypt(::grpc::ServerContext* /*context*/, const ::remote::EncryptReq* /*request*/, ::remote::EncryptRep* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+  };
+  template <class BaseClass>
+  class WithGenericMethod_intersection : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithGenericMethod_intersection() {
+      ::grpc::Service::MarkMethodGeneric(2);
+    }
+    ~WithGenericMethod_intersection() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status intersection(::grpc::ServerContext* /*context*/, const ::remote::IntersectionReq* /*request*/, ::remote::IntersectionRep* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
@@ -290,6 +378,26 @@ class PSIFunctions final {
     }
   };
   template <class BaseClass>
+  class WithRawMethod_intersection : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithRawMethod_intersection() {
+      ::grpc::Service::MarkMethodRaw(2);
+    }
+    ~WithRawMethod_intersection() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status intersection(::grpc::ServerContext* /*context*/, const ::remote::IntersectionReq* /*request*/, ::remote::IntersectionRep* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    void Requestintersection(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
+      ::grpc::Service::RequestAsyncUnary(2, context, request, response, new_call_cq, notification_cq, tag);
+    }
+  };
+  template <class BaseClass>
   class WithRawCallbackMethod_setup : public BaseClass {
    private:
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
@@ -331,6 +439,28 @@ class PSIFunctions final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     virtual ::grpc::ServerUnaryReactor* encrypt(
+      ::grpc::CallbackServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/, ::grpc::ByteBuffer* /*response*/)  { return nullptr; }
+  };
+  template <class BaseClass>
+  class WithRawCallbackMethod_intersection : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithRawCallbackMethod_intersection() {
+      ::grpc::Service::MarkMethodRawCallback(2,
+          new ::grpc::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
+            [this](
+                   ::grpc::CallbackServerContext* context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response) { return this->intersection(context, request, response); }));
+    }
+    ~WithRawCallbackMethod_intersection() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status intersection(::grpc::ServerContext* /*context*/, const ::remote::IntersectionReq* /*request*/, ::remote::IntersectionRep* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    virtual ::grpc::ServerUnaryReactor* intersection(
       ::grpc::CallbackServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/, ::grpc::ByteBuffer* /*response*/)  { return nullptr; }
   };
   template <class BaseClass>
@@ -387,9 +517,36 @@ class PSIFunctions final {
     // replace default version of method with streamed unary
     virtual ::grpc::Status Streamedencrypt(::grpc::ServerContext* context, ::grpc::ServerUnaryStreamer< ::remote::EncryptReq,::remote::EncryptRep>* server_unary_streamer) = 0;
   };
-  typedef WithStreamedUnaryMethod_setup<WithStreamedUnaryMethod_encrypt<Service > > StreamedUnaryService;
+  template <class BaseClass>
+  class WithStreamedUnaryMethod_intersection : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithStreamedUnaryMethod_intersection() {
+      ::grpc::Service::MarkMethodStreamed(2,
+        new ::grpc::internal::StreamedUnaryHandler<
+          ::remote::IntersectionReq, ::remote::IntersectionRep>(
+            [this](::grpc::ServerContext* context,
+                   ::grpc::ServerUnaryStreamer<
+                     ::remote::IntersectionReq, ::remote::IntersectionRep>* streamer) {
+                       return this->Streamedintersection(context,
+                         streamer);
+                  }));
+    }
+    ~WithStreamedUnaryMethod_intersection() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable regular version of this method
+    ::grpc::Status intersection(::grpc::ServerContext* /*context*/, const ::remote::IntersectionReq* /*request*/, ::remote::IntersectionRep* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    // replace default version of method with streamed unary
+    virtual ::grpc::Status Streamedintersection(::grpc::ServerContext* context, ::grpc::ServerUnaryStreamer< ::remote::IntersectionReq,::remote::IntersectionRep>* server_unary_streamer) = 0;
+  };
+  typedef WithStreamedUnaryMethod_setup<WithStreamedUnaryMethod_encrypt<WithStreamedUnaryMethod_intersection<Service > > > StreamedUnaryService;
   typedef Service SplitStreamedService;
-  typedef WithStreamedUnaryMethod_setup<WithStreamedUnaryMethod_encrypt<Service > > StreamedService;
+  typedef WithStreamedUnaryMethod_setup<WithStreamedUnaryMethod_encrypt<WithStreamedUnaryMethod_intersection<Service > > > StreamedService;
 };
 
 }  // namespace remote
