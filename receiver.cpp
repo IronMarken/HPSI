@@ -71,9 +71,9 @@ class PSIFunctionsServiceImpl final : public PSIFunctions::Service {
 
         // check errors
         if (!private_key_file.is_open() || !public_key_file.is_open() || !rel_key_file.is_open()) {
-            cerr << "Error generating files" << endl;
+            cerr << "Error generating key files" << endl;
             shutdown_mutex.unlock();
-            return Status(StatusCode::ABORTED, "Error opening key files");
+            return Status(StatusCode::ABORTED, "Error generating key files");
         }
 
         cout << "Saving private key file..." << endl;
@@ -121,7 +121,7 @@ class PSIFunctionsServiceImpl final : public PSIFunctions::Service {
         string file_to_encrypt = file_name + "." + file_ext;
 
         cout << "Encrypt invoked! Agreement name: "+agreement_name+". File to encrypt: "+ file_to_encrypt << endl;
-        cout << "Reloading context from parameters file: ";
+        cout << "Reloading context from parameters file: " + agreement_name + "_par,par" << endl;
 
         // context regeneration
         SEALContext agreement_context = reload_context(agreement_name+"_par.par");
@@ -248,6 +248,8 @@ class PSIFunctionsServiceImpl final : public PSIFunctions::Service {
         Decryptor decryptor(agreement_context, priv_key);
         cout << "Starting decryption phase" << endl;
 
+        stringstream result;
+
         for( int i=0; i < c_size; i++){
             Ciphertext current_cip = encrypted_list[i];
             Plaintext plaintext;
@@ -264,20 +266,23 @@ class PSIFunctionsServiceImpl final : public PSIFunctions::Service {
 
             //check result
             if(plaintext.to_string()== "0"){
-                cout << "Match found with: "+plain_rows[i] << endl;
-                reply->add_result(plain_rows[i]);
-
+                cout << "Match found with: " + plain_rows[i] << endl;
+                result << plain_rows[i] << endl;
             }
 
-            cout << "Phase " + to_string(i+1) + "/" + to_string(c_size) << endl;
+            cout << "Phase " + to_string(i+1) + "/" + to_string(c_size) + " completed" << endl;
 
         }
+        cout << "Response extraction completed" << endl;
 
         // saving intersection
         cout << "Saving intersection file" << endl;
         ofstream output_stream(output_file_name + ".txt");
-        reply->SerializeToOstream(&output_stream);
+        output_stream << result.str();
         output_stream .close();
+
+        // prepare reply
+        reply->set_result(result.str());
 
         shutdown_mutex.unlock();
         return Status::OK;

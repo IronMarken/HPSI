@@ -761,28 +761,18 @@ class ExtractionRep final :
   enum : int {
     kResultFieldNumber = 1,
   };
-  // repeated string result = 1;
-  int result_size() const;
-  private:
-  int _internal_result_size() const;
-  public:
+  // bytes result = 1;
   void clear_result();
-  const std::string& result(int index) const;
-  std::string* mutable_result(int index);
-  void set_result(int index, const std::string& value);
-  void set_result(int index, std::string&& value);
-  void set_result(int index, const char* value);
-  void set_result(int index, const char* value, size_t size);
-  std::string* add_result();
-  void add_result(const std::string& value);
-  void add_result(std::string&& value);
-  void add_result(const char* value);
-  void add_result(const char* value, size_t size);
-  const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<std::string>& result() const;
-  ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<std::string>* mutable_result();
+  const std::string& result() const;
+  template <typename ArgT0 = const std::string&, typename... ArgT>
+  void set_result(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_result();
+  PROTOBUF_NODISCARD std::string* release_result();
+  void set_allocated_result(std::string* result);
   private:
-  const std::string& _internal_result(int index) const;
-  std::string* _internal_add_result();
+  const std::string& _internal_result() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_result(const std::string& value);
+  std::string* _internal_mutable_result();
   public:
 
   // @@protoc_insertion_point(class_scope:remote.ExtractionRep)
@@ -793,7 +783,7 @@ class ExtractionRep final :
   typedef void InternalArenaConstructable_;
   typedef void DestructorSkippable_;
   struct Impl_ {
-    ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<std::string> result_;
+    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr result_;
     mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   };
   union { Impl_ _impl_; };
@@ -2055,79 +2045,54 @@ inline void ExtractionReq::set_allocated_receiver_file_name(std::string* receive
 
 // ExtractionRep
 
-// repeated string result = 1;
-inline int ExtractionRep::_internal_result_size() const {
-  return _impl_.result_.size();
-}
-inline int ExtractionRep::result_size() const {
-  return _internal_result_size();
-}
+// bytes result = 1;
 inline void ExtractionRep::clear_result() {
-  _impl_.result_.Clear();
+  _impl_.result_.ClearToEmpty();
 }
-inline std::string* ExtractionRep::add_result() {
-  std::string* _s = _internal_add_result();
-  // @@protoc_insertion_point(field_add_mutable:remote.ExtractionRep.result)
+inline const std::string& ExtractionRep::result() const {
+  // @@protoc_insertion_point(field_get:remote.ExtractionRep.result)
+  return _internal_result();
+}
+template <typename ArgT0, typename... ArgT>
+inline PROTOBUF_ALWAYS_INLINE
+void ExtractionRep::set_result(ArgT0&& arg0, ArgT... args) {
+ 
+ _impl_.result_.SetBytes(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:remote.ExtractionRep.result)
+}
+inline std::string* ExtractionRep::mutable_result() {
+  std::string* _s = _internal_mutable_result();
+  // @@protoc_insertion_point(field_mutable:remote.ExtractionRep.result)
   return _s;
 }
-inline const std::string& ExtractionRep::_internal_result(int index) const {
-  return _impl_.result_.Get(index);
+inline const std::string& ExtractionRep::_internal_result() const {
+  return _impl_.result_.Get();
 }
-inline const std::string& ExtractionRep::result(int index) const {
-  // @@protoc_insertion_point(field_get:remote.ExtractionRep.result)
-  return _internal_result(index);
+inline void ExtractionRep::_internal_set_result(const std::string& value) {
+  
+  _impl_.result_.Set(value, GetArenaForAllocation());
 }
-inline std::string* ExtractionRep::mutable_result(int index) {
-  // @@protoc_insertion_point(field_mutable:remote.ExtractionRep.result)
-  return _impl_.result_.Mutable(index);
+inline std::string* ExtractionRep::_internal_mutable_result() {
+  
+  return _impl_.result_.Mutable(GetArenaForAllocation());
 }
-inline void ExtractionRep::set_result(int index, const std::string& value) {
-  _impl_.result_.Mutable(index)->assign(value);
-  // @@protoc_insertion_point(field_set:remote.ExtractionRep.result)
+inline std::string* ExtractionRep::release_result() {
+  // @@protoc_insertion_point(field_release:remote.ExtractionRep.result)
+  return _impl_.result_.Release();
 }
-inline void ExtractionRep::set_result(int index, std::string&& value) {
-  _impl_.result_.Mutable(index)->assign(std::move(value));
-  // @@protoc_insertion_point(field_set:remote.ExtractionRep.result)
-}
-inline void ExtractionRep::set_result(int index, const char* value) {
-  GOOGLE_DCHECK(value != nullptr);
-  _impl_.result_.Mutable(index)->assign(value);
-  // @@protoc_insertion_point(field_set_char:remote.ExtractionRep.result)
-}
-inline void ExtractionRep::set_result(int index, const char* value, size_t size) {
-  _impl_.result_.Mutable(index)->assign(
-    reinterpret_cast<const char*>(value), size);
-  // @@protoc_insertion_point(field_set_pointer:remote.ExtractionRep.result)
-}
-inline std::string* ExtractionRep::_internal_add_result() {
-  return _impl_.result_.Add();
-}
-inline void ExtractionRep::add_result(const std::string& value) {
-  _impl_.result_.Add()->assign(value);
-  // @@protoc_insertion_point(field_add:remote.ExtractionRep.result)
-}
-inline void ExtractionRep::add_result(std::string&& value) {
-  _impl_.result_.Add(std::move(value));
-  // @@protoc_insertion_point(field_add:remote.ExtractionRep.result)
-}
-inline void ExtractionRep::add_result(const char* value) {
-  GOOGLE_DCHECK(value != nullptr);
-  _impl_.result_.Add()->assign(value);
-  // @@protoc_insertion_point(field_add_char:remote.ExtractionRep.result)
-}
-inline void ExtractionRep::add_result(const char* value, size_t size) {
-  _impl_.result_.Add()->assign(reinterpret_cast<const char*>(value), size);
-  // @@protoc_insertion_point(field_add_pointer:remote.ExtractionRep.result)
-}
-inline const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<std::string>&
-ExtractionRep::result() const {
-  // @@protoc_insertion_point(field_list:remote.ExtractionRep.result)
-  return _impl_.result_;
-}
-inline ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<std::string>*
-ExtractionRep::mutable_result() {
-  // @@protoc_insertion_point(field_mutable_list:remote.ExtractionRep.result)
-  return &_impl_.result_;
+inline void ExtractionRep::set_allocated_result(std::string* result) {
+  if (result != nullptr) {
+    
+  } else {
+    
+  }
+  _impl_.result_.SetAllocated(result, GetArenaForAllocation());
+#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (_impl_.result_.IsDefault()) {
+    _impl_.result_.Set("", GetArenaForAllocation());
+  }
+#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  // @@protoc_insertion_point(field_set_allocated:remote.ExtractionRep.result)
 }
 
 // -------------------------------------------------------------------

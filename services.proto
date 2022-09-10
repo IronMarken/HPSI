@@ -32,7 +32,8 @@ message ExtractionReq {
 
 // extraction reply
 message ExtractionRep{
-  repeated string result = 1;
+  // repeated string result = 1;
+  bytes result = 1;
 }
 
 

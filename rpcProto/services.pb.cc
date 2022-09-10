@@ -67,7 +67,7 @@ struct ExtractionReqDefaultTypeInternal {
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 ExtractionReqDefaultTypeInternal _ExtractionReq_default_instance_;
 PROTOBUF_CONSTEXPR ExtractionRep::ExtractionRep(
     ::_pbi::ConstantInitialized): _impl_{
-    /*decltype(_impl_.result_)*/{}
+    /*decltype(_impl_.result_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
   , /*decltype(_impl_._cached_size_)*/{}} {}
 struct ExtractionRepDefaultTypeInternal {
   PROTOBUF_CONSTEXPR ExtractionRepDefaultTypeInternal()
@@ -256,8 +256,8 @@ const char descriptor_table_protodef_services_2eproto[] PROTOBUF_SECTION_VARIABL
   "\022\016\n\006cipher\030\001 \003(\014\"o\n\rExtractionReq\022\026\n\016agr"
   "eement_name\030\001 \001(\t\022\025\n\rcomputed_file\030\002 \001(\t"
   "\022\023\n\013output_name\030\003 \001(\t\022\032\n\022receiver_file_n"
-  "ame\030\004 \001(\t\"\037\n\rExtractionRep\022\016\n\006result\030\001 \003"
-  "(\t\"6\n\nEncryptRep\022(\n\013ciphertexts\030\001 \001(\0132\023."
+  "ame\030\004 \001(\t\"\037\n\rExtractionRep\022\016\n\006result\030\001 \001"
+  "(\014\"6\n\nEncryptRep\022(\n\013ciphertexts\030\001 \001(\0132\023."
   "remote.Ciphertexts\"P\n\017IntersectionReq\022\014\n"
   "\004name\030\001 \001(\t\022/\n\022computation_result\030\002 \001(\0132"
   "\023.remote.Ciphertexts\"\021\n\017IntersectionRep\""
@@ -1146,10 +1146,18 @@ ExtractionRep::ExtractionRep(const ExtractionRep& from)
   : ::PROTOBUF_NAMESPACE_ID::Message() {
   ExtractionRep* const _this = this; (void)_this;
   new (&_impl_) Impl_{
-      decltype(_impl_.result_){from._impl_.result_}
+      decltype(_impl_.result_){}
     , /*decltype(_impl_._cached_size_)*/{}};
 
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  _impl_.result_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.result_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (!from._internal_result().empty()) {
+    _this->_impl_.result_.Set(from._internal_result(), 
+      _this->GetArenaForAllocation());
+  }
   // @@protoc_insertion_point(copy_constructor:remote.ExtractionRep)
 }
 
@@ -1158,9 +1166,13 @@ inline void ExtractionRep::SharedCtor(
   (void)arena;
   (void)is_message_owned;
   new (&_impl_) Impl_{
-      decltype(_impl_.result_){arena}
+      decltype(_impl_.result_){}
     , /*decltype(_impl_._cached_size_)*/{}
   };
+  _impl_.result_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.result_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
 }
 
 ExtractionRep::~ExtractionRep() {
@@ -1174,7 +1186,7 @@ ExtractionRep::~ExtractionRep() {
 
 inline void ExtractionRep::SharedDtor() {
   GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
-  _impl_.result_.~RepeatedPtrField();
+  _impl_.result_.Destroy();
 }
 
 void ExtractionRep::SetCachedSize(int size) const {
@@ -1187,7 +1199,7 @@ void ExtractionRep::Clear() {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  _impl_.result_.Clear();
+  _impl_.result_.ClearToEmpty();
   _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
 
@@ -1197,18 +1209,12 @@ const char* ExtractionRep::_InternalParse(const char* ptr, ::_pbi::ParseContext*
     uint32_t tag;
     ptr = ::_pbi::ReadTag(ptr, &tag);
     switch (tag >> 3) {
-      // repeated string result = 1;
+      // bytes result = 1;
       case 1:
         if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 10)) {
-          ptr -= 1;
-          do {
-            ptr += 1;
-            auto str = _internal_add_result();
-            ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
-            CHK_(ptr);
-            CHK_(::_pbi::VerifyUTF8(str, "remote.ExtractionRep.result"));
-            if (!ctx->DataAvailable(ptr)) break;
-          } while (::PROTOBUF_NAMESPACE_ID::internal::ExpectTag<10>(ptr));
+          auto str = _internal_mutable_result();
+          ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
+          CHK_(ptr);
         } else
           goto handle_unusual;
         continue;
@@ -1241,14 +1247,10 @@ uint8_t* ExtractionRep::_InternalSerialize(
   uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
 
-  // repeated string result = 1;
-  for (int i = 0, n = this->_internal_result_size(); i < n; i++) {
-    const auto& s = this->_internal_result(i);
-    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
-      s.data(), static_cast<int>(s.length()),
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
-      "remote.ExtractionRep.result");
-    target = stream->WriteString(1, s, target);
+  // bytes result = 1;
+  if (!this->_internal_result().empty()) {
+    target = stream->WriteBytesMaybeAliased(
+        1, this->_internal_result(), target);
   }
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
@@ -1267,12 +1269,11 @@ size_t ExtractionRep::ByteSizeLong() const {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  // repeated string result = 1;
-  total_size += 1 *
-      ::PROTOBUF_NAMESPACE_ID::internal::FromIntSize(_impl_.result_.size());
-  for (int i = 0, n = _impl_.result_.size(); i < n; i++) {
-    total_size += ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
-      _impl_.result_.Get(i));
+  // bytes result = 1;
+  if (!this->_internal_result().empty()) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::BytesSize(
+        this->_internal_result());
   }
 
   return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
@@ -1293,7 +1294,9 @@ void ExtractionRep::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::
   uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
 
-  _this->_impl_.result_.MergeFrom(from._impl_.result_);
+  if (!from._internal_result().empty()) {
+    _this->_internal_set_result(from._internal_result());
+  }
   _this->_internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
 }
 
@@ -1310,8 +1313,13 @@ bool ExtractionRep::IsInitialized() const {
 
 void ExtractionRep::InternalSwap(ExtractionRep* other) {
   using std::swap;
+  auto* lhs_arena = GetArenaForAllocation();
+  auto* rhs_arena = other->GetArenaForAllocation();
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
-  _impl_.result_.InternalSwap(&other->_impl_.result_);
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
+      &_impl_.result_, lhs_arena,
+      &other->_impl_.result_, rhs_arena
+  );
 }
 
 ::PROTOBUF_NAMESPACE_ID::Metadata ExtractionRep::GetMetadata() const {

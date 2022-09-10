@@ -107,7 +107,7 @@ int intersection(string cipher_file_name, string plain_file, string plain_file_e
     RelinKeys rel_key = get_relin_key(agreement_name + "_rel.key", agreement_context);
 
     // load ciphertexts from encrypted file
-    cout << "Loading encrypted ciphertexts" << endl;
+    cout << "Loading ciphertexts" << endl;
     Ciphertexts encrypted_proto = Ciphertexts();
     ifstream encrypted_stream(cipher_file_name + "." + "ctx");
     if (!encrypted_stream.is_open()){
@@ -180,7 +180,7 @@ int intersection(string cipher_file_name, string plain_file, string plain_file_e
         partial.save(partial_stream);
         request.mutable_computation_result()->add_cipher(partial_stream.str());
 
-        cout << "Phase " + to_string(i+1) + "/" + to_string(enc_size) + "completed" << endl;
+        cout << "Phase " + to_string(i+1) + "/" + to_string(enc_size) + " completed" << endl;
     }
 
     cout << "Intersection computation completed" << endl << "Sending result to the receiver" << endl;
@@ -238,7 +238,7 @@ int extraction(string agreement_name, string computed_file, string output_file, 
     // save reply
     cout << "Saving results" << endl;
     ofstream output(output_file + ".txt");
-    reply.SerializeToOstream(&output);
+    output << reply.result();
     output.close();
 
     return 0;
@@ -263,7 +263,7 @@ int main() {
 
     // manage strings with max len 4
     /*long plain = 2147483648;
-     auto poly = 8192;
+    auto poly = 8192;
     cout << "Plain modulus degree: "+ to_string(plain) << endl;
 
 
