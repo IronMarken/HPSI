@@ -13,14 +13,22 @@ service PSIFunctions {
 // encryption request with file to encrypt
 message EncryptReq {
   string file_to_encrypt = 1;
-  string file_ext = 2;
-  string agreement_name = 3;
+  string agreement_name = 2;
+  string out_file_name = 3;
 }
 
 // ciphertext message
 message Ciphertexts {
   repeated bytes cipher = 1;
 }
+
+
+
+// encryption reply with receiver ciphertexts
+message EncryptRep {
+  Ciphertexts ciphertexts = 1;
+}
+
 
 // extraction request
 message ExtractionReq {
@@ -36,12 +44,6 @@ message ExtractionRep{
   bytes result = 1;
 }
 
-
-
-// encryption reply with receiver ciphertexts
-message EncryptRep {
-  Ciphertexts ciphertexts = 1;
-}
 
 // intersection request with result
 message IntersectionReq {

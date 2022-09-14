@@ -116,12 +116,11 @@ class PSIFunctionsServiceImpl final : public PSIFunctions::Service {
     Status encrypt(ServerContext* context, const remote::EncryptReq* request,
                    EncryptRep* reply) override {
         string agreement_name = request->agreement_name();
-        string file_name = request->file_to_encrypt();
-        string file_ext = request->file_ext();
-        string file_to_encrypt = file_name + "." + file_ext;
+        string file_to_encrypt = request->file_to_encrypt();
+        string out_file_name = request->out_file_name();
 
         cout << "Encrypt invoked! Agreement name: "+agreement_name+". File to encrypt: "+ file_to_encrypt << endl;
-        cout << "Reloading context from parameters file: " + agreement_name + "_par,par" << endl;
+        cout << "Reloading context from parameters file: " + agreement_name + "_par.par" << endl;
 
         // context regeneration
         SEALContext agreement_context = reload_context(agreement_name+"_par.par");
@@ -166,7 +165,7 @@ class PSIFunctionsServiceImpl final : public PSIFunctions::Service {
 
         // save encrypted file
         cout << "Saving encrypted file" << endl;
-        ofstream out_file(agreement_name + "_" + file_name + ".ctx");
+        ofstream out_file(out_file_name + ".ctx");
         reply->ciphertexts().SerializeToOstream(&out_file);
 
         shutdown_mutex.unlock();
@@ -296,16 +295,31 @@ void shutdown(){
 }
 
 
-int main() {
-    PSIFunctionsServiceImpl service;
-    ServerBuilder builder;
-    shutdown_mutex.lock();
-    builder.AddListeningPort("0.0.0.0:8500", grpc::InsecureServerCredentials());
-    builder.RegisterService(&service);
-    server = builder.BuildAndStart();
-    thread th(shutdown);
-    cout << "Waiting for a request" << endl;
-    server->Wait();
-    th.join();
-    cout << "Closing" << endl;
+void usage(){
+    cout << "Usage:" << endl <<
+            "   --port: port number" << endl;
+}
+
+
+int main(int argc, char *argv[]) {
+    if (argc == 3 && !strcmp(argv[1], "--port")){
+        string port = argv[2];
+        PSIFunctionsServiceImpl service;
+        ServerBuilder builder;
+        shutdown_mutex.lock();
+        builder.AddListeningPort("0.0.0.0:" + port, grpc::InsecureServerCredentials());
+        builder.RegisterService(&service);
+        server = builder.BuildAndStart();
+        thread th(shutdown);
+        cout << "Waiting for a request" << endl;
+        server->Wait();
+        th.join();
+        cout << "Closing" << endl;
+    }else
+        usage();
+    return 0;
+
+
+
+
 }

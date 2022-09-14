@@ -211,8 +211,8 @@ class EncryptReq final :
 
   enum : int {
     kFileToEncryptFieldNumber = 1,
-    kFileExtFieldNumber = 2,
-    kAgreementNameFieldNumber = 3,
+    kAgreementNameFieldNumber = 2,
+    kOutFileNameFieldNumber = 3,
   };
   // string file_to_encrypt = 1;
   void clear_file_to_encrypt();
@@ -228,21 +228,7 @@ class EncryptReq final :
   std::string* _internal_mutable_file_to_encrypt();
   public:
 
-  // string file_ext = 2;
-  void clear_file_ext();
-  const std::string& file_ext() const;
-  template <typename ArgT0 = const std::string&, typename... ArgT>
-  void set_file_ext(ArgT0&& arg0, ArgT... args);
-  std::string* mutable_file_ext();
-  PROTOBUF_NODISCARD std::string* release_file_ext();
-  void set_allocated_file_ext(std::string* file_ext);
-  private:
-  const std::string& _internal_file_ext() const;
-  inline PROTOBUF_ALWAYS_INLINE void _internal_set_file_ext(const std::string& value);
-  std::string* _internal_mutable_file_ext();
-  public:
-
-  // string agreement_name = 3;
+  // string agreement_name = 2;
   void clear_agreement_name();
   const std::string& agreement_name() const;
   template <typename ArgT0 = const std::string&, typename... ArgT>
@@ -256,6 +242,20 @@ class EncryptReq final :
   std::string* _internal_mutable_agreement_name();
   public:
 
+  // string out_file_name = 3;
+  void clear_out_file_name();
+  const std::string& out_file_name() const;
+  template <typename ArgT0 = const std::string&, typename... ArgT>
+  void set_out_file_name(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_out_file_name();
+  PROTOBUF_NODISCARD std::string* release_out_file_name();
+  void set_allocated_out_file_name(std::string* out_file_name);
+  private:
+  const std::string& _internal_out_file_name() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_out_file_name(const std::string& value);
+  std::string* _internal_mutable_out_file_name();
+  public:
+
   // @@protoc_insertion_point(class_scope:remote.EncryptReq)
  private:
   class _Internal;
@@ -265,8 +265,8 @@ class EncryptReq final :
   typedef void DestructorSkippable_;
   struct Impl_ {
     ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr file_to_encrypt_;
-    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr file_ext_;
     ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr agreement_name_;
+    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr out_file_name_;
     mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   };
   union { Impl_ _impl_; };
@@ -437,6 +437,163 @@ class Ciphertexts final :
 };
 // -------------------------------------------------------------------
 
+class EncryptRep final :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:remote.EncryptRep) */ {
+ public:
+  inline EncryptRep() : EncryptRep(nullptr) {}
+  ~EncryptRep() override;
+  explicit PROTOBUF_CONSTEXPR EncryptRep(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+
+  EncryptRep(const EncryptRep& from);
+  EncryptRep(EncryptRep&& from) noexcept
+    : EncryptRep() {
+    *this = ::std::move(from);
+  }
+
+  inline EncryptRep& operator=(const EncryptRep& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline EncryptRep& operator=(EncryptRep&& from) noexcept {
+    if (this == &from) return *this;
+    if (GetOwningArena() == from.GetOwningArena()
+  #ifdef PROTOBUF_FORCE_COPY_IN_MOVE
+        && GetOwningArena() != nullptr
+  #endif  // !PROTOBUF_FORCE_COPY_IN_MOVE
+    ) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const EncryptRep& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const EncryptRep* internal_default_instance() {
+    return reinterpret_cast<const EncryptRep*>(
+               &_EncryptRep_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    2;
+
+  friend void swap(EncryptRep& a, EncryptRep& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(EncryptRep* other) {
+    if (other == this) return;
+  #ifdef PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() != nullptr &&
+        GetOwningArena() == other->GetOwningArena()) {
+   #else  // PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() == other->GetOwningArena()) {
+  #endif  // !PROTOBUF_FORCE_COPY_IN_SWAP
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(EncryptRep* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  EncryptRep* New(::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
+    return CreateMaybeMessage<EncryptRep>(arena);
+  }
+  using ::PROTOBUF_NAMESPACE_ID::Message::CopyFrom;
+  void CopyFrom(const EncryptRep& from);
+  using ::PROTOBUF_NAMESPACE_ID::Message::MergeFrom;
+  void MergeFrom( const EncryptRep& from) {
+    EncryptRep::MergeImpl(*this, from);
+  }
+  private:
+  static void MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg);
+  public:
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  uint8_t* _InternalSerialize(
+      uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _impl_._cached_size_.Get(); }
+
+  private:
+  void SharedCtor(::PROTOBUF_NAMESPACE_ID::Arena* arena, bool is_message_owned);
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(EncryptRep* other);
+
+  private:
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "remote.EncryptRep";
+  }
+  protected:
+  explicit EncryptRep(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                       bool is_message_owned = false);
+  public:
+
+  static const ClassData _class_data_;
+  const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*GetClassData() const final;
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kCiphertextsFieldNumber = 1,
+  };
+  // .remote.Ciphertexts ciphertexts = 1;
+  bool has_ciphertexts() const;
+  private:
+  bool _internal_has_ciphertexts() const;
+  public:
+  void clear_ciphertexts();
+  const ::remote::Ciphertexts& ciphertexts() const;
+  PROTOBUF_NODISCARD ::remote::Ciphertexts* release_ciphertexts();
+  ::remote::Ciphertexts* mutable_ciphertexts();
+  void set_allocated_ciphertexts(::remote::Ciphertexts* ciphertexts);
+  private:
+  const ::remote::Ciphertexts& _internal_ciphertexts() const;
+  ::remote::Ciphertexts* _internal_mutable_ciphertexts();
+  public:
+  void unsafe_arena_set_allocated_ciphertexts(
+      ::remote::Ciphertexts* ciphertexts);
+  ::remote::Ciphertexts* unsafe_arena_release_ciphertexts();
+
+  // @@protoc_insertion_point(class_scope:remote.EncryptRep)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  struct Impl_ {
+    ::remote::Ciphertexts* ciphertexts_;
+    mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  };
+  union { Impl_ _impl_; };
+  friend struct ::TableStruct_services_2eproto;
+};
+// -------------------------------------------------------------------
+
 class ExtractionReq final :
     public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:remote.ExtractionReq) */ {
  public:
@@ -485,7 +642,7 @@ class ExtractionReq final :
                &_ExtractionReq_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    2;
+    3;
 
   friend void swap(ExtractionReq& a, ExtractionReq& b) {
     a.Swap(&b);
@@ -686,7 +843,7 @@ class ExtractionRep final :
                &_ExtractionRep_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    3;
+    4;
 
   friend void swap(ExtractionRep& a, ExtractionRep& b) {
     a.Swap(&b);
@@ -784,163 +941,6 @@ class ExtractionRep final :
   typedef void DestructorSkippable_;
   struct Impl_ {
     ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr result_;
-    mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
-  };
-  union { Impl_ _impl_; };
-  friend struct ::TableStruct_services_2eproto;
-};
-// -------------------------------------------------------------------
-
-class EncryptRep final :
-    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:remote.EncryptRep) */ {
- public:
-  inline EncryptRep() : EncryptRep(nullptr) {}
-  ~EncryptRep() override;
-  explicit PROTOBUF_CONSTEXPR EncryptRep(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
-
-  EncryptRep(const EncryptRep& from);
-  EncryptRep(EncryptRep&& from) noexcept
-    : EncryptRep() {
-    *this = ::std::move(from);
-  }
-
-  inline EncryptRep& operator=(const EncryptRep& from) {
-    CopyFrom(from);
-    return *this;
-  }
-  inline EncryptRep& operator=(EncryptRep&& from) noexcept {
-    if (this == &from) return *this;
-    if (GetOwningArena() == from.GetOwningArena()
-  #ifdef PROTOBUF_FORCE_COPY_IN_MOVE
-        && GetOwningArena() != nullptr
-  #endif  // !PROTOBUF_FORCE_COPY_IN_MOVE
-    ) {
-      InternalSwap(&from);
-    } else {
-      CopyFrom(from);
-    }
-    return *this;
-  }
-
-  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
-    return GetDescriptor();
-  }
-  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
-    return default_instance().GetMetadata().descriptor;
-  }
-  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
-    return default_instance().GetMetadata().reflection;
-  }
-  static const EncryptRep& default_instance() {
-    return *internal_default_instance();
-  }
-  static inline const EncryptRep* internal_default_instance() {
-    return reinterpret_cast<const EncryptRep*>(
-               &_EncryptRep_default_instance_);
-  }
-  static constexpr int kIndexInFileMessages =
-    4;
-
-  friend void swap(EncryptRep& a, EncryptRep& b) {
-    a.Swap(&b);
-  }
-  inline void Swap(EncryptRep* other) {
-    if (other == this) return;
-  #ifdef PROTOBUF_FORCE_COPY_IN_SWAP
-    if (GetOwningArena() != nullptr &&
-        GetOwningArena() == other->GetOwningArena()) {
-   #else  // PROTOBUF_FORCE_COPY_IN_SWAP
-    if (GetOwningArena() == other->GetOwningArena()) {
-  #endif  // !PROTOBUF_FORCE_COPY_IN_SWAP
-      InternalSwap(other);
-    } else {
-      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
-    }
-  }
-  void UnsafeArenaSwap(EncryptRep* other) {
-    if (other == this) return;
-    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
-    InternalSwap(other);
-  }
-
-  // implements Message ----------------------------------------------
-
-  EncryptRep* New(::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
-    return CreateMaybeMessage<EncryptRep>(arena);
-  }
-  using ::PROTOBUF_NAMESPACE_ID::Message::CopyFrom;
-  void CopyFrom(const EncryptRep& from);
-  using ::PROTOBUF_NAMESPACE_ID::Message::MergeFrom;
-  void MergeFrom( const EncryptRep& from) {
-    EncryptRep::MergeImpl(*this, from);
-  }
-  private:
-  static void MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg);
-  public:
-  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
-  bool IsInitialized() const final;
-
-  size_t ByteSizeLong() const final;
-  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
-  uint8_t* _InternalSerialize(
-      uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
-  int GetCachedSize() const final { return _impl_._cached_size_.Get(); }
-
-  private:
-  void SharedCtor(::PROTOBUF_NAMESPACE_ID::Arena* arena, bool is_message_owned);
-  void SharedDtor();
-  void SetCachedSize(int size) const final;
-  void InternalSwap(EncryptRep* other);
-
-  private:
-  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
-  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
-    return "remote.EncryptRep";
-  }
-  protected:
-  explicit EncryptRep(::PROTOBUF_NAMESPACE_ID::Arena* arena,
-                       bool is_message_owned = false);
-  public:
-
-  static const ClassData _class_data_;
-  const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*GetClassData() const final;
-
-  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
-
-  // nested types ----------------------------------------------------
-
-  // accessors -------------------------------------------------------
-
-  enum : int {
-    kCiphertextsFieldNumber = 1,
-  };
-  // .remote.Ciphertexts ciphertexts = 1;
-  bool has_ciphertexts() const;
-  private:
-  bool _internal_has_ciphertexts() const;
-  public:
-  void clear_ciphertexts();
-  const ::remote::Ciphertexts& ciphertexts() const;
-  PROTOBUF_NODISCARD ::remote::Ciphertexts* release_ciphertexts();
-  ::remote::Ciphertexts* mutable_ciphertexts();
-  void set_allocated_ciphertexts(::remote::Ciphertexts* ciphertexts);
-  private:
-  const ::remote::Ciphertexts& _internal_ciphertexts() const;
-  ::remote::Ciphertexts* _internal_mutable_ciphertexts();
-  public:
-  void unsafe_arena_set_allocated_ciphertexts(
-      ::remote::Ciphertexts* ciphertexts);
-  ::remote::Ciphertexts* unsafe_arena_release_ciphertexts();
-
-  // @@protoc_insertion_point(class_scope:remote.EncryptRep)
- private:
-  class _Internal;
-
-  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
-  typedef void InternalArenaConstructable_;
-  typedef void DestructorSkippable_;
-  struct Impl_ {
-    ::remote::Ciphertexts* ciphertexts_;
     mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   };
   union { Impl_ _impl_; };
@@ -1658,57 +1658,7 @@ inline void EncryptReq::set_allocated_file_to_encrypt(std::string* file_to_encry
   // @@protoc_insertion_point(field_set_allocated:remote.EncryptReq.file_to_encrypt)
 }
 
-// string file_ext = 2;
-inline void EncryptReq::clear_file_ext() {
-  _impl_.file_ext_.ClearToEmpty();
-}
-inline const std::string& EncryptReq::file_ext() const {
-  // @@protoc_insertion_point(field_get:remote.EncryptReq.file_ext)
-  return _internal_file_ext();
-}
-template <typename ArgT0, typename... ArgT>
-inline PROTOBUF_ALWAYS_INLINE
-void EncryptReq::set_file_ext(ArgT0&& arg0, ArgT... args) {
- 
- _impl_.file_ext_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
-  // @@protoc_insertion_point(field_set:remote.EncryptReq.file_ext)
-}
-inline std::string* EncryptReq::mutable_file_ext() {
-  std::string* _s = _internal_mutable_file_ext();
-  // @@protoc_insertion_point(field_mutable:remote.EncryptReq.file_ext)
-  return _s;
-}
-inline const std::string& EncryptReq::_internal_file_ext() const {
-  return _impl_.file_ext_.Get();
-}
-inline void EncryptReq::_internal_set_file_ext(const std::string& value) {
-  
-  _impl_.file_ext_.Set(value, GetArenaForAllocation());
-}
-inline std::string* EncryptReq::_internal_mutable_file_ext() {
-  
-  return _impl_.file_ext_.Mutable(GetArenaForAllocation());
-}
-inline std::string* EncryptReq::release_file_ext() {
-  // @@protoc_insertion_point(field_release:remote.EncryptReq.file_ext)
-  return _impl_.file_ext_.Release();
-}
-inline void EncryptReq::set_allocated_file_ext(std::string* file_ext) {
-  if (file_ext != nullptr) {
-    
-  } else {
-    
-  }
-  _impl_.file_ext_.SetAllocated(file_ext, GetArenaForAllocation());
-#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  if (_impl_.file_ext_.IsDefault()) {
-    _impl_.file_ext_.Set("", GetArenaForAllocation());
-  }
-#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  // @@protoc_insertion_point(field_set_allocated:remote.EncryptReq.file_ext)
-}
-
-// string agreement_name = 3;
+// string agreement_name = 2;
 inline void EncryptReq::clear_agreement_name() {
   _impl_.agreement_name_.ClearToEmpty();
 }
@@ -1756,6 +1706,56 @@ inline void EncryptReq::set_allocated_agreement_name(std::string* agreement_name
   }
 #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
   // @@protoc_insertion_point(field_set_allocated:remote.EncryptReq.agreement_name)
+}
+
+// string out_file_name = 3;
+inline void EncryptReq::clear_out_file_name() {
+  _impl_.out_file_name_.ClearToEmpty();
+}
+inline const std::string& EncryptReq::out_file_name() const {
+  // @@protoc_insertion_point(field_get:remote.EncryptReq.out_file_name)
+  return _internal_out_file_name();
+}
+template <typename ArgT0, typename... ArgT>
+inline PROTOBUF_ALWAYS_INLINE
+void EncryptReq::set_out_file_name(ArgT0&& arg0, ArgT... args) {
+ 
+ _impl_.out_file_name_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:remote.EncryptReq.out_file_name)
+}
+inline std::string* EncryptReq::mutable_out_file_name() {
+  std::string* _s = _internal_mutable_out_file_name();
+  // @@protoc_insertion_point(field_mutable:remote.EncryptReq.out_file_name)
+  return _s;
+}
+inline const std::string& EncryptReq::_internal_out_file_name() const {
+  return _impl_.out_file_name_.Get();
+}
+inline void EncryptReq::_internal_set_out_file_name(const std::string& value) {
+  
+  _impl_.out_file_name_.Set(value, GetArenaForAllocation());
+}
+inline std::string* EncryptReq::_internal_mutable_out_file_name() {
+  
+  return _impl_.out_file_name_.Mutable(GetArenaForAllocation());
+}
+inline std::string* EncryptReq::release_out_file_name() {
+  // @@protoc_insertion_point(field_release:remote.EncryptReq.out_file_name)
+  return _impl_.out_file_name_.Release();
+}
+inline void EncryptReq::set_allocated_out_file_name(std::string* out_file_name) {
+  if (out_file_name != nullptr) {
+    
+  } else {
+    
+  }
+  _impl_.out_file_name_.SetAllocated(out_file_name, GetArenaForAllocation());
+#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (_impl_.out_file_name_.IsDefault()) {
+    _impl_.out_file_name_.Set("", GetArenaForAllocation());
+  }
+#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  // @@protoc_insertion_point(field_set_allocated:remote.EncryptReq.out_file_name)
 }
 
 // -------------------------------------------------------------------
@@ -1835,6 +1835,100 @@ inline ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<std::string>*
 Ciphertexts::mutable_cipher() {
   // @@protoc_insertion_point(field_mutable_list:remote.Ciphertexts.cipher)
   return &_impl_.cipher_;
+}
+
+// -------------------------------------------------------------------
+
+// EncryptRep
+
+// .remote.Ciphertexts ciphertexts = 1;
+inline bool EncryptRep::_internal_has_ciphertexts() const {
+  return this != internal_default_instance() && _impl_.ciphertexts_ != nullptr;
+}
+inline bool EncryptRep::has_ciphertexts() const {
+  return _internal_has_ciphertexts();
+}
+inline void EncryptRep::clear_ciphertexts() {
+  if (GetArenaForAllocation() == nullptr && _impl_.ciphertexts_ != nullptr) {
+    delete _impl_.ciphertexts_;
+  }
+  _impl_.ciphertexts_ = nullptr;
+}
+inline const ::remote::Ciphertexts& EncryptRep::_internal_ciphertexts() const {
+  const ::remote::Ciphertexts* p = _impl_.ciphertexts_;
+  return p != nullptr ? *p : reinterpret_cast<const ::remote::Ciphertexts&>(
+      ::remote::_Ciphertexts_default_instance_);
+}
+inline const ::remote::Ciphertexts& EncryptRep::ciphertexts() const {
+  // @@protoc_insertion_point(field_get:remote.EncryptRep.ciphertexts)
+  return _internal_ciphertexts();
+}
+inline void EncryptRep::unsafe_arena_set_allocated_ciphertexts(
+    ::remote::Ciphertexts* ciphertexts) {
+  if (GetArenaForAllocation() == nullptr) {
+    delete reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(_impl_.ciphertexts_);
+  }
+  _impl_.ciphertexts_ = ciphertexts;
+  if (ciphertexts) {
+    
+  } else {
+    
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:remote.EncryptRep.ciphertexts)
+}
+inline ::remote::Ciphertexts* EncryptRep::release_ciphertexts() {
+  
+  ::remote::Ciphertexts* temp = _impl_.ciphertexts_;
+  _impl_.ciphertexts_ = nullptr;
+#ifdef PROTOBUF_FORCE_COPY_IN_RELEASE
+  auto* old =  reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(temp);
+  temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
+  if (GetArenaForAllocation() == nullptr) { delete old; }
+#else  // PROTOBUF_FORCE_COPY_IN_RELEASE
+  if (GetArenaForAllocation() != nullptr) {
+    temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
+  }
+#endif  // !PROTOBUF_FORCE_COPY_IN_RELEASE
+  return temp;
+}
+inline ::remote::Ciphertexts* EncryptRep::unsafe_arena_release_ciphertexts() {
+  // @@protoc_insertion_point(field_release:remote.EncryptRep.ciphertexts)
+  
+  ::remote::Ciphertexts* temp = _impl_.ciphertexts_;
+  _impl_.ciphertexts_ = nullptr;
+  return temp;
+}
+inline ::remote::Ciphertexts* EncryptRep::_internal_mutable_ciphertexts() {
+  
+  if (_impl_.ciphertexts_ == nullptr) {
+    auto* p = CreateMaybeMessage<::remote::Ciphertexts>(GetArenaForAllocation());
+    _impl_.ciphertexts_ = p;
+  }
+  return _impl_.ciphertexts_;
+}
+inline ::remote::Ciphertexts* EncryptRep::mutable_ciphertexts() {
+  ::remote::Ciphertexts* _msg = _internal_mutable_ciphertexts();
+  // @@protoc_insertion_point(field_mutable:remote.EncryptRep.ciphertexts)
+  return _msg;
+}
+inline void EncryptRep::set_allocated_ciphertexts(::remote::Ciphertexts* ciphertexts) {
+  ::PROTOBUF_NAMESPACE_ID::Arena* message_arena = GetArenaForAllocation();
+  if (message_arena == nullptr) {
+    delete _impl_.ciphertexts_;
+  }
+  if (ciphertexts) {
+    ::PROTOBUF_NAMESPACE_ID::Arena* submessage_arena =
+        ::PROTOBUF_NAMESPACE_ID::Arena::InternalGetOwningArena(ciphertexts);
+    if (message_arena != submessage_arena) {
+      ciphertexts = ::PROTOBUF_NAMESPACE_ID::internal::GetOwnedMessage(
+          message_arena, ciphertexts, submessage_arena);
+    }
+    
+  } else {
+    
+  }
+  _impl_.ciphertexts_ = ciphertexts;
+  // @@protoc_insertion_point(field_set_allocated:remote.EncryptRep.ciphertexts)
 }
 
 // -------------------------------------------------------------------
@@ -2093,100 +2187,6 @@ inline void ExtractionRep::set_allocated_result(std::string* result) {
   }
 #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
   // @@protoc_insertion_point(field_set_allocated:remote.ExtractionRep.result)
-}
-
-// -------------------------------------------------------------------
-
-// EncryptRep
-
-// .remote.Ciphertexts ciphertexts = 1;
-inline bool EncryptRep::_internal_has_ciphertexts() const {
-  return this != internal_default_instance() && _impl_.ciphertexts_ != nullptr;
-}
-inline bool EncryptRep::has_ciphertexts() const {
-  return _internal_has_ciphertexts();
-}
-inline void EncryptRep::clear_ciphertexts() {
-  if (GetArenaForAllocation() == nullptr && _impl_.ciphertexts_ != nullptr) {
-    delete _impl_.ciphertexts_;
-  }
-  _impl_.ciphertexts_ = nullptr;
-}
-inline const ::remote::Ciphertexts& EncryptRep::_internal_ciphertexts() const {
-  const ::remote::Ciphertexts* p = _impl_.ciphertexts_;
-  return p != nullptr ? *p : reinterpret_cast<const ::remote::Ciphertexts&>(
-      ::remote::_Ciphertexts_default_instance_);
-}
-inline const ::remote::Ciphertexts& EncryptRep::ciphertexts() const {
-  // @@protoc_insertion_point(field_get:remote.EncryptRep.ciphertexts)
-  return _internal_ciphertexts();
-}
-inline void EncryptRep::unsafe_arena_set_allocated_ciphertexts(
-    ::remote::Ciphertexts* ciphertexts) {
-  if (GetArenaForAllocation() == nullptr) {
-    delete reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(_impl_.ciphertexts_);
-  }
-  _impl_.ciphertexts_ = ciphertexts;
-  if (ciphertexts) {
-    
-  } else {
-    
-  }
-  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:remote.EncryptRep.ciphertexts)
-}
-inline ::remote::Ciphertexts* EncryptRep::release_ciphertexts() {
-  
-  ::remote::Ciphertexts* temp = _impl_.ciphertexts_;
-  _impl_.ciphertexts_ = nullptr;
-#ifdef PROTOBUF_FORCE_COPY_IN_RELEASE
-  auto* old =  reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(temp);
-  temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
-  if (GetArenaForAllocation() == nullptr) { delete old; }
-#else  // PROTOBUF_FORCE_COPY_IN_RELEASE
-  if (GetArenaForAllocation() != nullptr) {
-    temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
-  }
-#endif  // !PROTOBUF_FORCE_COPY_IN_RELEASE
-  return temp;
-}
-inline ::remote::Ciphertexts* EncryptRep::unsafe_arena_release_ciphertexts() {
-  // @@protoc_insertion_point(field_release:remote.EncryptRep.ciphertexts)
-  
-  ::remote::Ciphertexts* temp = _impl_.ciphertexts_;
-  _impl_.ciphertexts_ = nullptr;
-  return temp;
-}
-inline ::remote::Ciphertexts* EncryptRep::_internal_mutable_ciphertexts() {
-  
-  if (_impl_.ciphertexts_ == nullptr) {
-    auto* p = CreateMaybeMessage<::remote::Ciphertexts>(GetArenaForAllocation());
-    _impl_.ciphertexts_ = p;
-  }
-  return _impl_.ciphertexts_;
-}
-inline ::remote::Ciphertexts* EncryptRep::mutable_ciphertexts() {
-  ::remote::Ciphertexts* _msg = _internal_mutable_ciphertexts();
-  // @@protoc_insertion_point(field_mutable:remote.EncryptRep.ciphertexts)
-  return _msg;
-}
-inline void EncryptRep::set_allocated_ciphertexts(::remote::Ciphertexts* ciphertexts) {
-  ::PROTOBUF_NAMESPACE_ID::Arena* message_arena = GetArenaForAllocation();
-  if (message_arena == nullptr) {
-    delete _impl_.ciphertexts_;
-  }
-  if (ciphertexts) {
-    ::PROTOBUF_NAMESPACE_ID::Arena* submessage_arena =
-        ::PROTOBUF_NAMESPACE_ID::Arena::InternalGetOwningArena(ciphertexts);
-    if (message_arena != submessage_arena) {
-      ciphertexts = ::PROTOBUF_NAMESPACE_ID::internal::GetOwnedMessage(
-          message_arena, ciphertexts, submessage_arena);
-    }
-    
-  } else {
-    
-  }
-  _impl_.ciphertexts_ = ciphertexts;
-  // @@protoc_insertion_point(field_set_allocated:remote.EncryptRep.ciphertexts)
 }
 
 // -------------------------------------------------------------------

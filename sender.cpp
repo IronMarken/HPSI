@@ -14,12 +14,12 @@ using namespace seal;
 using namespace std;
 
 
-int setup(string agreement_name, long poly_modulus, long plain_modulus, string port){
+int setup(string agreement_name, long poly_modulus, long plain_modulus,string ip, string port){
     cout << "Setup invoked" <<endl;
     cout << "Creating channel " << endl;
 
     // setup stub and channel
-    auto channel = grpc::CreateChannel("localhost:"+port, grpc::InsecureChannelCredentials());
+    auto channel = grpc::CreateChannel(ip + ":" + port, grpc::InsecureChannelCredentials());
     cout << "Creating stub " << endl;
     auto stub = PSIFunctions::NewStub(channel);
     ClientContext context;
@@ -58,21 +58,21 @@ int setup(string agreement_name, long poly_modulus, long plain_modulus, string p
     return 0;
 }
 
-int encrypt(string file_name_to_encrypt, string file_ext, string agreement_name, string port){
+int encrypt(string file_to_encrypt, string agreement_name, string out_file_name, string ip, string port){
     cout << "Encrypt invoked" << endl;
     cout << "Creating channel " << endl;
 
     // setup stub and channel
-    auto channel = grpc::CreateChannel("localhost:"+port, grpc::InsecureChannelCredentials());
+    auto channel = grpc::CreateChannel(ip + ":" + port, grpc::InsecureChannelCredentials());
     cout << "Creating stub " << endl;
     auto stub = PSIFunctions::NewStub(channel);
     ClientContext context;
 
     // setup request
     EncryptReq request;
-    request.set_file_to_encrypt(file_name_to_encrypt);
-    request.set_file_ext(file_ext);
+    request.set_file_to_encrypt(file_to_encrypt);
     request.set_agreement_name(agreement_name);
+    request.set_out_file_name(out_file_name);
     EncryptRep reply;
     cout << "Sending the encrypt request to the receiver" << endl;
 
@@ -87,14 +87,14 @@ int encrypt(string file_name_to_encrypt, string file_ext, string agreement_name,
 
     // save reply
     cout << "Saving ciphertexts" << endl;
-    ofstream cip_file(agreement_name + "_" + file_name_to_encrypt + ".ctx");
+    ofstream cip_file(out_file_name + ".ctx");
     reply.ciphertexts().SerializeToOstream(&cip_file);
 
     cip_file.close();
     return 0;
 }
 
-int intersection(string cipher_file_name, string plain_file, string plain_file_ext, string agreement_name, string port){
+int intersection(string cipher_file_name, string plain_file, string agreement_name, string out_file_name, string ip, string port){
     cout << "Intersection computation invoked" << endl;
 
     // reload context
@@ -132,7 +132,7 @@ int intersection(string cipher_file_name, string plain_file, string plain_file_e
 
     //load and encrypt plaintext file
     cout << "Loading and encrypting plaintext file" << endl;
-    auto plain_rows = read_file(plain_file + "." + plain_file_ext);
+    auto plain_rows = read_file(plain_file);
     Encryptor enc(agreement_context, pub_key);
     vector<Ciphertext> sender_list;
 
@@ -187,12 +187,12 @@ int intersection(string cipher_file_name, string plain_file, string plain_file_e
 
     // send result to the receiver
     // setup stub and channel
-    auto channel = grpc::CreateChannel("localhost:"+port, grpc::InsecureChannelCredentials());
+    auto channel = grpc::CreateChannel(ip + ":" + port, grpc::InsecureChannelCredentials());
     auto stub = PSIFunctions::NewStub(channel);
     ClientContext context;
 
 
-    request.set_name(plain_file + "_intersection");
+    request.set_name(out_file_name);
     IntersectionRep reply;
 
     // invoking the intersection
@@ -206,12 +206,12 @@ int intersection(string cipher_file_name, string plain_file, string plain_file_e
     return 0;
 }
 
-int extraction(string agreement_name, string computed_file, string output_file, string receiver_file, string port){
+int extraction(string agreement_name, string computed_file, string output_file, string receiver_file, string ip,  string port){
     cout << "Extraction invoked" << endl;
 
     // setup stub and channel
     cout << "Creating channel" << endl;
-    auto channel = grpc::CreateChannel("localhost:" + port, grpc::InsecureChannelCredentials());
+    auto channel = grpc::CreateChannel(ip + ":" + port, grpc::InsecureChannelCredentials());
     cout << "Creating stub" << endl;
     auto stub = PSIFunctions::NewStub(channel);
     ClientContext context;
@@ -245,7 +245,39 @@ int extraction(string agreement_name, string computed_file, string output_file, 
 }
 
 
-int main() {
+void usage(){
+    cout << "Usage:" << endl <<
+            "   setup: agree on a fully homomorphic cryptographic scheme" << endl <<
+            "       -an: agreement name used as identifier [default = test]" << endl <<
+            "       -py: poly modulus [default = 8192]" << endl <<
+            "       -pl: plain modulus [default = 2147483648 (strings with max length 4)]" << endl <<
+            "       -ip: ip to connect [default = localhost]" << endl <<
+            "       -pt: port to connect [default = 8500]" << endl <<
+            "   encrypt: encrypt receiver plaintext file" << endl <<
+            "       -rf: receiver file to encrypt [default = receiver.txt]" << endl <<
+            "       -an: agreement name [default = test]" << endl <<
+            "       -of: output file name [default = encrypted]" << endl <<
+            "       -ip: ip to connect [default = localhost]" << endl <<
+            "       -pt: port to connect [default = 8500]" << endl <<
+            "   intersect: homomorphic computes intersection (not in plaintext)" << endl <<
+            "       -ef: encrypted file name [default = encrypted]" << endl <<
+            "       -sf: sender file name to intersect [default = sender.txt]" << endl <<
+            "       -an: agreement name [default = test]" << endl <<
+            "       -of: output file name [default = intersection]" << endl <<
+            "       -ip: ip to connect [default = localhost]" << endl <<
+            "       -pt: port to connect [default = 8500]" << endl <<
+            "   extract: intersection plaintext values" << endl <<
+            "       -an: agreement name [default = test]" << endl <<
+            "       -if: intersection file name [default = intersection]" << endl <<
+            "       -of: output file name [default = result]" << endl <<
+            "       -rf: receiver plaintext file [default = receiver.txt]" << endl <<
+            "       -ip: ip to connect [default = localhost]" << endl <<
+            "       -pt: port to connect [default = 8500]" << endl <<
+            "   help: show usage info" << endl;
+}
+
+
+int main(int argc, char *argv[]) {
     /* WARNING POLY MODULUS DEGREE SUPPORTED
     +----------------------------------------------------+
     | poly_modulus_degree | max coeff_modulus bit-length |
@@ -257,96 +289,183 @@ int main() {
     | 16384               | 438                          |
     | 32768               | 881                          |
     +---------------------+------------------------------+*/
-    string agreement_name = "test";
 
-    auto port = "8500";
-
-    // manage strings with max len 4
-    /*long plain = 2147483648;
-    auto poly = 8192;
-    cout << "Plain modulus degree: "+ to_string(plain) << endl;
-
-
-    setup(agreement_name, poly, plain, port);*/
-    /*ifstream param_stream;
-    param_stream.open(agreement_name+"_par.par");
-    EncryptionParameters parms(scheme_type::bfv);
-    parms.load(param_stream);
-    SEALContext agreement_context(parms);
-    cout << "Context generated" <<endl;
-    param_stream.close();
-
-    ifstream pub_key_stream;
-    pub_key_stream.open(agreement_name+"_pub.key");
-    PublicKey pub_key;
-    pub_key.load(agreement_context, pub_key_stream);
-    pub_key_stream.close();
-    cout << "pub key loaded correctly" << endl;
-
-    ifstream rel_stream;
-    rel_stream.open(agreement_name+"_rel.key");
-    RelinKeys rel_keys;
-    rel_keys.load(agreement_context, rel_stream);
-    rel_stream.close();
-    cout << "rel key loaded correctly" << endl;*/
-
-    /*auto agreement_context = reload_context(agreement_name+"_par.par");
-    auto pub_key = get_public_key(agreement_name+"_pub.key", agreement_context);
-    auto rel_keys = get_relin_key(agreement_name+"_rel.key", agreement_context);
-
-
-    // encryption
-    string file_name = "receiver";
-    string ext = "txt";
-    encrypt(file_name, ext, agreement_name, port);*/
-
-    // decrypt
-    // decrypt from file
-    /*string ec_file = agreement_name+"_"+file_name+".ctx";
-    string ec_file = agreement_name+"_"+file_name+".ctx";
-    vector<string> rows;
-
-    // use protocol buffer to get ciphertexts
-    Ciphertexts cp_buff = Ciphertexts();
-    ifstream cp_file(ec_file);
-
-    cp_buff.ParseFromIstream(&cp_file);
-    auto cipher = cp_buff.cipher();
-
-
-    rows.reserve(cipher.size());
-    for (int i = 0; i < cipher.size(); i++) {
-        rows.push_back(cipher.Get(i));
+    if (argc < 2){
+        cout << "Wrong usage" << endl << endl;
+        usage();
+        return -1;
     }
 
-    cout << ec_file << endl;
+    // parse command
 
-    ifstream priv_key_stream;
-    priv_key_stream.open(agreement_name+"_priv.key");
-    SecretKey priv_key;
-    priv_key.load(agreement_context, priv_key_stream);
-    priv_key_stream.close();
-    cout << "priv key loaded correctly" << endl;
-    Decryptor decryptor(agreement_context, priv_key);
+    // help
+    if (!strcmp(argv[1], "help")){
+        usage();
+    }
+    // setup
+    else if (!strcmp(argv[1], "setup")){
+        // set default values
+        string agreement_name = "test";
+        long poly = 8192;
+        // strings with length 4
+        long plain = 2147483648;
+        string ip = "localhost";
+        string port = "8500";
 
-    stringstream row;
+        // arg parser
+        // double i++ in cycle condition and out to fix some wrong arguments
+        for(int i = 2; i < argc; i++ ){
+            if(!strcmp(argv[i], "-an") && argc > i+1){
+                agreement_name = argv[i+1];
+                i++;
+            } else if(!strcmp(argv[i], "-py") && argc > i+1){
+                poly = stol(argv[i+1]);
+                i++;
+            } else if(!strcmp(argv[i], "-pl") && argc > i+1){
+                plain = stol(argv[i+1]);
+                i++;
+            } else if(!strcmp(argv[i], "-ip") && argc > i+1){
+                ip = argv[i+1];
+                i++;
+            } else if(!strcmp(argv[i], "-pt") && argc > i+1){
+                port = argv[i+1];
+                i++;
+            }
+        }
+
+        // print parameters
+        cout << "Agreement name: " + agreement_name << endl <<
+        "Poly modulus: " + to_string(poly) << endl <<
+        "Plain modulus: " + to_string(plain) << endl <<
+        "IP: " + ip << endl << "Port: " + port << endl << endl;
+
+        // invoke setup
+        setup(agreement_name, poly, plain, ip, port);
+    }
+
+    // encrypt
+    else if(!strcmp(argv[1], "encrypt")){
+        string receiver_file = "receiver.txt";
+        string agreement_name = "test";
+        string output_file_name = "encrypted";
+        string ip = "localhost";
+        string port = "8500";
+
+        for(int i = 2; i < argc; i++ ){
+            if(!strcmp(argv[i], "-an") && argc > i+1){
+                agreement_name = argv[i+1];
+                i++;
+            } else if(!strcmp(argv[i], "-rf") && argc > i+1){
+                receiver_file = argv[i+1];
+                i++;
+            } else if(!strcmp(argv[i], "-of") && argc > i+1){
+                output_file_name = argv[i+1];
+                i++;
+            } else if(!strcmp(argv[i], "-ip") && argc > i+1){
+                ip = argv[i+1];
+                i++;
+            } else if(!strcmp(argv[i], "-pt") && argc > i+1){
+                port = argv[i+1];
+                i++;
+            }
+        }
+
+        // print parameters
+        cout << "Receiver file: " + receiver_file << endl <<
+        "Agreement name: " + agreement_name << endl <<
+        "Output file: " + output_file_name << endl <<
+        "IP: " + ip << endl << "Port: " + port << endl << endl;
+
+        //invoke encryption
+        encrypt(receiver_file, agreement_name, output_file_name, ip, port);
+    }
+
+    //intersect
+    else if(!strcmp(argv[1], "intersect")){
+        string encrypted_file = "encrypted";
+        string sender_file = "sender.txt";
+        string agreement_name = "test";
+        string output_file_name = "intersection";
+        string ip = "localhost";
+        string port = "8500";
+
+        for(int i = 2; i < argc; i++ ){
+            if(!strcmp(argv[i], "-an") && argc > i+1){
+                agreement_name = argv[i+1];
+                i++;
+            } else if(!strcmp(argv[i], "-ef") && argc > i+1){
+                encrypted_file = argv[i+1];
+                i++;
+            } else if(!strcmp(argv[i], "-sf") && argc > i+1) {
+                sender_file = argv[i + 1];
+                i++;
+            } else if(!strcmp(argv[i], "-of") && argc > i+1){
+                output_file_name = argv[i+1];
+                i++;
+            } else if(!strcmp(argv[i], "-ip") && argc > i+1){
+                ip = argv[i+1];
+                i++;
+            } else if(!strcmp(argv[i], "-pt") && argc > i+1){
+                port = argv[i+1];
+                i++;
+            }
+        }
+
+        // print parameters
+        cout << "Encrypted file: " + encrypted_file << endl <<
+        "Sender file: " + sender_file << endl <<
+        "Agreement name: " + agreement_name << endl <<
+        "Output file: " + output_file_name << endl <<
+        "IP: " + ip << endl << "Port: " + port << endl << endl;
 
 
-    for(int i=0; i< (int)rows.size(); i++){
-        row << rows[i];
-        Ciphertext cp;
-        Plaintext decrypted;
+        // invoke intersection
+        intersection(encrypted_file, sender_file, agreement_name, output_file_name, ip, port);
+    }
 
-        cp.load(agreement_context, row);
-        decryptor.decrypt(cp, decrypted);
-        string hex_dec = decrypted.to_string();
-        cout << "hex dec " + hex_dec << endl;
-        string str_dec = hex_to_ascii(hex_dec);
-        cout << "ascii_dec " + str_dec << endl;
-    }*/
-    //intersection(string cipher_file_name, string plain_file, string plain_file_ext, string agreement_name, string port)
-    //intersection("test_receiver", "sender", "txt", agreement_name, port);
+    // extraction
+    else if(!strcmp(argv[1], "extract")) {
+        string agreement_name = "test";
+        string intersection_file = "intersection";
+        string output_file_name = "result";
+        string receiver_plaintext = "receiver.txt";
+        string ip = "localhost";
+        string port = "8500";
 
-    //extraction(string agreement_name, string computed_file, string output_file, string receiver_file, string port)
-    extraction(agreement_name, "sender_intersection", "result", "receiver.txt", port);
+        for(int i = 2; i < argc; i++ ){
+            if(!strcmp(argv[i], "-an") && argc > i+1){
+                agreement_name = argv[i+1];
+                i++;
+            } else if(!strcmp(argv[i], "-if") && argc > i+1){
+                intersection_file = argv[i+1];
+                i++;
+            } else if(!strcmp(argv[i], "-rf") && argc > i+1) {
+                receiver_plaintext = argv[i+1];
+                i++;
+            } else if(!strcmp(argv[i], "-of") && argc > i+1){
+                output_file_name = argv[i+1];
+                i++;
+            } else if(!strcmp(argv[i], "-ip") && argc > i+1){
+                ip = argv[i+1];
+                i++;
+            } else if(!strcmp(argv[i], "-pt") && argc > i+1){
+                port = argv[i+1];
+                i++;
+            }
+        }
+
+        //print parameters
+        cout << "Agreement name: " + agreement_name << endl <<
+        "Intersection file: " + intersection_file << endl <<
+        "Output file: " + output_file_name << endl <<
+        "Receiver file: " + receiver_plaintext << endl <<
+        "IP: "  << ip << endl << "Port: " + port << endl << endl;
+
+        // invoke extraction
+        extraction(agreement_name, intersection_file, output_file_name, receiver_plaintext, ip, port);
+    } else {
+        cout << "Command not valid" << endl<< endl;
+        usage();
+    }
+    return 0;
 }
